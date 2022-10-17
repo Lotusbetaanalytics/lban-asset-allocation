@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "asset-allocation-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/assetAllocation/AssetAllocationWebPart.js",
+          "manifest": "./src/webparts/assetAllocation/AssetAllocationWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "AssetAllocationWebPartStrings": "lib/webparts/assetAllocation/loc/{locale}.js"
+  }
+}
