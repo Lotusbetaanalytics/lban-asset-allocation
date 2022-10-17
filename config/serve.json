@@ -2,5 +2,5 @@
   "$schema": "https://developer.microsoft.com/json-schemas/core-build/serve.schema.json",
   "port": 4321,
   "https": true,
-  "initialPage": "https://lotusbetaanalytics.sharepoint/_layouts/workbench.aspx"
+  "initialPage": "https://lotusbetaanalytics.sharepoint.com/sites/AssetAllocation/_layouts/workbench.aspx"
 }
