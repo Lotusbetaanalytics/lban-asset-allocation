@@ -1,12 +1,15 @@
 import * as React from 'react';
 import styles from './AssetAllocation.module.scss';
 import "./global.module.scss";
+import "./mediaquery.module.scss";
 import { IAssetAllocationProps } from './IAssetAllocationProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import {
   Home,
-  Error
+  Error,
+  EmployeeLanding,
+  EmployeeApproval,
 } from './screens'
 
 export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
@@ -17,6 +20,8 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
           <Route path="/" exact component={Home} />
           {/* <Route path="/app/dashboard" exact component={Dashboard} /> */}
           <Route component={Error} />
+          <Route path="/employee" exact component={EmployeeLanding} />
+          <Route path="/employee/approval" exact component={EmployeeApproval} />
         </Switch>
       </HashRouter>
     );
