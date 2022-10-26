@@ -30,7 +30,9 @@ export default class AssetAllocationWebPart extends BaseClientSideWebPart<IAsset
     const element: React.ReactElement<IAssetAllocationProps> = React.createElement(
       AssetAllocation,
       {
-        description: this.properties.description
+        description: this.properties.description,
+        context: this.context,  
+        pageContext: this.context.pageContext
       }
     );
 

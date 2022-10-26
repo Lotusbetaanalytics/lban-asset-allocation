@@ -1,6 +1,8 @@
 import * as React from 'react';
-import styles from './AssetAllocation.module.scss';
-import "./global.module.scss";
+// import styles from './AssetAllocation.module.scss';
+import * as jQuery from "jquery";
+// import "./global.module.scss";
+import "./global.scss";
 import "./mediaquery.module.scss";
 import { IAssetAllocationProps } from './IAssetAllocationProps';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -12,8 +14,26 @@ import {
   EmployeeApproval,
 } from './screens'
 
-export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
+// export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
+export default class AssetAllocation extends React.Component<IAssetAllocationProps, any> {
   public render(): React.ReactElement<IAssetAllocationProps> {
+
+    // jQuery("#workbenchPageContent").prop("style", "max-width: none");
+    // jQuery(".SPCanvas-canvas").prop("style", "max-width: none");
+    // jQuery(".CanvasZone").prop("style", "max-width: none");
+
+    // jQuery("#workbenchPageContent").prop("style", "min-height: 100vh");
+    // jQuery(".SPCanvas-canvas").prop("style", "min-height: 100vh");
+    // jQuery(".CanvasZone").prop("style", "min-height: 100vh");
+
+    // jQuery("#workbenchPageContent").prop("style", "min-height: 90vh; min-width: 100%");
+    // jQuery(".SPCanvas-canvas").prop("style", "min-height: 90vh; min-width: 100%");
+    // jQuery(".CanvasZone").prop("style", "min-height: 90vh; min-width: 100%");
+
+    jQuery("#workbenchPageContent").prop("style", "min-height: 900px; max-width: none");
+    jQuery(".SPCanvas-canvas").prop("style", "min-height: 900px; max-width: none");
+    jQuery(".CanvasZone").prop("style", "min-height: 900px; max-width: none");
+    
     return (
       <HashRouter>
         <Switch>
