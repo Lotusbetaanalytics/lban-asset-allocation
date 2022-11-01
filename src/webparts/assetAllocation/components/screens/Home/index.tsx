@@ -14,17 +14,17 @@ const Home = () => {
             <img src={require("../../assets/img/Rectangle7.png")} className="blob4" alt=""/>
           </div> */}
           <div className="container--image">
-            <Link to="/app/hr" className="image--btn" >
+            <Link to="/app/landing" className="image--btn" >
               <img className="image" src={require("../../assets/img/pic1.png")} alt="laptop"/>
               <p className="image__text">HR</p>
             </Link>
-            <Link to="/app/employee" className="image--btn" >
+            <Link to="/app/landing" className="image--btn" >
               <img className="image" src={require("../../assets/img/pic2.png")} alt="Mouse"/>
               <p className="image__text">Employee</p>
             </Link>
           </div>
           <div className="container--image mt-6">
-            <Link to="" className="image--btn">
+            <Link to="/app/landing" className="image--btn">
               <img className="image" src={require("../../assets/img/pic3.png")} alt="mouse"/>
               <p className="image__text">Office Manager</p>
             </Link>
@@ -33,7 +33,7 @@ const Home = () => {
           </div>
         </div>
         <div className="container--side">
-            <div className="home__text">
+            <div className="home__text p-4">
                 <h3>Welcome to the</h3>
                 <h1 className="home__heading">Asset Allocation Portal</h1>
             </div>

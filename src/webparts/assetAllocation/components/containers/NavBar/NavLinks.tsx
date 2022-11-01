@@ -13,6 +13,7 @@ import {
   FaTimesCircle,
   FaArrowCircleRight,
   FaArrowAltCircleRight,
+  FaLayerGroup,
 } from "react-icons/fa";
 
 
@@ -44,13 +45,14 @@ export const NavLinks: any = section => [
   },
   {
     name: "Assets",
-    Icon: FaCheckCircle,
+    Icon: FaLayerGroup,
     url: "/app/assets",
     class: "asset",
   },
   {
     name: "Declined Requests",
-    Icon: FaArrowAltCircleRight,
+    // Icon: FaArrowAltCircleRight,
+    Icon: FaArrowCircleRight,
     url: "/app/logout",
     class: "logout",
   },
