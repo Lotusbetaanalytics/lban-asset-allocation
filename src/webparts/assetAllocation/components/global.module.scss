@@ -12,7 +12,7 @@
 .maincontainer {
     display: flex;
     position: absolute;
-    height: 130vh;
+    height: 125.5vh;
     width: 100%;
     background-color: #35434C;
     background-size: cover;
@@ -33,14 +33,14 @@
 .blob3 {
     position: absolute;
     left: 1230px;
-    top: 826px;
+    top: 800px;
     background: none;
 }
 
 .blob4 {
     position: absolute;
     left: 1430px;
-    top: 832px;
+    top: 800px;
     z-index: 999;
     background: none;
 }
@@ -135,8 +135,6 @@
     height: 170vh;
     width: 100%;
     // background: url(/Assets/rm391-pf-s73-08-mockup\ 1.png);
-    // background: url("./assets/img/rm391-pf-s73-08-mockup\ 1.png");
-    background: url("./assets/img/rm391-pf-s73-08-mockup.png");
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -211,236 +209,6 @@
 .btn:hover {
     background-color: #9a198bc5;
     transform: scale(1.1);
-}
-
-
-/* DASHBOARD */
-
-.bbody {
-    margin: 0px;
-    box-sizing: border-box;
-    background-color: #FAF8F8;
-}
-
-.container {
-    position: absolute;
-    display: flex;
-    height: 180vh;
-    width: 100%;
-}
-
-.shadow1 {
-    box-shadow: 0px 4px 40px rgba(55, 53, 53, 0.18);
-}
-
-.sidebar {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    height: 175vh;
-    width: 194px;
-    align-items: center;
-    border-radius: 10px;
-    margin: 2rem;
-}
-
-.sideb {
-    position: absolute;
-    display: flex;
-    top: 100px;
-    flex-direction: column;
-    align-items: center;
-}
-
-.UserImg {
-    position: absolute;
-    display: flex;
-    padding: 0.9rem;
-    border: 1px solid rgba(154, 25, 140, 0.75);
-    border-radius: 5rem;
-}
-
-.icon {
-    position: relative;
-    top: 210px;
-    font-size: 30px;
-    justify-content: center;
-}
-
-.icon a {
-    color: #777777;
-    text-decoration: none;
-}
-
-.icon :hover {
-    background-color: #9A198C;
-    color: #fff;
-    justify-content: center;
-    border-radius: 10rem;
-}
-
-.icon ::after {
-    background-color: #9A198C;
-    color: #fff;
-    justify-content: center;
-    border-radius: 10rem;
-}
-
-.icons {
-    position: relative;
-    display: flex;
-    padding: 2rem;
-    margin-bottom: 2rem;
-}
-
-.A {
-    margin-left: 0.2rem;
-}
-
-.B {
-    position: relative;
-    top: 250px;
-}
-
-.dashboard {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    top: 40px;
-    left: 350px;
-    height: 180vh;
-    background-color: #FAF8F8;
-}
-
-.dash {
-    display: flex;
-    justify-content: space-between;
-}
-
-.dashboard h1 {
-    font-weight: 600;
-    font-style: normal;
-    font-size: 40px;
-}
-
-.shadow2 {
-    box-shadow: 0px 4px 4px rgba(119, 119, 119, 0.15);
-}
-
-.dashboard h2 {
-    display: flex;
-    font-weight: 600;
-    font-style: normal;
-    font-size: 20px;
-    background: #9A198C;
-    padding: 1rem 0.5rem 1rem 0.5rem;
-    justify-content: center;
-    align-items: center;
-    border-radius: 100px;
-    margin-top: 1rem;
-    color: #fff;
-}
-
-.UserImg1 {
-    position: relative;
-    padding: 0.5rem;
-    border: 1px solid rgba(154, 25, 140, 0.75);
-    border-radius: 5rem;
-}
-
-.userLoggedIn {
-    position: relative;
-    left: 1000px;
-}
-
-.userLoggedIn h1 {
-    font-weight: 600;
-    font-style: normal;
-    font-size: 20px;
-}
-
-.firstSection {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    top: 50px;
-}
-
-.secondSection {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    left: 450px;
-    top: 50px;
-}
-
-.file {
-    display: flex;
-    position: absolute;
-    top: 50px;
-    background-color: #fff;
-    width: 400px;
-    height: 25vh;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 20px;
-    padding: 1rem;
-}
-
-.file p {
-    position: relative;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    left: 30px;
-}
-
-.num {
-    position: relative;
-    top: 10px;
-    font-size: 70px;
-    left: 30px;
-}
-
-.filesvg {
-    display: flex;
-    position: relative;
-    top: 20px;
-    font-size: 50px;
-    background-color: #FEC704;
-    padding: 2rem;
-    align-items: center;
-    border-radius: 80px;
-    color: #fff;
-}
-
-.pending {
-    display: flex;
-    position: absolute;
-    top: 300px;
-    background-color: #fff;
-    width: 400px;
-    height: 25vh;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 20px;
-    padding: 1rem;
-}
-
-.digit {
-    position: relative;
-    left: 30px;
-    top: 10px;
-    font-size: 70px;
-}
-
-.pending p {
-    position: relative;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    left: 30px;
 }
 
 @media(max-width: 1500px) {

@@ -2,7 +2,8 @@ import * as React from 'react';
 // import styles from './AssetAllocation.module.scss';
 // import "./global.module.scss";
 import "./global.scss";
-import "./mediaquery.module.scss";
+import "./utils.scss";
+// import "./mediaquery.module.scss";
 import * as jQuery from "jquery";
 import { IAssetAllocationProps } from './IAssetAllocationProps';
 import { escape } from '@microsoft/sp-lodash-subset';
@@ -39,10 +40,10 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
       <HashRouter>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route component={Error} />
           <Route path="/app/landing" exact component={Landing} />
           <Route path="/app/dashboard" exact component={Dashboard} />
           <Route path="/app/employee/approval" exact component={EmployeeApproval} />
+          <Route component={Error} />
         </Switch>
       </HashRouter>
     );

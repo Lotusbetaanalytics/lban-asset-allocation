@@ -1,0 +1,145 @@
+// padding
+.p-2 {padding: 1rem;}
+.p-4 {padding: 2rem;}
+.p-6 {padding: 3rem;}
+.px-2 {padding: 0 1rem;}
+.px-4 {padding: 0 2rem;}
+.px-6 {padding: 0 3rem;}
+.py-2 {padding: 1rem 0;}
+.py-4 {padding: 2rem 0;}
+.py-6 {padding: 3rem 0;}
+.pt-2 {padding-top: 1rem;}
+.pt-4 {padding-top: 2rem;}
+.pt-6 {padding-top: 3rem;}
+.pb-2 {padding-bottom: 1rem;}
+.pb-4 {padding-bottom: 2rem;}
+.pb-6 {padding-bottom: 3rem;}
+.pl-2 {padding-left: 1rem;}
+.pl-4 {padding-left: 2rem;}
+.pl-6 {padding-left: 3rem;}
+.pr-2 {padding-right: 1rem;}
+.pr-4 {padding-right: 2rem;}
+.pr-6 {padding-right: 3rem;}
+
+.p-n2 {padding: -1rem;}
+.p-n4 {padding: -2rem;}
+.p-n6 {padding: -3rem;}
+.px-n2 {padding: 0 -1rem;}
+.px-n4 {padding: 0 -2rem;}
+.px-n6 {padding: 0 -3rem;}
+.py-n2 {padding: -1rem 0;}
+.py-n4 {padding: -2rem 0;}
+.py-n6 {padding: -3rem 0;}
+.pt-n2 {padding-top: -1rem;}
+.pt-n4 {padding-top: -2rem;}
+.pt-n6 {padding-top: -3rem;}
+.pb-n2 {padding-bottom: -1rem;}
+.pb-n4 {padding-bottom: -2rem;}
+.pb-n6 {padding-bottom: -3rem;}
+.pl-n2 {padding-left: -1rem;}
+.pl-n4 {padding-left: -2rem;}
+.pl-n6 {padding-left: -3rem;}
+.pr-n2 {padding-right: -1rem;}
+.pr-n4 {padding-right: -2rem;}
+.pr-n6 {padding-right: -3rem;}
+
+// margin
+.m-2 {margin: 1rem;}
+.m-4 {margin: 2rem;}
+.m-6 {margin: 3rem;}
+.mx-2 {margin: 0 1rem;}
+.mx-4 {margin: 0 2rem;}
+.mx-6 {margin: 0 3rem;}
+.mx-auto {margin: 0 auto;}
+.my-2 {margin: 1rem 0;}
+.my-4 {margin: 2rem 0;}
+.my-6 {margin: 3rem 0;}
+.mt-2 {margin-top: 1rem;}
+.mt-4 {margin-top: 2rem;}
+.mt-6 {margin-top: 3rem;}
+.mb-2 {margin-bottom: 1rem;}
+.mb-4 {margin-bottom: 2rem;}
+.mb-6 {margin-bottom: 3rem;}
+.ml-2 {margin-left: 1rem;}
+.ml-4 {margin-left: 2rem;}
+.ml-6 {margin-left: 3rem;}
+.ml-auto {margin-left: auto;}
+.mr-2 {margin-right: 1rem;}
+.mr-4 {margin-right: 2rem;}
+.mr-6 {margin-right: 3rem;}
+.mr-auto {margin-right: auto;}
+
+.m-n2 {margin: -1rem;}
+.m-n4 {margin: -2rem;}
+.m-n6 {margin: -3rem;}
+.mx-n2 {margin: 0 -1rem;}
+.mx-n4 {margin: 0 -2rem;}
+.mx-n6 {margin: 0 -3rem;}
+.my-n2 {margin: -1rem 0;}
+.my-n4 {margin: -2rem 0;}
+.my-n6 {margin: -3rem 0;}
+.mt-n2 {margin-top: -1rem;}
+.mt-n4 {margin-top: -2rem;}
+.mt-n6 {margin-top: -3rem;}
+.mb-n2 {margin-bottom: -1rem;}
+.mb-n4 {margin-bottom: -2rem;}
+.mb-n6 {margin-bottom: -3rem;}
+.ml-n2 {margin-left: -1rem;}
+.ml-n4 {margin-left: -2rem;}
+.ml-n6 {margin-left: -3rem;}
+.mr-n2 {margin-right: -1rem;}
+.mr-n4 {margin-right: -2rem;}
+.mr-n6 {margin-right: -3rem;}
+
+// border
+.b-0 {border-style: none;}
+.b {border: 1px solid black;}
+.b-2 {border: 2px solid black;}
+.b-t {border-top: 1px solid black;}
+.b-t-2 {border-top: 2px solid black;}
+.b-b {border-bottom: 1px solid black;}
+.b-b-2 {border-bottom: 2px solid black;}
+.b-l {border-left: 1px solid black;}
+.b-l-2 {border-left: 2px solid black;}
+.b-r {border-right: 1px solid black;}
+.b-r-2 {border-right: 2px solid black;}
+
+// border radius
+.br-0 {border-radius: 0;}
+.br {border-radius: 5px;}
+.br-sm {border-radius: 2px;}
+.br-lg {border-radius: 20px;}
+.br-auto {border-radius: 50%;}
+.br-tl-0 {border-top-left-radius: 0;}
+.br-tl {border-top-left-radius: 5px;}
+.br-tl-sm {border-top-left-radius: 2px;}
+.br-tl-lg {border-top-left-radius: 20px;}
+.br-tl-auto {border-top-left-radius: 50%;}
+.br-tr-0 {border-top-right-radius: 0;}
+.br-tr {border-top-right-radius: 5px;}
+.br-tr-sm {border-top-right-radius: 2px;}
+.br-tr-lg {border-top-right-radius: 20px;}
+.br-tr-auto {border-top-right-radius: 50%;}
+.br-bl-0 {border-bottom-left-radius: 0;}
+.br-bl {border-bottom-left-radius: 5px;}
+.br-bl-sm {border-bottom-left-radius: 2px;}
+.br-bl-lg {border-bottom-left-radius: 20px;}
+.br-bl-auto {border-bottom-left-radius: 50%;}
+.br-br-0 {border-bottom-right-radius: 0;}
+.br-br {border-bottom-right-radius: 5px;}
+.br-br-sm {border-bottom-right-radius: 2px;}
+.br-br-lg {border-bottom-right-radius: 20px;}
+.br-br-auto {border-bottom-right-radius: 50%;}
+
+// postion
+.left {justify-self: flex-start;}
+.right {justify-self: flex-end;}
+.top {align-self: flex-start;}
+.bottom {align-self: flex-end;}
+
+.text-center {text-align: center;}
+.text-left {text-align: left;}
+.text-right {text-align: right;}
+.text-justify {text-align: justify;}
+
+
