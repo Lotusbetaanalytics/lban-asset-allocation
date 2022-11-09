@@ -1,3 +1,8 @@
+$lban-purple: #9A198C;
+$lban-yellow: #FEC704;
+$lban-grey: #777777;
+$lban-light-grey: #FAF8F8;
+
 // padding
 .p-2 {padding: 1rem;}
 .p-4 {padding: 2rem;}
@@ -143,3 +148,12 @@
 .text-justify {text-align: justify;}
 
 
+.bg-purple {background-color: $lban-purple;}
+.bg-yellow {background-color: $lban-yellow;}
+.bg-grey {background-color: $lban-grey;}
+.bg-light-grey {background-color: $lban-light-grey;}
+
+.border-purple {border: 1px solid $lban-purple;}
+.border-yellow {border: 1px solid $lban-yellow;}
+.border-grey {border: 1px solid $lban-grey;}
+.border-light-grey {border: 1px solid $lban-light-grey;}

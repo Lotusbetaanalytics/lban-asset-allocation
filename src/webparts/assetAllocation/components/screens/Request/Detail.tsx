@@ -1,5 +1,5 @@
 import * as React from "react";
-import { HeaderBar, NavBar } from "../../../containers";
+import { HeaderBar, NavBar } from "../../containers";
 
 const Detail = () => {
   return (

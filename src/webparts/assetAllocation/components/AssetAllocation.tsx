@@ -1,8 +1,9 @@
 import * as React from 'react';
 // import styles from './AssetAllocation.module.scss';
 // import "./global.module.scss";
-// import "./global.scss";
-// import "./utils.scss";
+import "./global.scss";
+import "./utils.scss";
+import "./assets/icon.scss";
 // import "./mediaquery.module.scss";
 import * as jQuery from "jquery";
 import { IAssetAllocationProps } from './IAssetAllocationProps';
@@ -15,9 +16,9 @@ import {
   Landing,
   Dashboard,
   EmployeeApproval,
-  EmployeeRequestManage,
-  EmployeeRequest,
-  EmployeeRequestDetail,
+  RequestManage,
+  Request,
+  RequestDetail,
 } from './screens'
 
 // export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
@@ -49,10 +50,13 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             <Route path="/" exact component={Home} />
             <Route path="/app/landing" exact component={Landing} />
             <Route path="/app/dashboard" exact component={Dashboard} />
+            <Route path="/app/request" exact component={Request} />
+            <Route path="/app/request/manage" exact component={RequestManage} />
+            <Route path="/app/request/detail" exact component={RequestDetail} />
             <Route path="/app/employee/approval" exact component={EmployeeApproval} />
-            <Route path="/app/employee/request" exact component={EmployeeRequest} />
-            <Route path="/app/employee/request/manage" exact component={EmployeeRequestManage} />
-            <Route path="/app/employee/request/detail" exact component={EmployeeRequestDetail} />
+            <Route path="/app/employee/request" exact component={Request} />
+            <Route path="/app/employee/request/manage" exact component={RequestManage} />
+            <Route path="/app/employee/request/detail" exact component={RequestDetail} />
             <Route component={Error} />
           </Switch>
         </HashRouter>
