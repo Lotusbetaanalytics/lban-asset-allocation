@@ -1,19 +1,23 @@
 import * as React from 'react';
 // import styles from './AssetAllocation.module.scss';
 // import "./global.module.scss";
-import "./global.scss";
-import "./utils.scss";
+// import "./global.scss";
+// import "./utils.scss";
 // import "./mediaquery.module.scss";
 import * as jQuery from "jquery";
 import { IAssetAllocationProps } from './IAssetAllocationProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 import { HashRouter, Switch, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider, useQuery } from 'react-query';
 import {
   Home,
   Error,
   Landing,
   Dashboard,
   EmployeeApproval,
+  EmployeeRequestManage,
+  EmployeeRequest,
+  EmployeeRequestDetail,
 } from './screens'
 
 // export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
@@ -35,17 +39,24 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
     jQuery("#workbenchPageContent").prop("style", "min-height: 900px; max-width: none");
     jQuery(".SPCanvas-canvas").prop("style", "min-height: 900px; max-width: none");
     jQuery(".CanvasZone").prop("style", "min-height: 900px; max-width: none");
+
+    const queryClient = new QueryClient()
     
     return (
-      <HashRouter>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/app/landing" exact component={Landing} />
-          <Route path="/app/dashboard" exact component={Dashboard} />
-          <Route path="/app/employee/approval" exact component={EmployeeApproval} />
-          <Route component={Error} />
-        </Switch>
-      </HashRouter>
+      <QueryClientProvider client={queryClient}>
+        <HashRouter>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/app/landing" exact component={Landing} />
+            <Route path="/app/dashboard" exact component={Dashboard} />
+            <Route path="/app/employee/approval" exact component={EmployeeApproval} />
+            <Route path="/app/employee/request" exact component={EmployeeRequest} />
+            <Route path="/app/employee/request/manage" exact component={EmployeeRequestManage} />
+            <Route path="/app/employee/request/detail" exact component={EmployeeRequestDetail} />
+            <Route component={Error} />
+          </Switch>
+        </HashRouter>
+      </QueryClientProvider>
     );
     // return (
     //   <div className={ styles.assetAllocation }>

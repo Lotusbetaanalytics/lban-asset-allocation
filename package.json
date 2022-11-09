@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-ui/core": "^4.12.3",
     "@microsoft/sp-core-library": "1.13.1",
+    "@microsoft/sp-http": "^1.15.2",
     "@microsoft/sp-lodash-subset": "1.13.1",
     "@microsoft/sp-office-ui-fabric-core": "1.13.1",
     "@microsoft/sp-property-pane": "1.13.1",
