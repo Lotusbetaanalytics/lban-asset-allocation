@@ -7,9 +7,9 @@ $lban-light-grey: #FAF8F8;
 .p-2 {padding: 1rem;}
 .p-4 {padding: 2rem;}
 .p-6 {padding: 3rem;}
-.px-2 {padding: 0 1rem;}
-.px-4 {padding: 0 2rem;}
-.px-6 {padding: 0 3rem;}
+.px-2 {padding: 0 1rem !important;}
+.px-4 {padding: 0 2rem !important;}
+.px-6 {padding: 0 3rem !important;}
 .py-2 {padding: 1rem 0;}
 .py-4 {padding: 2rem 0;}
 .py-6 {padding: 3rem 0;}
@@ -68,11 +68,11 @@ $lban-light-grey: #FAF8F8;
 .ml-2 {margin-left: 1rem;}
 .ml-4 {margin-left: 2rem;}
 .ml-6 {margin-left: 3rem;}
-.ml-auto {margin-left: auto;}
+.ml-auto {margin-left: auto !important;}
 .mr-2 {margin-right: 1rem;}
 .mr-4 {margin-right: 2rem;}
 .mr-6 {margin-right: 3rem;}
-.mr-auto {margin-right: auto;}
+.mr-auto {margin-right: auto !important;}
 
 .m-n2 {margin: -1rem;}
 .m-n4 {margin: -2rem;}
@@ -113,7 +113,8 @@ $lban-light-grey: #FAF8F8;
 .br-0 {border-radius: 0;}
 .br {border-radius: 5px;}
 .br-sm {border-radius: 2px;}
-.br-lg {border-radius: 20px;}
+.br-lg {border-radius: 20px !important;}
+.br-xlg {border-radius: 50px !important;}
 .br-auto {border-radius: 50%;}
 .br-tl-0 {border-top-left-radius: 0;}
 .br-tl {border-top-left-radius: 5px;}

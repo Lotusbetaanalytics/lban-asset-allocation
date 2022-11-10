@@ -3,6 +3,7 @@
 $lban-purple: #9A198C;
 $lban-yellow: #FEC704;
 $lban-grey: #777777;
+$lban-light-grey: #FAF8F8;
 
 $default-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.3), 0 6px 20px 0 rgba(255, 255, 255, 0.3);
 $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255, 255, 0.3);
@@ -252,7 +253,7 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
     padding: 1rem 4rem;
     // border-radius: 50%;
     border-radius: 30px;
-    background: $lban-grey;
+    background: $lban-light-grey;
     color: black;
     font-size: 18px;
     font-weight: 700;
