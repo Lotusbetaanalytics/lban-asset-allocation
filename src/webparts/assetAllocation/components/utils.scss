@@ -143,16 +143,21 @@ $lban-light-grey: #FAF8F8;
 .top {align-self: flex-start;}
 .bottom {align-self: flex-end;}
 
+.w-auto {width: auto !important;}
+.w-8 {width: 8rem !important;}
+
 .text-center {text-align: center;}
 .text-left {text-align: left;}
 .text-right {text-align: right;}
 .text-justify {text-align: justify;}
 
-
+.bg-white {background-color: white;}
+.bg-black {background-color: black;}
 .bg-purple {background-color: $lban-purple;}
 .bg-yellow {background-color: $lban-yellow;}
 .bg-grey {background-color: $lban-grey;}
 .bg-light-grey {background-color: $lban-light-grey;}
+.bg-light-grey2 {background-color: #EEE;}
 
 .border-purple {border: 1px solid $lban-purple;}
 .border-yellow {border: 1px solid $lban-yellow;}

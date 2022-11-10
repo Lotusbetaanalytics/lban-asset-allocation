@@ -1,9 +1,9 @@
 // @ts-nocheck
 import * as React from "react";
+import * as PropTypes from "prop-types";
 import MaterialTable from "material-table";
 import { useHistory } from "react-router-dom";
 import { displayIcon } from "../../hooks/icon";
-import PropTypes from "prop-types";
 
 const RequestTable = ({
   data = undefined,

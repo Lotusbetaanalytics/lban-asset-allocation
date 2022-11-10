@@ -8,10 +8,11 @@ import RequestTable from "../../containers/RequestTable";
 const Manage = ({status = undefined, section = ""}) => {
   const history = useHistory()
   const titleText = `${status ? status : "Manage"} Requests`
+  const sectionUrl = `/app/${section ? section + "/" : ""}`
 
   const viewHandler = () => {
     // view asset request
-    history.push("/")
+    history.push(`${sectionUrl}request/detail`)
   }
   // const updateHandler = () => {
   //   // update asset request

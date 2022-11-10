@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { useQuery } from 'react-query'
+import { useHistory } from 'react-router-dom'
 import {
   Input,
   Select,
@@ -10,12 +11,17 @@ import {
   Textarea,
 } from "mtforms";
 import "mtforms/dist/index.css";
+import toast, { Toaster } from "react-hot-toast";
 import { HeaderBar, NavBar } from '../../containers';
 import { createAssetRequest } from '../../hooks/requestHooks';
 import { fetchDepartments } from '../../hooks/departmentHooks';
 import { getDataIdAndTitle } from '../../../utils/listUtils';
+import { goBack, handleSelectChange } from '../../../utils/formUtils';
 
 const AssetRequest = ({section = ""}) => {
+  const history = useHistory()
+  const sectionUrl = `/app/${section ? section + "/" : ""}`
+
   const [errors, setErrors] = React.useState({} as any);
   const [formData, setFormData] = React.useState([])
   
@@ -26,8 +32,8 @@ const AssetRequest = ({section = ""}) => {
   const { 
     isLoading: isDepartmentLoading,
     data: departments = [],
-    // isError: isDepartmentError,
-    // error: departmentError 
+    isError: isDepartmentError,
+    error: departmentError 
   } = useQuery("fetch-request", fetchDepartments, {
     enabled: false
   })
@@ -36,16 +42,19 @@ const AssetRequest = ({section = ""}) => {
     enabled: false
   })
 
-  // handle changes for select inputs, adding both the text value and id to formData
-  const handleSelectChange = (name, value, list) => {
-    const { data, instance } = getDataIdAndTitle(name, value, list);
-    setFormData({ ...formData, ...data });
-  };
+  // // handle changes for select inputs, adding both the text value and id to formData
+  // const handleSelectChange = (name, value, list) => {
+  //   const { data, instance } = getDataIdAndTitle(name, value, list);
+  //   setFormData({ ...formData, ...data });
+  // };
   const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
   const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
-  const submitHandler = (e) => {};
+  const submitHandler = (e) => {
+    history.push(`${sectionUrl}request/manage`)
+  };
 
   if (isLoading || isDepartmentLoading) return (<div>Loading...</div>)
+  if (isError || isDepartmentError) return toast.error(`${error || departmentError}`);
 
   return (
     <div className='background container'>
@@ -53,6 +62,7 @@ const AssetRequest = ({section = ""}) => {
 
       <div className='container--info'>
         <HeaderBar title='Asset Request Form' />
+        <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>
           <FormGroup
@@ -105,12 +115,13 @@ const AssetRequest = ({section = ""}) => {
                 label="Department"
                 value={formData["Department"]}
                 // onChange={handleChange}
-                onChange={(name, value) => handleSelectChange(name, value, departments)}
+                // onChange={(name, value) => handleSelectChange(name, value, departments)}
+                onChange={(name, value) => handleSelectChange(name, value, departments, formData, setFormData)}
                 data={departments}
                 filter="Title"
                 // filterValue="ID"
                 filterValue="Title"
-                required={true}
+                // required={true}
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
                 validationHandler={validationHandler}
@@ -121,12 +132,13 @@ const AssetRequest = ({section = ""}) => {
                 label="Branch"
                 value={formData["Branch"]}
                 // onChange={handleChange}
-                onChange={(name, value) => handleSelectChange(name, value, branches)}
+                // onChange={(name, value) => handleSelectChange(name, value, branches)}
+                onChange={(name, value) => handleSelectChange(name, value, branches, formData, setFormData)}
                 data={branches}
                 filter="Title"
                 // filterValue="ID"
                 filterValue="Title"
-                required={true}
+                // required={true}
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
                 validationHandler={validationHandler}
@@ -137,12 +149,13 @@ const AssetRequest = ({section = ""}) => {
                 label="Asset Category"
                 value={formData["Category"]}
                 // onChange={handleChange}
-                onChange={(name, value) => handleSelectChange(name, value, categories)}
+                // onChange={(name, value) => handleSelectChange(name, value, categories)}
+                onChange={(name, value) => handleSelectChange(name, value, categories, formData, setFormData)}
                 data={categories}
                 filter="Title"
                 // filterValue="ID"
                 filterValue="Title"
-                required={true}
+                // required={true}
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
                 validationHandler={validationHandler}
@@ -167,7 +180,7 @@ const AssetRequest = ({section = ""}) => {
                 value={formData["Date"]}
                 onChange={handleChange}
                 type="text"
-                required={true}
+                // required={true}
                 placeholder="Request Date"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
@@ -201,9 +214,8 @@ const AssetRequest = ({section = ""}) => {
               <Button
                 title="Clear"
                 type="button"
-                onClick={() => {
-                  // 
-                }}
+                onClick={() => history.goBack()}
+                // onClick={() => history.back()}  // goes to previous page
                 // loading={isLoading}
                 // disabled={isLoading}
                 size="small"

@@ -1,9 +1,19 @@
 import * as React from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { HeaderBar, NavBar } from "../../containers";
+import {
+  // Input,
+  // Select,
+  Button,
+  // Radio,
+  // DateInput,
+  // FormGroup,
+  // Textarea,
+} from "mtforms";
+import "mtforms/dist/index.css";
+import { HeaderBar, NavBar, DetailItem } from "../../containers";
 
 const Detail = ({status = undefined, section = ""}) => {
-  const {id} = useParams();
+  const { id } = useParams();
   const history = useHistory();
 
   // const goBack = () => history.goBack()
@@ -17,8 +27,32 @@ const Detail = ({status = undefined, section = ""}) => {
         <HeaderBar title='Request Detail' />
 
         <div className='container--form'>
-          <Link to="/requests">Back</Link>
-          some request details
+          <Button
+            title="Back"
+            type="button"
+            onClick={() => history.goBack()}
+            // onClick={() => history.back()}  // goes to previous page
+            size="small"
+            className="btn br-xlg w-8 bg-light-grey2"
+          />
+          {/* <Link to="/requests">Back</Link>
+          some request details */}
+          <div className="container--details">
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+            <DetailItem heading="test heading" body="test" />
+          </div>
         </div>
       </div>
     </div>
