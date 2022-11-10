@@ -56,6 +56,9 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             <Route path="/app/employee/approval" exact component={EmployeeApproval} />
             <Route path="/app/employee/request" exact component={Request} />
             <Route path="/app/employee/request/manage" exact component={RequestManage} />
+            <Route path="/app/employee/request/manage/pending" exact render={() => <RequestManage status="Pending" section="employee" />} />
+            <Route path="/app/employee/request/manage/approved" exact render={() => <RequestManage status="Approved" section="employee" />} />
+            <Route path="/app/employee/request/manage/declined" exact render={() => <RequestManage status="Declined" section="employee" />} />
             <Route path="/app/employee/request/detail" exact component={RequestDetail} />
             <Route component={Error} />
           </Switch>

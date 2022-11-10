@@ -28,19 +28,19 @@ export const NavLinks: any = section => [
   {
     name: "Pending Requests",
     Icon: FaEllipsisH,
-    url: `/app/${section ? section + "/" : ""}requests`,
+    url: `/app/${section ? section + "/" : ""}request/manage/pending`,
     class: "pending",
   },
   {
     name: "Approved Requests",
     Icon: FaCheckCircle,
-    url: `/app/${section ? section + "/" : ""}approved`,
+    url: `/app/${section ? section + "/" : ""}request/manage/approved`,
     class: "approved",
   },
   {
     name: "Declined Requests",
     Icon: FaTimesCircle,
-    url: `/app/${section ? section + "/" : ""}declined`,
+    url: `/app/${section ? section + "/" : ""}request/manage/declined`,
     class: "declined",
   },
   {
