@@ -1,3 +1,10 @@
+import { sp } from "@pnp/sp"
+
+export const getStaffById = async (id) => {
+  const staff = await sp.web.getUserById(id)()
+  return staff
+}
+
 export const findDataById = (id, list, property) => {
   const data = list.find((instance) => instance.ID == id)
   const response = property ? data[property] : data
@@ -10,12 +17,13 @@ export const findDataByTitle = (title, list, property = undefined) => {
   return response
 }
 
-export const getDataIdAndTitle = (inputName, dataTitle, dataList) => {
+export const getDataIdAndTitle = (inputName, dataTitle, dataList, query = undefined) => {
   // create entries for both the title and id in the form data
   const instance = findDataByTitle(dataTitle, dataList)
   const data = {
-    [`${inputName}Id`]: instance['ID'],
+    [`${inputName}IdId`]: instance['ID'],
     [inputName] : instance['Title'],
   }
+  if (query) data[Object.keys(query)[0]] = instance[query[Object.keys(query)[0]]]
   return {data, instance}
 }

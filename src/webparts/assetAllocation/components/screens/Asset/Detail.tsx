@@ -36,8 +36,6 @@ const Detail = ({status = undefined, section = ""}) => {
   }
   // const goBack = () => history.goBack()
 
-  console.log(id)
-  console.log(section)
   const { isLoading, isFetching, data = {}, isError, error } = useQuery("fetch-request", () => splist("AssetRequest").fetchItem(id), {})
 
   if (isLoading || isFetching) return (<div>Loading...</div>)

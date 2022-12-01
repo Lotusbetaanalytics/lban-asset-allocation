@@ -7,7 +7,7 @@ export const goBack = () => {
 }
 
 // handle changes for select inputs, adding both the text value and id to formData
-export const handleSelectChange = (name, value, list, formData, setFormData) => {
-  const { data, instance } = getDataIdAndTitle(name, value, list);
+export const handleSelectChange = (name, value, list, formData, setFormData, query = undefined) => {
+  const { data, instance } = getDataIdAndTitle(name, value, list, query);
   setFormData({ ...formData, ...data });
 };
