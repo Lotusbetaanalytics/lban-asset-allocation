@@ -1,11 +1,12 @@
 import { sp } from "@pnp/sp"
 
-export const getStaffById = async (id) => {
+export const getStaffById = async (id = undefined) => {
+  if (!id) return "Unavailable" 
   const staff = await sp.web.getUserById(id)()
   return staff
 }
 
-export const findDataById = (id, list, property) => {
+export const findDataById = (id, list, property = undefined) => {
   const data = list.find((instance) => instance.ID == id)
   const response = property ? data[property] : data
   return response

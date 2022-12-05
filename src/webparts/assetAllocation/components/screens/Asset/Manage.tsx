@@ -1,21 +1,36 @@
 import * as React from "react";
 import { HeaderBar, NavBar, Table } from "../../containers";
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {
+  // Input,
+  // Select,
+  Button,
+  // Radio,
+  // DateInput,
+  // FormGroup,
+  // Textarea,
+} from "mtforms";
+import "mtforms/dist/index.css";
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
-import { fetchAssetRequests } from '../../hooks/requestHooks';
-import RequestTable from "../../containers/RequestTable";
+// import { fetchAssetRequests } from '../../hooks/requestHooks';
+// import RequestTable from "../../containers/RequestTable";
 import splist from "../../hooks/splistHook";
+import { fetchOptions } from "../../hooks/queryOptions";
+import { defaultPropValidation } from "../../../utils/componentUtils";
 
 const Manage = ({status = undefined, section = ""}) => {
   const history = useHistory()
-  const titleText = `${status ? status : "Manage"} Requests`
+  const queryClient = useQueryClient();
+
+  // const titleText = `${status ? status : "Manage"} Assets`
+  const titleText = `Available Assets`
   const sectionUrl = `/app/${section ? section + "/" : ""}`
 
 
-  type IType = "string" | "boolean" | "numeric" | "date" | "datetime" | "time" | "currency";
-  const string: IType = "string";
-  const columns = React.useState([
+  // type IType = "string" | "boolean" | "numeric" | "date" | "datetime" | "time" | "currency";
+  // const string: IType = "string";
+  const columns = [
     { title: "Serial Number", field: "SerialNumber", type: "string" as const },
     { title: "Name", field: "Name", type: "string" as const },
     { title: "Description", field: "Description", type: "string" as const },
@@ -25,26 +40,44 @@ const Manage = ({status = undefined, section = ""}) => {
     { title: "HardDriveSize", field: "HardDriveSize", type: "string" as const },
     { title: "SSD", field: "SSD", type: "string" as const },
     { title: "Date", field: "Date", type: "string" as const },
-  ]);
+  ];
+
+  // const [id, setId] = React.useState(undefined)
 
   const viewHandler = (id) => {
-    // view asset request
+    // view asset
     history.push(`${sectionUrl}asset/detail/${id}`)
   }
-  // const updateHandler = () => {
-  //   // update asset request
-  // }
-  // const removeHandler = () => {
-  //   // remove asset request
-  // }
+  const updateHandler = (id) => {
+    // update asset
+    history.push(`${sectionUrl}asset/${id}`)
+  }
+  const removeHandler = (id) => {
+    // remove asset
+    mutate(id)
+  }
 
-  const { isLoading, isFetching, data: requests = [], isError, error } = useQuery("fetch-requests", () => splist("Asset").fetchItems(), {
-    // enabled: false,
-    refetchInterval: 3000,
-    refetchOnMount:false,
-    refetchOnWindowFocus: false,
+  // get assets
+  const { isLoading, isFetching, data: requests = [], isError, error } = useQuery("fetch-requests", splist("Asset").fetchItems, {...fetchOptions})
+  console.log("get request", requests, isLoading, isFetching, isError)
+
+  // delete asset
+  const { data: delData, isLoading: delIsLoading, isError: delIsError, error: delError, mutate } = useMutation(splist("Asset").deleteItem, {
+    onSuccess: data => {
+      console.log("Asset Deleted Sucessfully: ", data)
+      alert("success")
+    },
+    onError: (error) => {
+      console.log("Error Deleting Asset: ", error)
+      alert("there was an error")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('fetch-assets');
+    },
+
   })
-  console.log(requests, isLoading, isFetching, isError)
+  console.log("delete request", delData, delIsLoading, delIsError)
+
 
   let data = requests
   if (status) {
@@ -52,8 +85,11 @@ const Manage = ({status = undefined, section = ""}) => {
     console.log("filtered data: ", data)
   }
 
-  if (isLoading) return (<div>Loading...</div>)
-  if (isError) toast.error(`${error}`);
+  if (isLoading || delIsLoading) return (<div>Loading...</div>)
+  if (isError || delIsError) toast.error(`${error || delError}`);
+
+  // if (isLoading) return (<div>Loading...</div>)
+  // if (isError) toast.error(`${error}`);
 
   return (
     <div className='background container'>
@@ -62,13 +98,23 @@ const Manage = ({status = undefined, section = ""}) => {
       <div className='container--info'>
         <HeaderBar title={titleText} />
         <Toaster position="bottom-center" reverseOrder={false} />
-
+        <div className="constainer--info">
+          <Button
+            title="Add Asset"
+            type="button"
+            onClick={() => console.log("create asset")}
+            size="small"
+            className="btn--purple br-xlg w-12"
+          />
+        </div>
         <div className='container--form'>
-          <Table columns={columns} data={data} viewHandler={viewHandler}/>
+          <Table columns={columns} data={data} viewHandler={viewHandler} updateHandler={updateHandler} removeHandler={removeHandler} actionsType="all" />
         </div>
       </div>
     </div>
   );
 };
+
+Manage.propTypes = defaultPropValidation
 
 export default Manage;

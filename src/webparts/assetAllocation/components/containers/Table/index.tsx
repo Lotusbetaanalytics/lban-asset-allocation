@@ -1,9 +1,9 @@
-// @ts-nocheck
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import MaterialTable from "material-table";
 // import { useHistory } from "react-router-dom";
 import { displayIcon } from "../../hooks/icon";
+
 
 const RequestTable = ({
   title = "",
@@ -13,13 +13,11 @@ const RequestTable = ({
   viewHandler = undefined,
   updateHandler = undefined,
   removeHandler = undefined,
-  modal = undefined,
+  modal = undefined,  // function that returns the modal
   filter = {},
   hasActions = true,
-  actionsType = "view",
+  actionsType = "view",  // type of actions allowed. Can be: "view", "modify", "all"
 }) => {
-
-  // const history = useHistory();
 
   if (!data || data.length < 1) data = placeholderData;
 
@@ -52,10 +50,12 @@ const RequestTable = ({
       onClick: (event, rowData) => viewHandler(rowData.ID),
     },
   ];
+  const viewEditDeleteAction = [...viewAction, ...editDeleteAction]
 
-  const relevantAction = undefined;
+  let relevantAction = undefined;
   if (hasActions && actionsType == "view") relevantAction = viewAction;
   if (hasActions && actionsType == "modify") relevantAction = editDeleteAction;
+  if (hasActions && actionsType == "all") relevantAction = viewEditDeleteAction;
 
   return (
     <div>
@@ -102,6 +102,8 @@ const RequestTable = ({
           ),
         }}
       />
+
+      {/* Modal */}
     </div>
   );
 };
@@ -114,7 +116,7 @@ RequestTable.propTypes = {
   viewHandler: PropTypes.func,
   updateHandler: PropTypes.func,
   removeHandler: PropTypes.func,
-  modal: PropTypes.any,
+  modal: PropTypes.func,
   filter: PropTypes.object,
   hasActions: PropTypes.bool,
   actionsType: PropTypes.string,

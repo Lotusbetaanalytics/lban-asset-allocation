@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { useQuery } from 'react-query'
-import { useHistory } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useHistory, useParams } from 'react-router-dom'
 import {
   Input,
   Select,
@@ -18,9 +18,15 @@ import { fetchDepartments } from '../../hooks/departmentHooks';
 import { getDataIdAndTitle, getStaffById } from '../../../utils/listUtils';
 import { goBack, handleSelectChange } from '../../../utils/formUtils';
 import splist from '../../hooks/splistHook';
+import { findDataById } from "../../../utils/listUtils";
+import { fetchOptions } from '../../hooks/queryOptions';
+import { defaultPropValidation } from '../../../utils/componentUtils';
 
-const AssetRequest = ({section = ""}) => {
+const AssetRequest = ({status = undefined, section = ""}) => {
   const history = useHistory()
+  const { id } = useParams()
+  const queryClient = useQueryClient();
+
   const sectionUrl = `/app/${section ? section + "/" : ""}`
   const departmentQuery = {"ManagerId": "ManagerId"}
 
@@ -28,13 +34,19 @@ const AssetRequest = ({section = ""}) => {
   const [formData, setFormData] = React.useState({})
   const [pageData, setpageData] = React.useState({})
 
+  const actionFunction = (id = undefined, formData = {}) => {
+    createAssetRequest(formData)
+    if (id) return splist("AssetRequest").updateItem(id, formData)
+    return splist("AssetRequest").createItem(formData)
+  }
+
   // get departments from sp list
   const { 
     isLoading: isDepartmentLoading,
     data: departments = [],
     isError: isDepartmentError,
     error: departmentError 
-  } = useQuery("fetch-departments", fetchDepartments, {})
+  } = useQuery("fetch-departments", fetchDepartments, {...fetchOptions})
 
   // get branches from sp list
   const { 
@@ -42,7 +54,7 @@ const AssetRequest = ({section = ""}) => {
     data: branches = [],
     isError: isBranchError,
     error: branchError 
-  } = useQuery("fetch-branches", () => splist("Branch").fetchItems(), {})
+  } = useQuery("fetch-branches", () => splist("Branch").fetchItems(), {...fetchOptions})
 
   // get categories from sp list
   const { 
@@ -50,17 +62,55 @@ const AssetRequest = ({section = ""}) => {
     data: categories = [],
     isError: isCategoryError,
     error: categoryError 
-  } = useQuery("fetch-categories", () => splist("Category").fetchItems(), {})
+  } = useQuery("fetch-categories", () => splist("Category").fetchItems(), {...fetchOptions})
 
-  const { isLoading, isFetching, data, isError, error, refetch } = useQuery("create-request", () => createAssetRequest(formData), {
-    enabled: false,
-    onError: (error) => console.log("Error Creating Asset Request: ", error),
-    onSuccess: (data) => console.log("Asset Request Created Sucessfully: ", data),
+  // get asset request from sp list using id
+  const {
+    isLoading: isRequestLoading,
+    data: request = {},
+    isError: isRequestError,
+    error: requestError ,
+  } = useQuery(["fetch-request", id], () => splist("AssetRequest").fetchItem(id), {
+    ...fetchOptions,
+    onSuccess: (data) => {
+      try {
+        // TODO: Properly Display (set) Manager Name
+        const dept = findDataById(data["DepartmentIdId"], departments)
+        data["ManagerId"] = dept?.Manager
+      } catch (error) {
+        toast.error(error)
+      }
+      setFormData({...data})
+    },
+    onError: (error) => console.log("error getting request using id: ", error),
   })
-  console.log("isFetching, data: ", isFetching, data)
+  console.log({isRequestLoading, request})
+
+  const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
+    onSuccess: data => {
+      console.log("Asset Created Sucessfully: ", data)
+      alert("success")
+    },
+    onError: (error) => {
+      console.log("Error Creating Asset: ", error)
+      alert("there was an error")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('fetch-assets');
+    },
+  })
+
+  // const { isLoading, isFetching, data, isError, error, refetch } = useQuery("create-request", () => actionFunction(), {
+  //   enabled: false,
+  //   staleTime: Infinity,
+  //   onError: (error) => console.log("Error Creating Asset Request: ", error),
+  //   onSuccess: (data) => console.log("Asset Request Created Sucessfully: ", data),
+  // })
+  // console.log("isFetching, data: ", isFetching, data)
 
   // TODO: fix getting manager details using their staff id (getStaffById is async)
   if (formData["ManagerId"]) {
+    // TODO: Properly Display (set) Manager Name
     setpageData({"DepartmentManager": getStaffById(formData["ManagerId"])})
     formData["ManagerId"] = undefined
   }
@@ -75,19 +125,21 @@ const AssetRequest = ({section = ""}) => {
   const submitHandler = (e) => {
     formData["ManagerId"] = undefined  // ? confirm this works
     formData["DepartmentManager"] = undefined  // ? confirm this works
-    refetch()
+    // refetch()
+    mutate(id, formData)
     history.push(`${sectionUrl}request/manage`)
   };
 
-  if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading) return (<div>Loading...</div>)
+  if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || (isRequestLoading && id)) return (<div>Loading...</div>)
   if (isError || isDepartmentError || isBranchError || isCategoryError) toast.error(`${error || departmentError || branchError || categoryError}`);
+  if (id && isRequestError) toast.error(`${requestError}`)
 
   return (
     <div className='background container'>
-      <NavBar active='dashboard' />
+      <NavBar active={status.toLowerCase() || "pending"} section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Asset Request Form' />
+        <HeaderBar title='Asset Request Form' hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>
@@ -240,5 +292,7 @@ const AssetRequest = ({section = ""}) => {
     </div>
   )
 }
+
+AssetRequest.propTypes = defaultPropValidation
 
 export default AssetRequest

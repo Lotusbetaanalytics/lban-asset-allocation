@@ -55,28 +55,28 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             <Route path="/app/landing" exact component={Landing} />
             <Route path="/app/dashboard" exact component={Dashboard} />
 
-            <Route path="/app/asset" exact component={Asset} />
             <Route path="/app/asset/manage" exact component={AssetManage} />
+            <Route path="/app/asset/:id?" exact component={Asset} />
             <Route path="/app/asset/detail/:id?" exact component={AssetDetail} />
 
-            <Route path="/app/request" exact component={Request} />
             <Route path="/app/request/manage" exact component={RequestManage} />
+            <Route path="/app/request/:id?" exact component={Request} />
             <Route path="/app/request/manage/pending" exact render={() => <RequestManage status="Pending" />} />
             <Route path="/app/request/manage/approved" exact render={() => <RequestManage status="Approved" />} />
             <Route path="/app/request/manage/declined" exact render={() => <RequestManage status="Declined" />} />
             <Route path="/app/request/detail/:id?" exact component={RequestDetail} />
 
             <Route path="/app/employee/approval" exact component={EmployeeApproval} />
-            <Route path="/app/employee/request" exact component={Request} />
             <Route path="/app/employee/request/manage" exact component={RequestManage} />
+            <Route path="/app/employee/request/:id?" exact component={Request} />
             <Route path="/app/employee/request/manage/pending" exact render={() => <RequestManage status="Pending" section="employee" />} />
             <Route path="/app/employee/request/manage/approved" exact render={() => <RequestManage status="Approved" section="employee" />} />
             <Route path="/app/employee/request/manage/declined" exact render={() => <RequestManage status="Declined" section="employee" />} />
             <Route path="/app/employee/request/detail/:id?" exact render={() => <RequestDetail section="employee" />} />
 
             <Route path="/app/hr/approval" exact component={EmployeeApproval} />
-            <Route path="/app/hr/request" exact component={Request} />
             <Route path="/app/hr/request/manage" exact component={RequestManage} />
+            <Route path="/app/hr/request/:id?" exact component={Request} />
             <Route path="/app/hr/request/manage/pending" exact render={() => <RequestManage status="Pending" section="hr" />} />
             <Route path="/app/hr/request/manage/approved" exact render={() => <RequestManage status="Approved" section="hr" />} />
             <Route path="/app/hr/request/manage/declined" exact render={() => <RequestManage status="Declined" section="hr" />} />

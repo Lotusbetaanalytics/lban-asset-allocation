@@ -14,29 +14,31 @@ import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
 import { HeaderBar, NavBar, DetailItem } from "../../containers";
 import splist from "../../hooks/splistHook";
+import { defaultPropValidation } from "../../../utils/componentUtils";
+import { fetchOptions } from "../../hooks/queryOptions";
 
 const Detail = ({status = undefined, section = ""}) => {
   const { id } = useParams();
   const history = useHistory();
 
-  const [errors, setErrors] = React.useState({} as any);
-  const [formData, setFormData] = React.useState({})
+  // const [errors, setErrors] = React.useState({} as any);
+  // const [formData, setFormData] = React.useState({})
 
-  const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
-  const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
-  const options = {
-    name: "address",
-    label: "Address",
-    value: formData["address"],
-    onChange: handleChange,
-    validationHandler: validationHandler,
-    error: errors.address,
-    required: true,
-    size: "large"    ,
-  }
+  // const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
+  // const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
+  // const options = {
+  //   name: "address",
+  //   label: "Address",
+  //   value: formData["address"],
+  //   onChange: handleChange,
+  //   validationHandler: validationHandler,
+  //   error: errors.address,
+  //   required: true,
+  //   size: "large"    ,
+  // }
   // const goBack = () => history.goBack()
 
-  const { isLoading, isFetching, data = {}, isError, error } = useQuery("fetch-request", () => splist("AssetRequest").fetchItem(id), {})
+  const { isLoading, isFetching, data: asset = {}, isError, error } = useQuery(["fetch-asset", id], () => splist("Asset").fetchItem(id), {...fetchOptions})
 
   if (isLoading || isFetching) return (<div>Loading...</div>)
   if (isError) toast.error(`${error}`);
@@ -47,52 +49,33 @@ const Detail = ({status = undefined, section = ""}) => {
       <NavBar active='dashboard' />
 
       <div className='container--info'>
-        <HeaderBar title='Request Detail' />
+        <HeaderBar title='Asset Detail' hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form'>
-          <Button
+          {/* <Button
             title="Back"
             type="button"
             onClick={() => history.goBack()}
             // onClick={() => history.back()}  // goes to previous page
             size="small"
             className="btn br-xlg w-8 bg-light-grey2"
-          />
+          /> */}
 
           <div className="container--details">
-            <DetailItem heading={"Employee Name"} body={data["Employee"] || "test"} />
-            <DetailItem heading={"Employee Email"} body={data["EmployeeEmail"] || "test"} />
-            <DetailItem heading={"Request Description"} body={data["Description"] || "test"} />
-            <DetailItem heading={"Employee Phone"} body={data["EmployeePhone"] || "test"} />
-            <DetailItem heading={"Department"} body={data["Department"] || "test"} />
-            <DetailItem heading={"Request Date"} body={data["Date"] || "test"} />
-            <DetailItem heading={"Branch"} body={data["Branch"] || "test"} />
-            <DetailItem heading={"Asset Category"} body={data["Category"] || "test"} />
-            <DetailItem heading={"Department Manager"} body={data["DepartmentManager"] || "test"} />
-            {section && section == "employee"
-              ? <DetailItem heading={"HR's Comment"} body={data["Comment"] || "test"} />
-              : section && section == "hr"
-                ? <DetailItem heading={"Comment"} body={data["Comment"] || "test"} hasTextBox={true} textBoxOptions={options} />
-                : <DetailItem heading={"Comment"} body={data["Comment"] || "test"} />
-            }
-            {/* <Textarea
-              name="address"
-              label="Address"
-              value={formData["address"]}
-              onChange={handleChange}
-              validationHandler={validationHandler}
-              error={errors.address}
-              required={true}
-              size="large"
-            /> */}
-            {/* <DetailItem heading={"data.Comment"} body="test" /> */}
-            {/* <DetailItem heading={"data."} body="test" /> */}
+            <DetailItem heading={"Asset Category"} body={asset["Category"] || "Unavailable"} />
+            <DetailItem heading={"Asset Name"} body={asset["Name"] || "Unavailable"} />
+            <DetailItem heading={"Serial Number"} body={asset["SerialNumber"] || "Unavailable"} />
+            <DetailItem heading={"Asset Description"} body={asset["Description"] || "Unavailable"} />
+            <DetailItem heading={"Branch"} body={asset["Branch"] || "Unavailable"} />
+            <DetailItem heading={"Request Date"} body={asset["Date"] || "Unavailable"} />
           </div>
         </div>
       </div>
     </div>
   );
 };
+
+Detail.propTypes = defaultPropValidation
 
 export default Detail;
