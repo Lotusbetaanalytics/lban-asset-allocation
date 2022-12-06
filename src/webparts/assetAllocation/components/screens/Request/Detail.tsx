@@ -83,21 +83,21 @@ const Detail = ({status = undefined, section = ""}) => {
           /> */}
 
           <div className="container--details">
-            <DetailItem heading={"Employee Name"} body={request["Employee"] || "test"} />
-            <DetailItem heading={"Employee Email"} body={request["EmployeeEmail"] || "test"} />
-            <DetailItem heading={"Request Description"} body={request["Description"] || "test"} />
-            <DetailItem heading={"Employee Phone"} body={request["EmployeePhone"] || "test"} />
-            <DetailItem heading={"Department"} body={request["Department"] || "test"} />
-            <DetailItem heading={"Request Date"} body={request["Date"] || "test"} />
-            <DetailItem heading={"Branch"} body={request["Branch"] || "test"} />
-            <DetailItem heading={"Asset Category"} body={request["Category"] || "test"} />
-            <DetailItem heading={"Department Manager"} body={request["DepartmentManager"] || "test"} />
+            <DetailItem heading={"Employee Name"} body={request["Employee"] || "Unavailable"} />
+            <DetailItem heading={"Employee Email"} body={request["EmployeeEmail"] || "Unavailable"} />
+            <DetailItem heading={"Request Description"} body={request["Description"] || "Unavailable"} />
+            <DetailItem heading={"Employee Phone"} body={request["EmployeePhone"] || "Unavailable"} />
+            <DetailItem heading={"Department"} body={request["Department"] || "Unavailable"} />
+            <DetailItem heading={"Request Date"} body={request["Date"] || "Unavailable"} />
+            <DetailItem heading={"Branch"} body={request["Branch"] || "Unavailable"} />
+            <DetailItem heading={"Asset Category"} body={request["Category"] || "Unavailable"} />
+            <DetailItem heading={"Department Manager"} body={request["DepartmentManager"] || "Unavailable"} />
             {section && section == "employee"
-              ? <DetailItem heading={"HR's Comment"} body={request["Comment"] || "test"} />
+              ? <DetailItem heading={"HR's Comment"} body={request["Comment"] || "Unavailable"} />
               : section && section == "hr"
-                ? <DetailItem heading={"Comment"} body={request["Comment"] || "test"} hasTextBox={true} textBoxOptions={options} />
+                ? <DetailItem heading={"Comment"} body={request["Comment"] || "Unavailable"} hasTextBox={true} textBoxOptions={options} />
                 : <div className="border">
-                    <DetailItem heading={"Comment"} body={request["Comment"] || "test"} />
+                    <DetailItem heading={"Comment"} body={request["Comment"] || "Unavailable"} />
                     {actions()}
                   </div>
             }
