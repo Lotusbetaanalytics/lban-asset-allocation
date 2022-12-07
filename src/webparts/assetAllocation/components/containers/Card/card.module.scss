@@ -1,0 +1,42 @@
+.card {
+  display: flex;
+  flex-basis: 30%;
+  background: white;
+  border-radius: 10px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  margin-bottom: 1rem;
+  min-height: 10rem;
+  .cardText {
+    display: flex;
+    flex-direction: column;
+    flex: 0.8 p {
+      font-size: 13px;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  }
+  .cardIcon {
+    display: flex;
+    flex: 0.2;
+    justify-content: center;
+    align-items: center;
+
+    .circle {
+      display: flex;
+      width: 70px;
+      height: 70px;
+      color: white;
+      background: #fec704;
+      border-radius: 50%;
+      justify-content: center;
+      align-items: center;
+    }
+    svg {
+      font-size: 2rem;
+    }
+  }
+}
