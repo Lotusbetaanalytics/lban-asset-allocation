@@ -7,7 +7,7 @@ import "./assets/icon.scss";
 // import "./mediaquery.module.scss";
 import * as jQuery from "jquery";
 import { IAssetAllocationProps } from './IAssetAllocationProps';
-import { escape } from '@microsoft/sp-lodash-subset';
+// import { escape } from '@microsoft/sp-lodash-subset';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -23,6 +23,12 @@ import {
   Request,
   RequestManage,
   RequestDetail,
+  Branch,
+  BranchManage,
+  BranchDetail,
+  Category,
+  CategoryManage,
+  CategoryDetail,
 } from './screens'
 
 // export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
@@ -59,6 +65,14 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             <Route path="/app/asset/:id?" exact component={Asset} />
             <Route path="/app/asset/detail/:id?" exact component={AssetDetail} />
 
+            <Route path="/app/branch/manage" exact component={BranchManage} />
+            <Route path="/app/branch/:id?" exact component={Branch} />
+            <Route path="/app/branch/detail/:id?" exact component={BranchDetail} />
+
+            <Route path="/app/category/manage" exact component={CategoryManage} />
+            <Route path="/app/category/:id?" exact component={Category} />
+            <Route path="/app/category/detail/:id?" exact component={CategoryDetail} />
+
             <Route path="/app/request/manage" exact component={RequestManage} />
             <Route path="/app/request/:id?" exact component={Request} />
             <Route path="/app/request/manage/pending" exact render={() => <RequestManage status="Pending" />} />
@@ -81,6 +95,7 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             <Route path="/app/hr/request/manage/approved" exact render={() => <RequestManage status="Approved" section="hr" />} />
             <Route path="/app/hr/request/manage/declined" exact render={() => <RequestManage status="Declined" section="hr" />} />
             <Route path="/app/hr/request/detail/:id?" exact render={() => <RequestDetail section="hr" />} />
+
             <Route component={Error} />
           </Switch>
         </HashRouter>

@@ -13,7 +13,7 @@ import {
 import "mtforms/dist/index.css";
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
-// import { fetchAssetRequests } from '../../hooks/requestHooks';
+// import { fetchBranchRequests } from '../../hooks/requestHooks';
 // import RequestTable from "../../containers/RequestTable";
 import splist from "../../hooks/splistHook";
 import { fetchOptions } from "../../hooks/queryOptions";
@@ -23,65 +23,59 @@ const Manage = ({status = undefined, section = ""}) => {
   const history = useHistory()
   const queryClient = useQueryClient();
 
-  // const titleText = `${status ? status : "Manage"} Assets`
-  const titleText = `Available Assets`
+  // const titleText = `${status ? status : "Manage"} Branchs`
+  const titleText = `Branches`
   const sectionUrl = `/app/${section ? section + "/" : ""}`
 
 
   // type IType = "string" | "boolean" | "numeric" | "date" | "datetime" | "time" | "currency";
   // const string: IType = "string";
   const columns = [
-    { title: "Serial Number", field: "SerialNumber", type: "string" as const },
-    { title: "Name", field: "Name", type: "string" as const },
-    { title: "Description", field: "Description", type: "string" as const },
-    { title: "Category", field: "Category", type: "string" as const },
-    { title: "Branch", field: "Branch", type: "string" as const },
-    { title: "RamSize", field: "RamSize", type: "string" as const },
-    { title: "HardDriveSize", field: "HardDriveSize", type: "string" as const },
-    { title: "SSD", field: "SSD", type: "string" as const },
-    { title: "Date", field: "Date", type: "string" as const },
+    { title: "Name", field: "Title", type: "string" as const },
+    { title: "Location", field: "Location", type: "string" as const },
+    { title: "Address", field: "Address", type: "string" as const },
   ];
 
   // const [id, setId] = React.useState(undefined)
 
   const viewHandler = (id) => {
-    // view asset
-    history.push(`${sectionUrl}asset/detail/${id}`)
+    // view branch
+    history.push(`${sectionUrl}branch/detail/${id}`)
   }
   const updateHandler = (id) => {
-    // update asset
-    history.push(`${sectionUrl}asset/${id}`)
+    // update branch
+    history.push(`${sectionUrl}branch/${id}`)
   }
   const removeHandler = (id) => {
-    // remove asset
+    // remove branch
     mutate(id)
   }
 
-  // get assets
-  const { isLoading, isFetching, data: assets = [], isError, error } = useQuery("fetch-assets", splist("Asset").fetchItems, {...fetchOptions})
-  console.log("get request", assets, isLoading, isFetching, isError)
+  // get branches
+  const { isLoading, isFetching, data: branches = [], isError, error } = useQuery("fetch-branches", splist("Branch").fetchItems, {...fetchOptions})
+  console.log("get request", branches, isLoading, isFetching, isError)
 
-  // delete asset
-  const { data: delData, isLoading: delIsLoading, isError: delIsError, error: delError, mutate } = useMutation(splist("Asset").deleteItem, {
+  // delete branch
+  const { data: delData, isLoading: delIsLoading, isError: delIsError, error: delError, mutate } = useMutation(splist("Branch").deleteItem, {
     onSuccess: data => {
-      console.log("Asset Deleted Sucessfully: ", data)
+      console.log("Branch Deleted Sucessfully: ", data)
       alert("success")
     },
     onError: (error) => {
-      console.log("Error Deleting Asset: ", error)
+      console.log("Error Deleting Branch: ", error)
       alert("there was an error")
     },
     onSettled: () => {
-      queryClient.invalidateQueries('fetch-assets');
+      queryClient.invalidateQueries('fetch-branches');
     },
 
   })
   console.log("delete request", delData, delIsLoading, delIsError)
 
 
-  let data = assets
+  let data = branches
   if (status) {
-    data = assets.filter((d) => `${d.Status}`.toLowerCase === `${status}`.toLowerCase)
+    data = branches.filter((d) => `${d.Status}`.toLowerCase === `${status}`.toLowerCase)
     console.log("filtered data: ", data)
   }
 
@@ -100,9 +94,9 @@ const Manage = ({status = undefined, section = ""}) => {
         <Toaster position="bottom-center" reverseOrder={false} />
         <div className="constainer--info">
           <Button
-            title="Add Asset"
+            title="Add Branch"
             type="button"
-            onClick={() => console.log("create asset")}
+            onClick={() => console.log("create branch")}
             size="small"
             className="btn--purple br-xlg w-12"
           />
