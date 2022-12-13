@@ -59,7 +59,12 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/app/landing" exact component={Landing} />
+            <Route path="/app/hr/landing" exact render={() => <Landing section = "hr" />} />
+            <Route path="/app/employee/landing" exact render={() => <Landing section = "employee" />} />
+
             <Route path="/app/dashboard" exact component={Dashboard} />
+            <Route path="/app/hr/dashboard" exact render={() => <Dashboard section = "hr" />} />
+            <Route path="/app/employee/dashboard" exact render={() => <Dashboard section = "employee" />} />
 
             <Route path="/app/asset/manage" exact component={AssetManage} />
             <Route path="/app/asset/:id?" exact component={Asset} />

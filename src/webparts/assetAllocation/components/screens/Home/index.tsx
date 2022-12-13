@@ -14,11 +14,11 @@ const Home = () => {
             <img src={require("../../assets/img/Rectangle7.png")} className="blob4" alt=""/>
           </div> */}
           <div className="container--image">
-            <Link to="/app/landing" className="image--btn" >
+            <Link to="/app/hr/landing" className="image--btn" >
               <img className="image" src={require("../../assets/img/pic1.png")} alt="laptop"/>
               <p className="image__text">HR</p>
             </Link>
-            <Link to="/app/landing" className="image--btn" >
+            <Link to="/app/employee/landing" className="image--btn" >
               <img className="image" src={require("../../assets/img/pic2.png")} alt="Mouse"/>
               <p className="image__text">Employee</p>
             </Link>

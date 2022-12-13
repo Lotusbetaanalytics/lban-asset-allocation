@@ -8,203 +8,96 @@ import {
   FaVoteYea,
   FaSignOutAlt,
   FaBoxes,
+  FaBorderAll,
+  FaClipboard,
   FaEllipsisH,
   FaCheckCircle,
   FaTimesCircle,
   FaArrowCircleRight,
   FaArrowAltCircleRight,
+  FaUsersCog,
   FaLayerGroup,
 } from "react-icons/fa";
 
 
-export const NavLinks: any = section => [
-  {
-    name: "Dashboard",
-    Icon: FaThLarge,
-    // Icon: FaBoxes,
-    url: "/app/dashboard",
-    class: "dashboard",
-  },
-  {
-    name: "Pending Requests",
-    Icon: FaEllipsisH,
-    url: `/app/${section ? section + "/" : ""}request/manage/pending`,
-    class: "pending",
-  },
-  {
-    name: "Approved Requests",
-    Icon: FaCheckCircle,
-    url: `/app/${section ? section + "/" : ""}request/manage/approved`,
-    class: "approved",
-  },
-  {
-    name: "Declined Requests",
-    Icon: FaTimesCircle,
-    url: `/app/${section ? section + "/" : ""}request/manage/declined`,
-    class: "declined",
-  },
-  {
+export const NavLinks: any = section => {
+
+  const assetLink = {
     name: "Assets",
     Icon: FaLayerGroup,
-    url: "/app/assets",
+    url: "/app/asset/manage",
     class: "asset",
-  },
-  {
-    name: "Declined Requests",
+  }
+  const switchLink = {
+    name: "Switch",
+    Icon: FaUsersCog,
+    url: "/app/employee/dashboard",
+    class: "employee",
+  }
+  const logoutLink = {
+    name: "Logout",
     // Icon: FaArrowAltCircleRight,
     Icon: FaArrowCircleRight,
-    url: "/app/logout",
+    url: "/",
     class: "logout",
-  },
+  }
 
-  // {
-  //   name: "Candidate Management",
-  //   Icon: FaUsers,
-  //   class: "candidate",
-  //   items: [
-  //     {
-  //       name: "Create Candidate",
-  //       url: "/app/candidate",
-  //     },
-  //     {
-  //       name: "Bulk Upload",
-  //       url: "/app/candidate/bulk",
-  //     },
-  //     {
-  //       name: "Manage Candidates",
-  //       url: "/app/candidate/view",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "Exam Management",
-  //   Icon: FaVoteYea,
-  //   class: "exam",
-  //   items: [
-  //     {
-  //       name: "Create Exam Template",
-  //       url: "/app/exam",
-  //     },
-  //     {
-  //       name: "View Exam Templates",
-  //       url: "/app/exam/view",
-  //     },
-  //     {
-  //       name: "Schedule New Exam",
-  //       url: "/app/exam/schedule",
-  //     },
-  //     {
-  //       name: "View Schedule Exams",
-  //       url: "/app/exam/schedule/view",
-  //     },
-  //     {
-  //       name: "Manage Exam Sections",
-  //       url: "/app/exam/section/view",
-  //     },
-  //     {
-  //       name: "Manage Exam Questions",
-  //       url: "/app/exam/question/view",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "Question Management",
-  //   Icon: FaQuestionCircle,
-  //   class: "question",
-  //   items: [
-  //     {
-  //       name: "Create Question",
-  //       url: "/app/question",
-  //     },
-  //     {
-  //       name: "Bulk Question Upload",
-  //       url: "/app/question/bulk",
-  //     },
-  //     {
-  //       name: "View Questions",
-  //       url: "/app/question/view",
-  //     },
-  //     {
-  //       name: "Create Question Category",
-  //       url: "/app/question/category",
-  //     },
-  //     {
-  //       name: "View Question Categories",
-  //       url: "/app/question/category/view",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "Reports",
-  //   Icon: FaChartBar,
-  //   class: "reports",
-  //   items: [
-  //     {
-  //       name: "Shortlisted Candidates",
-  //       url: "/app/reports/shortlisted",
-  //     },
-  //     {
-  //       name: "Exam Schedules",
-  //       url: "/app/reports/schedules",
-  //     },
-  //     {
-  //       name: "Performance Analysis",
-  //       url: "/app/reports/peformance",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "System Administration",
-  //   Icon: FaUserShield,
-  //   class: "system",
-  //   items: [
-  //     {
-  //       name: "Manage Division",
-  //       url: "/app/admin/division",
-  //     },
-  //     {
-  //       name: "Manage Job Roles",
-  //       url: "/app/admin/roles",
-  //     },
-  //     {
-  //       name: "Manage Venues",
-  //       url: "/app/admin/venues",
-  //     },
-  //     {
-  //       name: "Manage Batches",
-  //       url: "/app/admin/batches",
-  //     },
-  //     {
-  //       name: "Manage Admin",
-  //       url: "/app/admin",
-  //     },
-  //     {
-  //       name: "Audit Trail",
-  //       url: "/app/admin/audit",
-  //     },
-  //   ],
-  // },
+  const links = [
+    {
+      name: "Dashboard",
+      Icon: FaThLarge,
+      // Icon: FaBoxes,
+      url: `/app/${section ? section + "/" : ""}dashboard`,
+      class: "dashboard",
+    },
+    {
+      name: "All Requests",
+      Icon: FaClipboard,
+      url: `/app/${section ? section + "/" : ""}request/manage`,
+      class: "all",
+    },
+    {
+      name: "Pending Requests",
+      Icon: FaEllipsisH,
+      url: `/app/${section ? section + "/" : ""}request/manage/pending`,
+      class: "pending",
+    },
+    {
+      name: "Approved Requests",
+      Icon: FaCheckCircle,
+      url: `/app/${section ? section + "/" : ""}request/manage/approved`,
+      class: "approved",
+    },
+    {
+      name: "Declined Requests",
+      Icon: FaTimesCircle,
+      url: `/app/${section ? section + "/" : ""}request/manage/declined`,
+      class: "declined",
+    },
+    // {
+    //   name: "Assets",
+    //   Icon: FaLayerGroup,
+    //   url: "/app/asset/manage",
+    //   class: "asset",
+    // },
+    // {
+    //   name: "Switch",
+    //   Icon: FaUsersCog,
+    //   url: "/app/employee/dashboard",
+    //   class: "employee",
+    // },
+    // {
+    //   name: "Logout",
+    //   // Icon: FaArrowAltCircleRight,
+    //   Icon: FaArrowCircleRight,
+    //   url: "/app/logout",
+    //   class: "logout",
+    // },
+  ]
 
-  // {
-  //   name: "General Settings",
-  //   Icon: FaCogs,
-  //   class: "settings",
-  //   items: [
-  //     {
-  //       name: "Email Template",
-  //       url: "/app/settings/email",
-  //     },
-  //     {
-  //       name: "SMS Template",
-  //       url: "/app/settings/sms",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "Logout",
-  //   Icon: FaSignOutAlt,
-  //   class: "logout",
-  //   url: "/",
-  // },
-];
-// export default NavLinks
+  if (section == "") links.push(assetLink)
+  if (section == "" || section == "hr") links.push(switchLink)
+  links.push(logoutLink)
+
+  return links
+};

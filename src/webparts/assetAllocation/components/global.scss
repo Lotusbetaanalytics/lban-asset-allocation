@@ -89,6 +89,12 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
         // padding: 2rem;
     }
 
+    &--grid {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        // grid-gap: 1rem;
+    }
+
     &--details {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -168,7 +174,7 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
 
         &--logout {
             @extend .nav__item--icon;
-            margin-top: 5rem;
+            margin-top: 4rem;
         }
 
         &--active {
@@ -284,4 +290,78 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
         border-style: none;
         box-shadow: $large-shadow;
     }
+}
+
+.detail {
+    // &__item {
+    //     &--textbox {
+    //         margin: 0;
+    //         // padding: 0;
+    //         // border: 1px solid salmon;
+    //         // background-color: #FEC704;
+    //     }
+    // }
+    &__info {
+        grid-column: 1/-1;
+    }
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+
+    &__details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    &__calender {
+        border: none !important;
+        border-radius: 20px;
+        width: 100%;
+        padding: 2rem;
+
+        &--container {
+            // border: 2px solid green;
+        }
+    }
+}
+
+.card {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    background-color: white;
+
+    &__icon {
+        
+        &--container {
+            font-size: 2rem;
+            color: white;
+            padding: 1.5rem;
+            // padding-left: 2.1rem;
+            // padding-top: 2.2rem;
+            // max-width: 200px;
+            // max-width: 8rem;
+            // max-height: 6rem;
+            width: 5rem;
+            height: 5rem;
+        }
+    }
+
+    &__data {
+        font-size: 4rem;
+    }
+
+    &__title {
+        font-size: 1.2rem;
+    }
+}
+
+.react-calendar__tile--active {
+    border-radius: 8px;
+    background: $lban-purple !important;
+    color: white;
+}
+  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active:enabled:focus {
+    background: $lban-purple !important;
 }

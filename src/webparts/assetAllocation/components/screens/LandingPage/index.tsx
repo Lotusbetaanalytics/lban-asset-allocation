@@ -1,7 +1,10 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
+import { defaultPropValidation } from '../../../utils/componentUtils'
 
-const LandingPage = () => {
+const LandingPage = ({section = ""}) => {
+  const sectionUrl = `/app/${section ? section + "/" : ""}`
+
   return (
     <div className="background--landing">
         <div className="container--side landing">
@@ -13,10 +16,12 @@ const LandingPage = () => {
                 <hr />
                 <h1 className="home__heading mt-2">Asset Allocation Portal</h1>
             </div>
-            <Link to="/app/dashboard" className="btn--purple my-4 mr-auto">Proceed</Link>
+            <Link to={`${sectionUrl}dashboard`} className="btn--purple my-4 mr-auto">Proceed</Link>
         </div>
     </div>
   )
 }
+
+LandingPage.propTypes = defaultPropValidation
 
 export default LandingPage

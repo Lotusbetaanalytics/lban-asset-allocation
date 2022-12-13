@@ -74,7 +74,7 @@ const Manage = ({status = undefined, section = ""}) => {
 
   let data = categories
   if (status) {
-    data = categories.filter((d) => `${d.Status}`.toLowerCase === `${status}`.toLowerCase)
+    data = categories.filter((d) => `${d.Status}`.toLowerCase() === `${status}`.toLowerCase())
     console.log("filtered data: ", data)
   }
 

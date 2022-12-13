@@ -8,6 +8,7 @@ import RequestTable from "../../containers/RequestTable";
 import splist from "../../hooks/splistHook";
 import { fetchOptions } from "../../hooks/queryOptions";
 import { defaultPropValidation } from "../../../utils/componentUtils";
+import { getMyProfile } from "../../../utils/listUtils";
 
 const Manage = ({status = undefined, section = ""}) => {
   const history = useHistory()
@@ -15,6 +16,7 @@ const Manage = ({status = undefined, section = ""}) => {
 
   const titleText = `${status ? status : "Manage"} Requests`
   const sectionUrl = `/app/${section ? section + "/" : ""}`
+  // let authUser
 
   const [id, setId] = React.useState(undefined)
 
@@ -32,6 +34,9 @@ const Manage = ({status = undefined, section = ""}) => {
     // refetch()
     mutate(id)
   }
+
+  const { data: authUser = [], isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getMyProfile, fetchOptions)
+  console.log({authUser, isAuthError, authError})
 
   const { isLoading, isFetching, data: requests = [], isError, error } = useQuery("fetch-requests", fetchAssetRequests, fetchOptions)
   console.log(requests, isLoading, isFetching, isError)
@@ -63,16 +68,25 @@ const Manage = ({status = undefined, section = ""}) => {
 
   let data = requests
   if (status) {
-    data = requests.filter((d) => `${d.Status}`.toLowerCase === `${status}`.toLowerCase)
-    console.log("filtered data: ", data)
+    data = requests.filter((d) => {
+      console.log({status, "d.Status": d.Status, "filtered data": data, "is true": `${d.Status}`.toLowerCase() === `${status}`.toLowerCase()})
+      return `${d.Status}`.toLowerCase() === `${status}`.toLowerCase()
+    })
   }
+  // TODO: filter by authenticated user Id
+  // if (authUser.ID && (section == "employee")) {
+  //   data = data.filter((d) => {
+  //     console.log({authUser.ID, "d.Status": d.Status, "filtered data": data, "is true": `${d.Status}`.toLowerCase() === `${authUser.ID}`.toLowerCase()})
+  //     return `${d.Status}`.toLowerCase() === `${authUser.ID}`.toLowerCase()
+  //   })
+  // }
 
   if (isLoading || delIsLoading) return (<div>Loading...</div>)
   if (isError || delIsError) toast.error(`${error || delError}`);
 
   return (
     <div className='background container'>
-      <NavBar active={status.toLowerCase() || "pending"} section={section} />
+      <NavBar active={status?.toLowerCase() || "all"} section={section} />
 
       <div className='container--info'>
         <HeaderBar title={titleText} />

@@ -29,20 +29,20 @@ const RequestTable = ({
 
   const history = useHistory();
 
-  if (!data || data.length < 1) {
-    const placeholderData = [
-      {
-        ID: 0,
-        Employee: "Test Employee 0",
-        EmployeeEmail: "testemployee0@aa.com",
-        Department: "Test Department 0",
-        Branch: "Lagos",
-        Asset: "Test Asset 0",
-        Status: "Pending",
-      },
-    ];
-    data = placeholderData;
-  }
+  // if (!data || data.length < 1) {
+  //   const placeholderData = [
+  //     {
+  //       ID: 0,
+  //       Employee: "Test Employee 0",
+  //       EmployeeEmail: "testemployee0@aa.com",
+  //       Department: "Test Department 0",
+  //       Branch: "Lagos",
+  //       Asset: "Test Asset 0",
+  //       Status: "Pending",
+  //     },
+  //   ];
+  //   data = placeholderData;
+  // }
 
   const editDeleteAction = [
     {

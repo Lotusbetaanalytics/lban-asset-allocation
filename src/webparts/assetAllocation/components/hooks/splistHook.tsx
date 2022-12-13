@@ -21,6 +21,7 @@ const splist = (listName) => {
       return item
     },
     updateItem: async (id, formData) => {
+      console.log({update: true, id, formData})
       const item = await sp.web.lists.getByTitle(listName).items.getById(id).update(formData)
       return item
     },

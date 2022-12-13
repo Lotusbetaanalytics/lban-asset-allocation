@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useHistory, useParams, Link } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { ParsedQuery } from "query-string";
 import {
   // Input,
@@ -9,7 +9,7 @@ import {
   // Radio,
   // DateInput,
   // FormGroup,
-  // Textarea,
+  Textarea,
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
@@ -21,36 +21,143 @@ import { fetchOptions } from "../../hooks/queryOptions";
 const Detail = ({status = undefined, section = ""}) => {
   const { id } = useParams();
   const history = useHistory();
+  const queryClient = useQueryClient();
+
   const sectionUrl = `/app/${section ? section + "/" : ""}`
 
   const [errors, setErrors] = React.useState({} as any);
   const [formData, setFormData] = React.useState({})
+  const [redirectUrl, setRedirectUrl] = React.useState("")
+  let updateData = {...formData}
 
   const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
   const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const options = {
-    name: "address",
-    label: "Address",
-    value: formData["address"],
+    name: "OfficeManagerComment",
+    label: "OfficeManagerComment",
+    value: formData["OfficeManagerComment"],
     onChange: handleChange,
     validationHandler: validationHandler,
-    error: errors.address,
+    error: errors.OfficeManagerComment,
     required: true,
-    size: "large"    ,
+    size: "large",
+  }
+  const hrOptions = {
+    ...options,
+    name: "HrComment",
+    label: "HrComment",
+    value: formData["HrComment"],
+    error: errors.HrComment,
   }
   // const goBack = () => history.goBack()
 
-  console.log(id)
-  console.log(section)
-  const { isLoading, isFetching, data: request = {}, isError, error } = useQuery(["fetch-request", id], () => splist("AssetRequest").fetchItem(id), {...fetchOptions})
+  const actionFunction = (id = undefined, formData = {}) => {
+    return splist("AssetRequest").updateItem(id, formData)
+  }
 
-  const actions = () => {
-    if (request["Status"] && request["Status"].toLowerCase() == "pending") {
+  console.log({id, section})
+  const { isLoading, isFetching, data: request = {}, refetch, isError, error } = useQuery(["fetch-request", id], () => splist("AssetRequest").fetchItem(id), {...fetchOptions})
+
+  const { data, isLoading: updateIsLoading, isError: updateIsError, error: updateError, mutate } = useMutation(() => actionFunction(id, updateData), {
+    onSuccess: data => {
+      console.log("Asset Updated Sucessfully: ", data)
+      refetch()
+      alert("success")
+    },
+    onError: (error) => {
+      console.log("Error Updating Asset: ", error)
+      alert("there was an error")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('fetch-assets');
+    },
+  })
+
+  const approvedOrDeclinedRequest = () => {
+    if (request["Status"] == "Declined") return true
+    if (request["Status"] == "Approved") return true
+    return false
+  }
+
+  const updateRequest = (approved = false) => {
+    const payload = {
+      // HrComment: section == "hr" ? formData["Comment"] : undefined,
+      // OfficeManagerComment: section == "" ? formData["Comment"] : undefined,
+      // Comment: undefined,
+      HrComment: formData["HrComment"],
+      OfficeManagerComment: formData["OfficeManagerComment"],
+      Status: "Started"
+    }
+
+    console.log("updateRequest", {section, HRApproved: request["IsHrApproved"], OMApproved: request["IsOfficeManagerApproved"]})
+
+    if (
+      section == "hr" 
+      && request["IsOfficeManagerApproved"] 
+      && !request["IsHrApproved"] 
+      // && formData["IsHrApproved"]
+      && approved
+    ) {
+      payload["IsHrApproved"] = true
+      // payload["Status"] = "Assigned"
+      console.log("hr: 1")
+    }
+
+    if (
+      section == "" 
+      && request["IsHrApproved"] 
+      && request["IsOfficeManagerApproved"] 
+      && !formData["IsHrApproved"] 
+      // && formData["IsOfficeManagerApproved"]
+      && approved
+    ) {
+      payload["Status"] = "Approved"
+      console.log("om: 1")
+    }
+
+    if (
+      section == "" 
+      && !request["IsOfficeManagerApproved"] 
+      // && formData["IsOfficeManagerApproved"]
+      && approved
+    ) {
+      payload["IsOfficeManagerApproved"] = true
+      console.log("om: 2")
+    }
+
+    if (!approved) {
+      payload["Status"] = "Declined"
+      console.log("declined: 1")
+    }
+
+    const updatedData = {...formData, ...payload}
+    updateData = updatedData
+    console.log({updatedData})
+    setFormData(updatedData)
+    mutate(id, updateData)
+    // mutate(id, formData)
+    refetch()
+  }
+
+  const actionButtons = () => {
+
+    if (approvedOrDeclinedRequest()) return
+    // if (request["Status"] == "Declined") return
+    // if (request["Status"] == "Approved") return
+
+    if (
+      section == "" 
+      // && request["Status"] 
+      // && request["Status"].toLowerCase() == "started" 
+      && request["IsOfficeManagerApproved"]
+      && request["IsHrApproved"]
+    ) {
       return (
         <Button
           title="Assign Asset"
           type="button"
-          onClick={() => history.push(`${sectionUrl}request/${id}`)}
+          onClick={() => updateRequest(true)}
+          // onClick={() => history.push(`${sectionUrl}request/${id}`)}
           // onClick={() => history.back()}  // goes to previous page
           size="small"
           // className="btn br-xlg w-8 bg-purple"
@@ -58,7 +165,80 @@ const Detail = ({status = undefined, section = ""}) => {
         />
       )
     }
+
+    if (section !== "hr" && section !== "") return
+
+    if (
+      section == ""
+      && !request["IsOfficeManagerApproved"]
+      && !request["IsHrApproved"]
+    ) {
+      return (
+        <>
+          <Button
+            title="Available"
+            type="button"
+            onClick={() => updateRequest(true)}
+            size="small"
+            className="btn--purple br-xlg mr-auto"
+          />
+          <Button
+            title="Unavailable"
+            type="button"
+            onClick={() => updateRequest()}
+            size="small"
+            className="btn--yellow br-xlg mr-auto"
+          />
+        </>
+      )
+    }
+
+    if (
+      section == "hr"
+      && request["IsOfficeManagerApproved"]
+      && !request["IsHrApproved"]
+    ) {
+      return (
+        <>
+          <Button
+            title="Approve"
+            type="button"
+            onClick={() => updateRequest(true)}
+            size="small"
+            className="btn--purple br-xlg mr-auto"
+          />
+          <Button
+            title="Decline"
+            type="button"
+            onClick={() => updateRequest()}
+            size="small"
+            className="btn br-xlg mr-auto"
+          />
+        </>
+      )
+    }
+
+    if (
+      section == "hr"
+      && !request["IsOfficeManagerApproved"]
+      && !request["IsHrApproved"]
+    ) {
+      return (
+      <div className="m-2 p-2 detail__info text-purple">
+        <h3 className="">Asset Availability has not been confirmed</h3>
+      </div>
+      )
+    }
+
+    return
   }
+
+  // if (!status) status = `${request["Status"]}`.toLowerCase() || "pending"
+  if (!status) status = request["Status"] || "Pending"
+  const titleText = status ? status + " " + "Request" : "Request Detail"
+  
+  // console.log({section, HRApproved: request["IsHrApproved"], OMApproved: request["IsOfficeManagerApproved"], request})
+  console.log({formData})
 
   if (isLoading || isFetching) return (<div>Loading...</div>)
   if (isError) toast.error(`${error}`);
@@ -66,10 +246,10 @@ const Detail = ({status = undefined, section = ""}) => {
 
   return (
     <div className='background container'>
-      <NavBar active={status.toLowerCase() || "pending"} section={section} />
+      <NavBar active={status && status.toLowerCase() || "pending"} section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Request Detail' hasBackButton={true} />
+        <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form'>
@@ -92,15 +272,67 @@ const Detail = ({status = undefined, section = ""}) => {
             <DetailItem heading={"Branch"} body={request["Branch"] || "Unavailable"} />
             <DetailItem heading={"Asset Category"} body={request["Category"] || "Unavailable"} />
             <DetailItem heading={"Department Manager"} body={request["DepartmentManager"] || "Unavailable"} />
-            {section && section == "employee"
-              ? <DetailItem heading={"HR's Comment"} body={request["Comment"] || "Unavailable"} />
+{/* 
+            {section !== "hr" && <DetailItem heading={"HR's Comment"} body={request["HrComment"] || "Unavailable"} />}
+            {section !== "" && <DetailItem heading={"Office Manager's Comment"} body={request["OfficeManagerComment"] || "Unavailable"} />}
+
+            {section == "hr" && approvedOrDeclinedRequest() && <DetailItem heading={"HR's Comment"} body={request["HrComment"] || "Unavailable"} />}
+            {section == "" && approvedOrDeclinedRequest() && <DetailItem heading={"Office Manager's Comment"} body={request["OfficeManagerComment"] || "Unavailable"} />} */}
+
+
+            {(section == "" || approvedOrDeclinedRequest()) && <DetailItem heading={"HR's Comment"} body={request["HrComment"] || "Unavailable"} />}
+            {(section == "hr" || approvedOrDeclinedRequest()) && <DetailItem heading={"Office Manager's Comment"} body={request["OfficeManagerComment"] || "Unavailable"} />}
+
+            {section == "hr" && !approvedOrDeclinedRequest() && 
+              <div>
+                <DetailItem heading={"HrComment"} body={request["HrComment"] || "Unavailable"} hasTextBox={true} />
+                <Textarea
+                  name={"HrComment"}
+                  value={formData[`HrComment`]}
+                  onChange={handleChange}
+                  validationHandler={validationHandler["HrComment"]}
+                  error={errors.HrComment}
+                  labelClassName = {'d-none'}
+                  className={'mt-n2 ml-n1'}
+                  required={true}
+                  size={"large"}
+                />
+              </div>  
+            }
+            {section == "" && !approvedOrDeclinedRequest() && 
+              <div className="div">
+                <DetailItem heading={"OfficeManagerComment"} body={request["OfficeManagerComment"] || "Unavailable"} hasTextBox={true} />
+                <Textarea
+                  name={"OfficeManagerComment"}
+                  value={formData[`OfficeManagerComment`]}
+                  onChange={handleChange}
+                  validationHandler={validationHandler["OfficeManagerComment"]}
+                  error={errors.OfficeManagerComment}
+                  labelClassName = {'d-none'}
+                  className={'mt-n2 ml-n1'}
+                  required={true}
+                  size={"large"}
+                />
+              </div>
+            }
+
+            <div className="container--side"></div>
+
+            {/* {section && section == "employee"
+              ? <><DetailItem heading={"HR's Comment"} body={request["HrComment"] || "Unavailable"} />
+                <DetailItem heading={"Office Manager's Comment"} body={request["OfficeManagerComment"] || "Unavailable"} /></>
               : section && section == "hr"
                 ? <DetailItem heading={"Comment"} body={request["Comment"] || "Unavailable"} hasTextBox={true} textBoxOptions={options} />
                 : <div className="border">
-                    <DetailItem heading={"Comment"} body={request["Comment"] || "Unavailable"} />
-                    {actions()}
+                    <><DetailItem heading={"HR's Comment"} body={request["HrComment"] || "Unavailable"} />
+                    <DetailItem heading={"Comment"} body={request["Comment"] || "Unavailable"} /></>
                   </div>
             }
+            <div className=""> */}
+
+            {actionButtons()}
+
+            {/* </div> */}
 
             {/* {section == "" && <Button
               title="Assign Asset"

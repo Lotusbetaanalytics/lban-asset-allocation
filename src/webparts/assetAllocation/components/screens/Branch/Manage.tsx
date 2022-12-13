@@ -75,7 +75,7 @@ const Manage = ({status = undefined, section = ""}) => {
 
   let data = branches
   if (status) {
-    data = branches.filter((d) => `${d.Status}`.toLowerCase === `${status}`.toLowerCase)
+    data = branches.filter((d) => `${d.Status}`.toLowerCase() === `${status}`.toLowerCase())
     console.log("filtered data: ", data)
   }
 

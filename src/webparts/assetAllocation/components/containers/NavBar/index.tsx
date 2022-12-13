@@ -7,7 +7,7 @@ const NavBar = ({active = "home", section = ""}) => {
   return (
     <div className="nav text-center">
       <nav className="nav__list">
-          <Link to="" className="">
+          <Link className="">
             <img className='nav__item--img br-auto' src={require("../../assets/img/pic2.png")} alt="user" />
           </Link>
           {links.map((instance, i) => {

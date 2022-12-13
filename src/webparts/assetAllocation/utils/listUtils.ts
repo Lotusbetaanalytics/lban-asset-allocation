@@ -1,5 +1,17 @@
 import { sp } from "@pnp/sp"
 
+export const getMyProfile = async () => {
+  const me = await  sp.profiles.myProperties.get()
+  // const me = await  sp.profiles.userProfile
+  return me
+}
+
+export const checkUserHasPermissions = async () => {
+  const user  = await getMyProfile()
+  // TODO: figure out how to check user permissions
+  return true
+}
+
 export const getStaffById = async (id = undefined) => {
   if (!id) return "Unavailable" 
   const staff = await sp.web.getUserById(id)()

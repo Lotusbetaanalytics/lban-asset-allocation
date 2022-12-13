@@ -81,7 +81,7 @@ const Manage = ({status = undefined, section = ""}) => {
 
   let data = assets
   if (status) {
-    data = assets.filter((d) => `${d.Status}`.toLowerCase === `${status}`.toLowerCase)
+    data = assets.filter((d) => `${d.Status}`.toLowerCase() === `${status}`.toLowerCase())
     console.log("filtered data: ", data)
   }
 
@@ -93,7 +93,7 @@ const Manage = ({status = undefined, section = ""}) => {
 
   return (
     <div className='background container'>
-      <NavBar active='dashboard' section={section} />
+      <NavBar active='asset' section={section} />
 
       <div className='container--info'>
         <HeaderBar title={titleText} />

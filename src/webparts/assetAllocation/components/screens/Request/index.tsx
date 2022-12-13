@@ -35,7 +35,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
   const [pageData, setpageData] = React.useState({})
 
   const actionFunction = (id = undefined, formData = {}) => {
-    createAssetRequest(formData)
+    // createAssetRequest(formData)
     if (id) return splist("AssetRequest").updateItem(id, formData)
     return splist("AssetRequest").createItem(formData)
   }
@@ -136,7 +136,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
 
   return (
     <div className='background container'>
-      <NavBar active={status.toLowerCase() || "pending"} section={section} />
+      <NavBar active={status?.toLowerCase() || "pending"} section={section} />
 
       <div className='container--info'>
         <HeaderBar title='Asset Request Form' hasBackButton={true} />
