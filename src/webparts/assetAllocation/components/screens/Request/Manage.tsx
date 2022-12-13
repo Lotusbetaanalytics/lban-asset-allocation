@@ -9,6 +9,7 @@ import splist from "../../hooks/splistHook";
 import { fetchOptions } from "../../hooks/queryOptions";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 import { getMyProfile } from "../../../utils/listUtils";
+import { titleCase } from "../../../utils/formUtils";
 
 const Manage = ({status = undefined, section = ""}) => {
   const history = useHistory()
@@ -35,10 +36,20 @@ const Manage = ({status = undefined, section = ""}) => {
     mutate(id)
   }
 
-  const { data: authUser = [], isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getMyProfile, fetchOptions)
+  const filterData = data => {
+    if (status) {
+      const titledStatus = titleCase(status)
+      data = data.filter((i) => i.Status == titledStatus)
+    }
+    if (section == "employee" && authUser) data = data.filter((i) => i.EmployeeEmail == authUser?.Email)
+    console.log("filtering attempted", status, section)
+    return data
+  }
+
+  const { data: authUser = {Email: undefined}, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getMyProfile, {...fetchOptions})
   console.log({authUser, isAuthError, authError})
 
-  const { isLoading, isFetching, data: requests = [], isError, error } = useQuery("fetch-requests", fetchAssetRequests, fetchOptions)
+  const { isLoading, isFetching, data: requests = [], isError, error } = useQuery("fetch-requests", fetchAssetRequests, {...fetchOptions, select: filterData})
   console.log(requests, isLoading, isFetching, isError)
 
   // delete asset

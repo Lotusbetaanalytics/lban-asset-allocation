@@ -30,9 +30,22 @@ import {
   CategoryManage,
   CategoryDetail,
 } from './screens'
+import { sp } from '@pnp/sp';
+
+
+  const userData = async () =>  await sp.web.currentUser.get()
+  const userGroups = async () => await sp.web.currentUser.groups.get()
+
 
 // export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
 export default class AssetAllocation extends React.Component<IAssetAllocationProps, any> {
+  public constructor(props: IAssetAllocationProps, any) {
+    super(props);
+    this.state = {
+      role: "employee",
+    };
+  }
+
   public render(): React.ReactElement<IAssetAllocationProps> {
 
     // jQuery("#workbenchPageContent").prop("style", "max-width: none");
@@ -52,6 +65,7 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
     jQuery(".CanvasZone").prop("style", "min-height: 900px; max-width: none");
 
     const queryClient = new QueryClient()
+    // const sectionUrl = ""
     
     return (
       <QueryClientProvider client={queryClient}>
@@ -86,7 +100,7 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             <Route path="/app/request/detail/:id?" exact component={RequestDetail} />
 
             <Route path="/app/employee/approval" exact component={EmployeeApproval} />
-            <Route path="/app/employee/request/manage" exact component={RequestManage} />
+            <Route path="/app/employee/request/manage" exact render={() => <RequestManage section="employee" />} />
             <Route path="/app/employee/request/:id?" exact component={Request} />
             <Route path="/app/employee/request/manage/pending" exact render={() => <RequestManage status="Pending" section="employee" />} />
             <Route path="/app/employee/request/manage/approved" exact render={() => <RequestManage status="Approved" section="employee" />} />
@@ -94,7 +108,7 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             <Route path="/app/employee/request/detail/:id?" exact render={() => <RequestDetail section="employee" />} />
 
             <Route path="/app/hr/approval" exact component={EmployeeApproval} />
-            <Route path="/app/hr/request/manage" exact component={RequestManage} />
+            <Route path="/app/hr/request/manage" exact render={() => <RequestManage section="hr" />} />
             <Route path="/app/hr/request/:id?" exact component={Request} />
             <Route path="/app/hr/request/manage/pending" exact render={() => <RequestManage status="Pending" section="hr" />} />
             <Route path="/app/hr/request/manage/approved" exact render={() => <RequestManage status="Approved" section="hr" />} />
@@ -123,5 +137,30 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
     //     </div>
     //   </div>
     // );
+  }
+
+  public componentDidMount() {
+    this._userProfile();
+  }
+
+  private _userProfile(): void {
+    
+    userData().then((data) => console.log({userData: data}))
+    userGroups().then((data) => console.log({userGroups: data}))
+
+    // sp.profiles.myProperties.get().then((response) => {
+    //   console.log("response:", response);
+    //   sp.web.lists
+    //     .getByTitle(`Administrator`)
+    //     .items.filter(`Title eq '${response.DisplayName}'`)
+    //     .get()
+    //     .then((res) => {
+    //       if (res.length > 0) {
+    //         this.setState({
+    //           admin: true,
+    //         });
+    //       }
+    //     });
+    // });
   }
 }

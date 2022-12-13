@@ -20,7 +20,7 @@ const DashboardCard = ({title, data, imageUrl = "", Icon, className = ""}) => {
 
 DashboardCard.propTypes = {
   title: PropTypes.string,
-  data: PropTypes.string,
+  data: PropTypes.number,
   imageUrl: PropTypes.string,
   className: PropTypes.string,
   // textBoxOptions: PropTypes.object,
