@@ -19,7 +19,7 @@ import 'react-calendar/dist/Calendar.css';
 import DashboardCard from "../../containers/Dashboard/Card";
 import { useQuery } from "react-query";
 import { fetchOptions } from "../../hooks/queryOptions";
-import { getMyProfile } from "../../../utils/listUtils";
+import { getUserProfile } from "../../../utils/listUtils";
 import splist from "../../hooks/splistHook";
 
 const Dashboard = ({section = ""}) => {
@@ -39,7 +39,7 @@ const Dashboard = ({section = ""}) => {
     return data.length
   }
 
-  const { data: authUser = {Email: undefined}, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getMyProfile, {...fetchOptions})
+  const { data: authUser = {Email: undefined}, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getUserProfile, {...fetchOptions})
   // console.log({authUser, isAuthError, authError})
 
   const { isLoading, isFetching, data: requests = [], isError, error } = useQuery("fetch-requests", () => splist("AssetRequest").fetchItems(), {...fetchOptions, select: filterRequest})
@@ -65,7 +65,7 @@ const Dashboard = ({section = ""}) => {
           <Button
             title="Add Asset"
             type="button"
-            onClick={() => history.push(`${sectionUrl}asset`)}
+            onClick={() => history.push(`/app/asset`)}
             size="small"  // still too large
             className="btn--purple br-xlg w-12"
           />}
@@ -74,7 +74,7 @@ const Dashboard = ({section = ""}) => {
           <Button
             title="Add Asset Category"
             type="button"
-            onClick={() => history.push(`${sectionUrl}category`)}
+            onClick={() => history.push(`/app/category`)}
             size="small"
             className="btn--yellow text-white br-xlg w-18"
           />}

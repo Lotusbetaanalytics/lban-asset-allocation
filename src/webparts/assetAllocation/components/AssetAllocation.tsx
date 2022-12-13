@@ -30,11 +30,7 @@ import {
   CategoryManage,
   CategoryDetail,
 } from './screens'
-import { sp } from '@pnp/sp';
-
-
-  const userData = async () =>  await sp.web.currentUser.get()
-  const userGroups = async () => await sp.web.currentUser.groups.get()
+import { getUserData, getUserGroups } from '../utils/listUtils';
 
 
 // export default class AssetAllocation extends React.Component<IAssetAllocationProps, {}> {
@@ -145,8 +141,8 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
 
   private _userProfile(): void {
     
-    userData().then((data) => console.log({userData: data}))
-    userGroups().then((data) => console.log({userGroups: data}))
+    getUserData().then((data) => console.log({userData: data}))
+    getUserGroups().then((data) => console.log({userGroups: data}))
 
     // sp.profiles.myProperties.get().then((response) => {
     //   console.log("response:", response);

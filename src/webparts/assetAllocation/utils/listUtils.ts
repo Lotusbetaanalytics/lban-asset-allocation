@@ -1,13 +1,24 @@
 import { sp } from "@pnp/sp"
 
-export const getMyProfile = async () => {
-  const me = await  sp.profiles.myProperties.get()
-  // const me = await  sp.profiles.userProfile
-  return me
+
+export const getUserData = async () =>  await sp.web.currentUser.get()
+export const getUserGroups = async () => await sp.web.currentUser.groups.get()
+export const getUserProfile = async () =>  await  sp.profiles.myProperties.get()
+
+
+export const validateUserRole = async (section) => {
+  let validated = true
+  if (section == "employee") return validated
+
+  let groups = await getUserGroups()
+  groups = groups.filter(g => g.Title.toLowerCase().indexOf(section) !== -1)
+  if (groups.length < 1) validated = false
+
+  return validated
 }
 
 export const checkUserHasPermissions = async () => {
-  const user  = await getMyProfile()
+  const user  = await getUserProfile()
   // TODO: figure out how to check user permissions
   return true
 }

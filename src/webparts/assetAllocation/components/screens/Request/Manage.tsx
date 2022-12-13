@@ -8,7 +8,7 @@ import RequestTable from "../../containers/RequestTable";
 import splist from "../../hooks/splistHook";
 import { fetchOptions } from "../../hooks/queryOptions";
 import { defaultPropValidation } from "../../../utils/componentUtils";
-import { getMyProfile } from "../../../utils/listUtils";
+import { getUserProfile } from "../../../utils/listUtils";
 import { titleCase } from "../../../utils/formUtils";
 
 const Manage = ({status = undefined, section = ""}) => {
@@ -46,7 +46,7 @@ const Manage = ({status = undefined, section = ""}) => {
     return data
   }
 
-  const { data: authUser = {Email: undefined}, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getMyProfile, {...fetchOptions})
+  const { data: authUser = {Email: undefined}, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getUserProfile, {...fetchOptions})
   console.log({authUser, isAuthError, authError})
 
   const { isLoading, isFetching, data: requests = [], isError, error } = useQuery("fetch-requests", fetchAssetRequests, {...fetchOptions, select: filterData})
