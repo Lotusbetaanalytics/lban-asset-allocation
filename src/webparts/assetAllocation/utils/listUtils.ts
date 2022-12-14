@@ -6,10 +6,20 @@ export const getUserGroups = async () => await sp.web.currentUser.groups.get()
 export const getUserProfile = async () =>  await  sp.profiles.myProperties.get()
 
 
-export const validateUserRole = async (section) => {
+export const validateUserRole = async (section = "") => {
   let validated = true
   if (section == "employee") return validated
 
+  // for Office Managers
+  if (section == "") {
+    const userEmail = (await getUserData())?.Email
+    const oMs = await sp.web.lists.getByTitle(`OfficeManager`).items.filter(`Email eq '${userEmail}'`).get()
+    if (oMs.length < 1) return false
+    return true
+  }
+
+  // for HR
+  if (section == "hr") return true  // temporary fix
   let groups = await getUserGroups()
   groups = groups.filter(g => g.Title.toLowerCase().indexOf(section) !== -1)
   if (groups.length < 1) validated = false

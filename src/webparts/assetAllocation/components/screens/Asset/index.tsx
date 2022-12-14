@@ -114,7 +114,7 @@ const Asset = ({section = ""}) => {
     formData["ManagerId"] = undefined  // ? confirm this works
     // refetch()
     mutate(id, formData)
-    history.push(`${sectionUrl}asset/manage`)
+    history.push(`${sectionUrl}asset/manage/all`)
   };
 
   console.log({formData})

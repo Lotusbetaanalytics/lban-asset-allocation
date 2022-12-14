@@ -17,6 +17,7 @@ import {
   FaArrowAltCircleRight,
   FaUsersCog,
   FaLayerGroup,
+  FaCog,
 } from "react-icons/fa";
 
 
@@ -25,7 +26,7 @@ export const NavLinks: any = section => {
   const assetLink = {
     name: "Assets",
     Icon: FaLayerGroup,
-    url: "/app/asset/manage",
+    url: "/app/asset/manage/all",
     class: "asset",
   }
   const switchLink = {
@@ -33,6 +34,12 @@ export const NavLinks: any = section => {
     Icon: FaUsersCog,
     url: "/app/employee/dashboard",
     class: "employee",
+  }
+  const settingLink = {
+    name: "Settings",
+    Icon: FaCog,
+    url: "/app/settings",
+    class: "settings",
   }
   const logoutLink = {
     name: "Logout",
@@ -53,7 +60,7 @@ export const NavLinks: any = section => {
     {
       name: "All Requests",
       Icon: FaClipboard,
-      url: `/app/${section ? section + "/" : ""}request/manage`,
+      url: `/app/${section ? section + "/" : ""}request/manage/all`,
       class: "all",
     },
     {
@@ -77,7 +84,7 @@ export const NavLinks: any = section => {
     // {
     //   name: "Assets",
     //   Icon: FaLayerGroup,
-    //   url: "/app/asset/manage",
+    //   url: "/app/asset/manage/all",
     //   class: "asset",
     // },
     // {
@@ -97,6 +104,7 @@ export const NavLinks: any = section => {
 
   if (section == "") links.push(assetLink)
   if (section == "" || section == "hr") links.push(switchLink)
+  links.push(settingLink)
   links.push(logoutLink)
 
   return links
