@@ -5,7 +5,6 @@ import {
   Input,
   Select,
   Button,
-  Radio,
   DateInput,
   FormGroup,
   Textarea,
@@ -13,9 +12,7 @@ import {
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
 import { HeaderBar, NavBar } from '../../containers';
-import { createAssetRequest } from '../../hooks/requestHooks';
 import { fetchDepartments } from '../../hooks/departmentHooks';
-import { getDataIdAndTitle, getStaffById } from '../../../utils/listUtils';
 import { goBack, handleSelectChange } from '../../../utils/formUtils';
 import splist from '../../hooks/splistHook';
 import { defaultPropValidation } from '../../../utils/componentUtils';
@@ -27,13 +24,13 @@ const Asset = ({section = ""}) => {
   const queryClient = useQueryClient();
 
   const sectionUrl = `/app/${section ? section + "/" : ""}`
-  const departmentQuery = {"ManagerId": "ManagerId"}
+  const titleText = id ? "Update Asset" : "Add Asset"
 
   const [errors, setErrors] = React.useState({} as any);
   const [formData, setFormData] = React.useState({})
-  const [pageData, setpageData] = React.useState({})
+  // const [pageData, setpageData] = React.useState({})
 
-  const actionFunction = (id = undefined, formData = {}) => {
+  const actionFunction = (formData, id = undefined) => {
     if (id) return splist("Asset").updateItem(id, formData)
     return splist("Asset").createItem(formData)
   }
@@ -71,53 +68,32 @@ const Asset = ({section = ""}) => {
   } = useQuery(["fetch-asset", id], () => splist("Asset").fetchItem(id), {
     ...fetchOptions,
     onSuccess: (data) => setFormData({...data}),
-    onError: (error) => console.log("error getting asset using id: ", error),
+    // onError: (error) => console.log("error getting asset using id: ", error),
   })
   console.log({isAssetLoading, asset})
 
   const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
     onSuccess: data => {
       console.log("Asset Created Sucessfully: ", data)
-      alert("success")
+      toast.success("Asset Created Sucessfully")
     },
     onError: (error) => {
       console.log("Error Creating Asset: ", error)
-      alert("there was an error")
+      toast.error("Error Creating Asset")
     },
     onSettled: () => {
       queryClient.invalidateQueries('fetch-assets');
     },
   })
 
-  // const { isLoading, isFetching, data, isError, error, refetch } = useQuery("create-request", () => actionFunction(), {
-  //   enabled: false,
-  //   staleTime: Infinity,
-  //   onError: (error) => console.log("Error Creating Asset Request: ", error),
-  //   onSuccess: (data) => console.log("Asset Request Created Sucessfully: ", data),
-  // })
-  // console.log("isFetching, data: ", isFetching, data)
-
-  // TODO: fix getting manager details using their staff id (getStaffById is async)
-  if (formData["ManagerId"]) {
-    setpageData({"DepartmentManager": getStaffById(formData["ManagerId"])})
-    formData["ManagerId"] = undefined
-  }
-
-  // // handle changes for select inputs, adding both the text value and id to formData
-  // const handleSelectChange = (name, value, list) => {
-  //   const { data, instance } = getDataIdAndTitle(name, value, list);
-  //   setFormData({ ...formData, ...data });
-  // };
   const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
   const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
-    formData["ManagerId"] = undefined  // ? confirm this works
-    // refetch()
-    mutate(id, formData)
+    mutate(formData, id)
     history.push(`${sectionUrl}asset/manage/all`)
   };
 
-  console.log({formData})
+  // console.log({formData})
 
   if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || isAssetLoading) return (<div>Loading...</div>)
   if (isError || isDepartmentError || isBranchError || isCategoryError) toast.error(`${error || departmentError || branchError || categoryError}`);
@@ -125,10 +101,10 @@ const Asset = ({section = ""}) => {
 
   return (
     <div className='background container'>
-      <NavBar active='asset' />
+      <NavBar active='asset' section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Asset Request Form' hasBackButton={true} />
+        <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>
@@ -142,7 +118,6 @@ const Asset = ({section = ""}) => {
               name="Category"
               label="Asset Category"
               value={formData["Category"]}
-              // onChange={(name, value) => handleSelectChange(name, value, categories)}
               onChange={(name, value) => handleSelectChange(name, value, categories, formData, setFormData)}
               data={categories}
               filter="Title"
@@ -194,7 +169,6 @@ const Asset = ({section = ""}) => {
               name="Branch"
               label="Branch"
               value={formData["Branch"]}
-              // onChange={(name, value) => handleSelectChange(name, value, branches)}
               onChange={(name, value) => handleSelectChange(name, value, branches, formData, setFormData)}
               data={branches}
               filter="Title"
@@ -212,7 +186,6 @@ const Asset = ({section = ""}) => {
               value={formData["Date"]}
               onChange={handleChange}
               type="text"
-              // required={true}
               placeholder="Request Date"
               className="br-xlg mb-2"
               labelClassName="ml-2"

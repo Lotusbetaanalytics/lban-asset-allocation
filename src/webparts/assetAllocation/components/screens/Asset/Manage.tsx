@@ -2,28 +2,19 @@ import * as React from "react";
 import { HeaderBar, NavBar, Table } from "../../containers";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
-  // Input,
-  // Select,
   Button,
-  // Radio,
-  // DateInput,
-  // FormGroup,
-  // Textarea,
 } from "mtforms";
 import "mtforms/dist/index.css";
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
-// import { fetchAssetRequests } from '../../hooks/requestHooks';
-// import RequestTable from "../../containers/RequestTable";
 import splist from "../../hooks/splistHook";
 import { fetchOptions } from "../../hooks/queryOptions";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 
-const Manage = ({status = undefined, section = ""}) => {
+const Manage = ({section = ""}) => {
   const history = useHistory()
   const queryClient = useQueryClient();
 
-  // const titleText = `${status ? status : "Manage"} Assets`
   const titleText = `Available Assets`
   const sectionUrl = `/app/${section ? section + "/" : ""}`
 
@@ -42,54 +33,35 @@ const Manage = ({status = undefined, section = ""}) => {
     { title: "Date", field: "Date", type: "string" as const },
   ];
 
-  // const [id, setId] = React.useState(undefined)
-
-  const viewHandler = (id) => {
-    // view asset
-    history.push(`${sectionUrl}asset/detail/${id}`)
-  }
-  const updateHandler = (id) => {
-    // update asset
-    history.push(`${sectionUrl}asset/${id}`)
-  }
-  const removeHandler = (id) => {
-    // remove asset
-    mutate(id)
-  }
+  const viewHandler = (id) => history.push(`${sectionUrl}asset/detail/${id}`)
+  const updateHandler = (id) => history.push(`${sectionUrl}asset/${id}`)
+  const removeHandler = (id) => mutate(id)
 
   // get assets
   const { isLoading, isFetching, data: assets = [], isError, error } = useQuery("fetch-assets", splist("Asset").fetchItems, {...fetchOptions})
-  console.log("get request", assets, isLoading, isFetching, isError)
+  // console.log("get request", assets, isLoading, isFetching, isError)
 
   // delete asset
   const { data: delData, isLoading: delIsLoading, isError: delIsError, error: delError, mutate } = useMutation(splist("Asset").deleteItem, {
     onSuccess: data => {
       console.log("Asset Deleted Sucessfully: ", data)
-      alert("success")
+      toast.success("Asset Deleted Sucessfully")
     },
     onError: (error) => {
       console.log("Error Deleting Asset: ", error)
-      alert("there was an error")
+      toast.error("Error Deleting Asset")
     },
     onSettled: () => {
       queryClient.invalidateQueries('fetch-assets');
     },
 
   })
-  console.log("delete request", delData, delIsLoading, delIsError)
+  // console.log("delete request", delData, delIsLoading, delIsError)
 
-
-  let data = assets
-  if (status) {
-    data = assets.filter((d) => `${d.Status}`.toLowerCase() === `${status}`.toLowerCase())
-    console.log("filtered data: ", data)
-  }
+  const data = assets
 
   if (isLoading || delIsLoading) return (<div>Loading...</div>)
   if (isError || delIsError) toast.error(`${error || delError}`);
-
-  // if (isLoading) return (<div>Loading...</div>)
-  // if (isError) toast.error(`${error}`);
 
   return (
     <div className='background container'>
@@ -98,11 +70,11 @@ const Manage = ({status = undefined, section = ""}) => {
       <div className='container--info'>
         <HeaderBar title={titleText} />
         <Toaster position="bottom-center" reverseOrder={false} />
-        <div className="constainer--info">
+        <div className="container--info">
           <Button
             title="Add Asset"
             type="button"
-            onClick={() => console.log("create asset")}
+            onClick={() => history.push(`${sectionUrl}asset`)}
             size="small"
             className="btn--purple br-xlg w-12"
           />

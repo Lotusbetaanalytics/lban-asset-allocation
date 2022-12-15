@@ -14,6 +14,9 @@ import { sp } from "@pnp/sp/presets/all";
 
 export interface IAssetAllocationWebPartProps {
   description: string;
+  isOM: boolean;
+  isEM: boolean;
+  isHR: boolean;
 }
 
 export default class AssetAllocationWebPart extends BaseClientSideWebPart<IAssetAllocationWebPartProps> {
@@ -31,6 +34,9 @@ export default class AssetAllocationWebPart extends BaseClientSideWebPart<IAsset
       AssetAllocation,
       {
         description: this.properties.description,
+        isEM: this.properties.isEM,
+        isOM: this.properties.isOM,
+        isHR: this.properties.isHR,
         context: this.context,  
         pageContext: this.context.pageContext
       }

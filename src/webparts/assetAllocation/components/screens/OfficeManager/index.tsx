@@ -20,7 +20,10 @@ const OfficeManager = ({context, section = ""}) => {
   const history = useHistory()
   const { id } = useParams()
   const queryClient = useQueryClient();
+
   const sectionUrl = `/app/${section ? section + "/" : ""}`
+  const titleText = id ? "Update Office Manager" : "Add Office Manager"
+
 
   const [formData, setFormData] = React.useState({})
 
@@ -84,7 +87,7 @@ const OfficeManager = ({context, section = ""}) => {
       <NavBar active='settings' section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Add Office Manager' hasBackButton={true} />
+        <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>

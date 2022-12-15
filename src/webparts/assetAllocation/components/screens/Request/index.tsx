@@ -643,7 +643,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
   const { data: authUser = placeholderUser, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getUserProfile, {...fetchOptions, onSuccess})
   console.log({authUser, isAuthError, authError})
 
-  const actionFunction = (id = undefined, formData = {}) => {
+  const actionFunction = (formData, id = undefined) => {
     // createAssetRequest(formData)
     if (id) return splist("AssetRequest").updateItem(id, formData)
     return splist("AssetRequest").createItem(formData)
@@ -699,11 +699,11 @@ const AssetRequest = ({status = undefined, section = ""}) => {
   const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
     onSuccess: data => {
       console.log("Asset Created Sucessfully: ", data)
-      alert("success")
+      toast.success("Manager Deleted Sucessfully")
     },
     onError: (error) => {
       console.log("Error Creating Asset: ", error)
-      alert("there was an error")
+      toast.error("Error Deleting Manager")
     },
     onSettled: () => {
       queryClient.invalidateQueries('fetch-assets');
@@ -736,7 +736,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
     formData["ManagerId"] = undefined  // ? confirm this works
     formData["DepartmentManager"] = undefined  // ? confirm this works
     // refetch()
-    mutate(id, formData)
+    mutate(formData, id)
     history.push(`${sectionUrl}request/manage/all`)
   };
 
@@ -746,10 +746,10 @@ const AssetRequest = ({status = undefined, section = ""}) => {
 
   return (
     <div className='background container'>
-      <NavBar active={status?.toLowerCase() || "pending"} section={section} />
+      <NavBar active={status?.toLowerCase() || "all"} section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Asset Request Form' hasBackButton={true} />
+        <HeaderBar title='Asset ' hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>

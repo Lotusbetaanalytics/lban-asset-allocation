@@ -26,7 +26,7 @@ export const NavLinks: any = section => {
   const assetLink = {
     name: "Assets",
     Icon: FaLayerGroup,
-    url: "/app/asset/manage/all",
+    url: "/app/asset/manage",
     class: "asset",
   }
   const switchLink = {
@@ -84,7 +84,7 @@ export const NavLinks: any = section => {
     // {
     //   name: "Assets",
     //   Icon: FaLayerGroup,
-    //   url: "/app/asset/manage/all",
+    //   url: "/app/asset/manage",
     //   class: "asset",
     // },
     // {
@@ -103,8 +103,8 @@ export const NavLinks: any = section => {
   ]
 
   if (section == "") links.push(assetLink)
-  if (section == "" || section == "hr") links.push(switchLink)
-  links.push(settingLink)
+  if (section != "employee") links.push(switchLink)
+  if (section == "") links.push(settingLink)
   links.push(logoutLink)
 
   return links

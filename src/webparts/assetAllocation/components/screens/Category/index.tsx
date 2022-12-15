@@ -3,20 +3,13 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useHistory, useParams } from 'react-router-dom'
 import {
   Input,
-  Select,
   Button,
-  Radio,
-  DateInput,
   FormGroup,
   Textarea,
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
 import { HeaderBar, NavBar } from '../../containers';
-// import { createCategoryRequest } from '../../hooks/requestHooks';
-import { fetchDepartments } from '../../hooks/departmentHooks';
-// import { getDataIdAndTitle, getStaffById } from '../../../utils/listUtils';
-import { goBack, handleSelectChange } from '../../../utils/formUtils';
 import splist from '../../hooks/splistHook';
 import { defaultPropValidation } from '../../../utils/componentUtils';
 import { fetchOptions } from '../../hooks/queryOptions';
@@ -27,13 +20,12 @@ const Category = ({section = ""}) => {
   const queryClient = useQueryClient();
 
   const sectionUrl = `/app/${section ? section + "/" : ""}`
-  // const departmentQuery = {"ManagerId": "ManagerId"}
+  const titleText = id ? "Update Category" : "Add Category"
 
   const [errors, setErrors] = React.useState({} as any);
   const [formData, setFormData] = React.useState({})
-  // const [pageData, setpageData] = React.useState({})
 
-  const actionFunction = (id = undefined, formData = {}) => {
+  const actionFunction = (formData, id = undefined) => {
     if (id) return splist("Category").updateItem(id, formData)
     return splist("Category").createItem(formData)
   }
@@ -47,19 +39,19 @@ const Category = ({section = ""}) => {
   } = useQuery(["fetch-category", id], () => splist("Category").fetchItem(id), {
     ...fetchOptions,
     onSuccess: (data) => setFormData({...data}),
-    onError: (error) => console.log("error getting category using id: ", error),
+    // onError: (error) => console.log("error getting category using id: ", error),
   })
-  console.log({isCategoryLoading, category})
+  // console.log({isCategoryLoading, category})
 
   // update or create category
   const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
     onSuccess: data => {
       console.log("Category Created Sucessfully: ", data)
-      alert("success")
+      toast.success("Category Created Sucessfully")
     },
     onError: (error) => {
       console.log("Error Creating Category: ", error)
-      alert("there was an error")
+      toast.error("Error Creating Category")
     },
     onSettled: () => {
       queryClient.invalidateQueries('fetch-categories');
@@ -69,11 +61,11 @@ const Category = ({section = ""}) => {
   const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
   const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
-    mutate(id, formData)
+    mutate(formData, id)
     history.push(`${sectionUrl}category/manage`)
   };
 
-  console.log({formData})
+  // console.log({formData})
 
   if (isLoading || isCategoryLoading) return (<div>Loading...</div>)
   if (isError) toast.error(`${error}`);
@@ -81,10 +73,10 @@ const Category = ({section = ""}) => {
 
   return (
     <div className='background container'>
-      <NavBar active='settings' />
+      <NavBar active='settings' section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Category Request Form' hasBackButton={true} />
+        <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>

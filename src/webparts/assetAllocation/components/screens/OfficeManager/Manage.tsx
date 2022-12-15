@@ -61,7 +61,7 @@ const Manage = ({section = ""}) => {
       <div className='container--info'>
         <HeaderBar title={titleText} />
         <Toaster position="bottom-center" reverseOrder={false} />
-        <div className="constainer--info">
+        <div className="container--info">
           <Button
             title="Add Office Manager"
             type="button"

@@ -56,11 +56,11 @@ const Manage = ({status = undefined, section = ""}) => {
   const { data: delData, isLoading: delIsLoading, isError: delIsError, error: delError, mutate } = useMutation(splist("Asset").deleteItem, {
     onSuccess: data => {
       console.log("Asset Deleted Sucessfully: ", data)
-      alert("success")
+      toast.success("Manager Deleted Sucessfully")
     },
     onError: (error) => {
       console.log("Error Deleting Asset: ", error)
-      alert("there was an error")
+      toast.error("Error Deleting Manager")
     },
     onSettled: () => {
       queryClient.invalidateQueries('fetch-assets');

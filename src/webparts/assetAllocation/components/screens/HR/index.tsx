@@ -20,7 +20,9 @@ const HRManager = ({context, section = ""}) => {
   const history = useHistory()
   const { id } = useParams()
   const queryClient = useQueryClient();
+
   const sectionUrl = `/app/${section ? section + "/" : ""}`
+  const titleText = id ? "Update HR Manager" : "Add HR Manager"
 
   const [formData, setFormData] = React.useState({})
 
@@ -31,16 +33,16 @@ const HRManager = ({context, section = ""}) => {
 
   // get hrManager from sp list using id
   const {
-    isLoading: isOMLoading,
+    isLoading: isHRLoading,
     data: hrManager = {},
-    isError: isOMError,
-    error: OMError ,
+    isError: isHRError,
+    error: HRError ,
   } = useQuery(["fetch-hr-manager", id], () => splist("HRManager").fetchItem(id), {
     ...fetchOptions,
     onSuccess: (data) => setFormData({...data}),
     // onError: (error) => console.log("error getting hrManager using id: ", error),
   })
-  // console.log({isOMLoading, hrManager})
+  // console.log({isHRLoading, hrManager})
 
   const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
     onSuccess: data => {
@@ -75,16 +77,16 @@ const HRManager = ({context, section = ""}) => {
 
   // console.log({formData})
 
-  if (isLoading || isOMLoading) return (<div>Loading...</div>)
+  if (isLoading || isHRLoading) return (<div>Loading...</div>)
   if (isError) toast.error(`${error}`);
-  if (id && isOMError) toast.error(`${OMError}`)
+  if (id && isHRError) toast.error(`${HRError}`)
 
   return (
     <div className='background container'>
       <NavBar active='settings' section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Add HR Manager' hasBackButton={true} />
+        <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>

@@ -46,7 +46,7 @@ const Detail = ({status = undefined, section = ""}) => {
 
   return (
     <div className='background container'>
-      <NavBar active='dashboard' />
+      <NavBar active='dashboard' section={section} />
 
       <div className='container--info'>
         <HeaderBar title='Asset Detail' hasBackButton={true} />

@@ -330,6 +330,9 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
     display: grid;
     grid-template-columns: 3fr 1fr;
     background-color: white;
+    box-shadow: 0px 4px 60px 0px #e5e5e5;
+    text-decoration: none;
+    color: black;
 
     &__icon {
         
@@ -356,6 +359,21 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
     }
 }
 
+.settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    &__card {
+        text-decoration: none;
+
+        &__title {
+            font-size: 1.5rem;
+            text-decoration: none;
+            color: black;
+        }
+    }
+}
+
 .react-calendar__tile--active {
     border-radius: 8px;
     background: $lban-purple !important;
@@ -365,3 +383,10 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
   .react-calendar__tile--active:enabled:focus {
     background: $lban-purple !important;
 }
+
+.people-picker__input {
+    border-radius: 20px;
+    border: 1px solid black;
+    overflow: hidden;
+}
+

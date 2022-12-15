@@ -17,20 +17,17 @@ import splist from "../../hooks/splistHook";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 import { fetchOptions } from "../../hooks/queryOptions";
 
-const Detail = ({status = undefined, section = ""}) => {
+const Detail = ({section = ""}) => {
   const { id } = useParams();
-  const history = useHistory();
-
 
   const { isLoading, isFetching, data: category = {}, isError, error } = useQuery(["fetch-category", id], () => splist("Category").fetchItem(id), {...fetchOptions})
 
   if (isLoading || isFetching) return (<div>Loading...</div>)
   if (isError) toast.error(`${error}`);
 
-
   return (
     <div className='background container'>
-      <NavBar active='dashboard' />
+      <NavBar active='settings' section={section} />
 
       <div className='container--info'>
         <HeaderBar title='Category Detail' hasBackButton={true} />
@@ -38,7 +35,7 @@ const Detail = ({status = undefined, section = ""}) => {
 
         <div className='container--form'>
           <div className="container--details">
-            <DetailItem heading={"Category Name"} body={category["Name"] || "Unavailable"} />
+            <DetailItem heading={"Category Name"} body={category["Title"] || "Unavailable"} />
             <DetailItem heading={"Category Description"} body={category["Description"] || "Unavailable"} />
           </div>
         </div>

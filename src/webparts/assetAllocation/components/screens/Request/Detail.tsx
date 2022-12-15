@@ -51,7 +51,7 @@ const Detail = ({status = undefined, section = ""}) => {
   }
   // const goBack = () => history.goBack()
 
-  const actionFunction = (id = undefined, formData = {}) => {
+  const actionFunction = (formData, id = undefined) => {
     return splist("AssetRequest").updateItem(id, formData)
   }
 
@@ -62,11 +62,11 @@ const Detail = ({status = undefined, section = ""}) => {
     onSuccess: data => {
       console.log("Asset Updated Sucessfully: ", data)
       refetch()
-      alert("success")
+      toast.success("Manager Deleted Sucessfully")
     },
     onError: (error) => {
       console.log("Error Updating Asset: ", error)
-      alert("there was an error")
+      toast.error("Error Deleting Manager")
     },
     onSettled: () => {
       queryClient.invalidateQueries('fetch-assets');
@@ -135,7 +135,7 @@ const Detail = ({status = undefined, section = ""}) => {
     console.log({updatedData})
     setFormData(updatedData)
     mutate(id, updateData)
-    // mutate(id, formData)
+    // mutate(formData, id)
     refetch()
   }
 
