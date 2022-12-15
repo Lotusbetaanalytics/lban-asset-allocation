@@ -9,3 +9,8 @@ export const defaultPropValidation = {
 export const sectionPropValidation = {
   section: PropTypes.string
 }
+
+export const navPropValidation = {
+  active: PropTypes.string,
+  section: PropTypes.string
+}

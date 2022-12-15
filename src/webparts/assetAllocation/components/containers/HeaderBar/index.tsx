@@ -4,13 +4,14 @@ import "mtforms/dist/index.css";
 import { useQuery } from 'react-query';
 import { getUserProfile } from '../../../utils/listUtils';
 import { fetchOptions } from '../../hooks/queryOptions';
+import * as PropTypes from "prop-types";
 
 const HeaderBar = ({title = "Welcome", hasBackButton = false}) => {
 
   const placeholderUser = {DisplayName: "anonymous", Email: "anonymous@asset.com", PictureUrl: ""}
 
   const { data: authUser = placeholderUser, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getUserProfile, {...fetchOptions})
-  console.log({authUser, isAuthError, authError})
+  // console.log({authUser, isAuthError, authError})
 
   return (
     <>
@@ -46,6 +47,11 @@ const HeaderBar = ({title = "Welcome", hasBackButton = false}) => {
       
     </>
   )
+}
+
+HeaderBar.propTypes = {
+  title: PropTypes.string,
+  hasBackButton: PropTypes.bool
 }
 
 export default HeaderBar

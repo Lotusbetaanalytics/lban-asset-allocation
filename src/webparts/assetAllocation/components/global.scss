@@ -168,6 +168,7 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
 
         &--img {
             width: 56px;
+            height: 56px;
             padding: .5rem;
             border: 1px solid $lban-purple;
         }
@@ -367,7 +368,7 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
         text-decoration: none;
 
         &__title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-decoration: none;
             color: black;
         }
@@ -379,8 +380,8 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
     background: $lban-purple !important;
     color: white;
 }
-  .react-calendar__tile--active:enabled:hover,
-  .react-calendar__tile--active:enabled:focus {
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
     background: $lban-purple !important;
 }
 

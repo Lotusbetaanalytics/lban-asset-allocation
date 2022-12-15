@@ -90,7 +90,7 @@ const Asset = ({section = ""}) => {
   const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
     mutate(formData, id)
-    history.push(`${sectionUrl}asset/manage/all`)
+    history.push(`${sectionUrl}asset/manage`)
   };
 
   // console.log({formData})

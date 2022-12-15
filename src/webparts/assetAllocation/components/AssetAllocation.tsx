@@ -157,6 +157,7 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             {this.state.isEM && <Route path="/app/employee/dashboard" exact render={() => <Dashboard section = "employee" />} />}
             
             {this.state.isOM && <Route path="/app/settings" exact component={Settings} />}
+            {this.state.isOM && <Route path="/app/hr/settings" exact render={() => <Settings section="hr" />} />}
 
             {/* {this.state.isOM && <> */}
             {this.state.isOM && <Route path="/app/asset/manage" exact component={AssetManage} />}

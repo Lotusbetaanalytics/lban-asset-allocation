@@ -104,7 +104,7 @@ export const NavLinks: any = section => {
 
   if (section == "") links.push(assetLink)
   if (section != "employee") links.push(switchLink)
-  if (section == "") links.push(settingLink)
+  if (section != "employee") links.push(settingLink)
   links.push(logoutLink)
 
   return links

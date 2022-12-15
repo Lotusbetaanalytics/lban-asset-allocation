@@ -4,8 +4,8 @@ import { HeaderBar, NavBar } from "../../containers";
 import {
   FaClipboard,
   FaEllipsisH,
-  FaCheckCircle,
-  FaTimesCircle,
+  // FaCheckCircle,
+  // FaTimesCircle,
   FaLayerGroup,
 } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
@@ -22,12 +22,12 @@ const Dashboard = ({section = ""}) => {
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='settings'>
-            <DashboardCard title="Manage Asset Categories" Icon={FaClipboard} url="/app/category/manage" titleClassName="settings__card__title" />
-            <DashboardCard title="Manage Branches" Icon={FaEllipsisH} url="/app/branch/manage" titleClassName="settings__card__title" />
+            {section == "" && <DashboardCard title="Manage Asset Categories" Icon={FaClipboard} url="/app/category/manage" titleClassName="settings__card__title" />}
+            {section == "" && <DashboardCard title="Manage Branches" Icon={FaEllipsisH} url="/app/branch/manage" titleClassName="settings__card__title" />}
             {/* <DashboardCard title="Manage Other Property" Icon={FaCheckCircle} url="/app/settings" titleClassName="settings__card__title" /> */}
             {/* <DashboardCard title="Manage Other Property" Icon={FaCheckCircle} url="/app/settings" titleClassName="settings__card__title" /> */}
-            <DashboardCard title="Manage Office Managers" Icon={FaTimesCircle} url="/app/om" titleClassName="settings__card__title" />
-            <DashboardCard title="Manage HR Managers" Icon={FaLayerGroup} url="/app/hr" titleClassName="settings__card__title" />
+            {section == "hr" && <DashboardCard title="Manage Office Managers" Icon={FaClipboard} url="/app/om" titleClassName="settings__card__title" />}
+            {section == "hr" && <DashboardCard title="Manage HR Managers" Icon={FaLayerGroup} url="/app/hr" titleClassName="settings__card__title" />}
         </div>
 
       </div>

@@ -5,7 +5,7 @@ import {
   Input,
   Select,
   Button,
-  Radio,
+//   Radio,
   DateInput,
   FormGroup,
   Textarea,
@@ -13,7 +13,7 @@ import {
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
 import { HeaderBar, NavBar } from '../../containers';
-import { createAssetRequest } from '../../hooks/requestHooks';
+// import { createAssetRequest } from '../../hooks/requestHooks';
 import { fetchDepartments } from '../../hooks/departmentHooks';
 import { getDataIdAndTitle, getStaffById, getUserProfile } from '../../../utils/listUtils';
 import { goBack, handleSelectChange } from '../../../utils/formUtils';
@@ -26,87 +26,24 @@ const AssetRequest = ({status = undefined, section = ""}) => {
   const history = useHistory()
   const { id } = useParams()
   const queryClient = useQueryClient();
+  let filteredAssets = []
 
   const sectionUrl = `/app/${section ? section + "/" : ""}`
-  const departmentQuery = {"ManagerId": "ManagerId"}
+  const titleText = id ? "Update Asset Request" : "Add Asset Request"
+  // const departmentQuery = {"ManagerId": "ManagerId"}
 
   const [errors, setErrors] = React.useState({} as any);
   const [formData, setFormData] = React.useState({})
-  const [pageData, setpageData] = React.useState({})
+  // const [pageData, setpageData] = React.useState({})
 
   const placeholderUser = {DisplayName: "anonymous", Email: "anonymous@asset.com", PictureUrl: ""}
+
   const onSuccess = (data) => {
     /**
-     * {
-    "authUser": {
-        "odata.metadata": "https://lotusbetaanalytics.sharepoint.com/sites/AssetAllocation/_api/$metadata#SP.ApiData.PersonPropertiess/@Element",
-        "odata.type": "SP.UserProfiles.PersonProperties",
-        "odata.id": "https://lotusbetaanalytics.sharepoint.com/sites/AssetAllocation/_api/sp.userprofiles.peoplemanager/getmyproperties",
-        "odata.editLink": "sp.userprofiles.peoplemanager/getmyproperties",
         "AccountName": "i:0#.f|membership|akinwale@lotusbetaanalytics.com",
-        "DirectReports": [],
         "DisplayName": "Akinwale Jude",
         "Email": "Akinwale@lotusbetaanalytics.com",
-        "ExtendedManagers": [
-            "i:0#.f|membership|ademola@lotusbetaanalytics.com",
-            "i:0#.f|membership|sunday@lotusbetaanalytics.com",
-            "i:0#.f|membership|onipede@lotusbetaanalytics.com"
-        ],
-        "ExtendedReports": [
-            "i:0#.f|membership|akinwale@lotusbetaanalytics.com"
-        ],
-        "IsFollowed": false,
-        "LatestPost": null,
-        "Peers": [
-            "i:0#.f|membership|abidoye@lotusbetaanalytics.com",
-            "i:0#.f|membership|adeboye@lotusbetaanalytics.com",
-            "i:0#.f|membership|aishat@lotusbetaanalytics.com",
-            "i:0#.f|membership|amarachi@lotusbetaanalytics.com",
-            "i:0#.f|membership|ogoh@lotusbetaanalytics.com",
-            "i:0#.f|membership|chibuzor@lotusbetaanalytics.com",
-            "i:0#.f|membership|faseun@lotusbetaanalytics.com",
-            "i:0#.f|membership|ejoor@lotusbetaanalytics.com",
-            "i:0#.f|membership|obafemi@lotusbetaanalytics.com",
-            "i:0#.f|membership|frederick@lotusbetaanalytics.com",
-            "i:0#.f|membership|godwin@lotusbetaanalytics.com",
-            "i:0#.f|membership|okoji@lotusbetaanalytics.com",
-            "i:0#.f|membership|ochoyi@lotusbetaanalytics.com",
-            "i:0#.f|membership|nneoma@lotusbetaanalytics.com",
-            "i:0#.f|membership|oladayo@lotusbetaanalytics.com",
-            "i:0#.f|membership|oluwapelumi@lotusbetaanalytics.com",
-            "i:0#.f|membership|omotayo@lotusbetaanalytics.com",
-            "i:0#.f|membership|opeyemi@lotusbetaanalytics.com",
-            "i:0#.f|membership|owolabi@lotusbetaanalytics.com",
-            "i:0#.f|membership|rahmat@lotusbetaanalytics.com",
-            "i:0#.f|membership|samirudeen@lotusbetaanalytics.com",
-            "i:0#.f|membership|muritala@lotusbetaanalytics.com",
-            "i:0#.f|membership|israel@lotusbetaanalytics.com",
-            "i:0#.f|membership|sulaiman@lotusbetaanalytics.com",
-            "i:0#.f|membership|kolapo@lotusbetaanalytics.com",
-            "i:0#.f|membership|sylvester@lotusbetaanalytics.com",
-            "i:0#.f|membership|nwaeze@lotusbetaanalytics.com",
-            "i:0#.f|membership|alfavictor@lotusbetaanalytics.com"
-        ],
-        "PersonalSiteHostUrl": "https://lotusbetaanalytics-my.sharepoint.com:443/",
-        "PersonalUrl": "https://lotusbetaanalytics-my.sharepoint.com/personal/akinwale_lotusbetaanalytics_com/",
-        "PictureUrl": "https://lotusbetaanalytics-my.sharepoint.com:443/User%20Photos/Profile%20Pictures/306225cd-94aa-4c5f-9a13-1a2344795973_MThumb.jpg?t=63783110969",
-        "Title": null,
         "UserProfileProperties": [
-            {
-                "Key": "UserProfile_GUID",
-                "Value": "c13dcf80-71f1-4cbf-b174-7856bc94f6cc",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SID",
-                "Value": "i:0h.f|membership|100320013bdd1ea4@live.com",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "ADGuid",
-                "Value": "System.Byte[]",
-                "ValueType": "Edm.String"
-            },
             {
                 "Key": "AccountName",
                 "Value": "i:0#.f|membership|akinwale@lotusbetaanalytics.com",
@@ -118,18 +55,8 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 "ValueType": "Edm.String"
             },
             {
-                "Key": "SPS-PhoneticFirstName",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
                 "Key": "LastName",
                 "Value": "Jude",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PhoneticLastName",
-                "Value": "",
                 "ValueType": "Edm.String"
             },
             {
@@ -138,48 +65,13 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 "ValueType": "Edm.String"
             },
             {
-                "Key": "SPS-PhoneticDisplayName",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "WorkPhone",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
                 "Key": "Department",
-                "Value": "Business Solution",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "Title",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-JobTitle",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Department",
                 "Value": "Business Solution",
                 "ValueType": "Edm.String"
             },
             {
                 "Key": "Manager",
                 "Value": "i:0#.f|membership|onipede@lotusbetaanalytics.com",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "AboutMe",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "PersonalSpace",
-                "Value": "/personal/akinwale_lotusbetaanalytics_com/",
                 "ValueType": "Edm.String"
             },
             {
@@ -192,459 +84,42 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 "Value": "Akinwale@lotusbetaanalytics.com",
                 "ValueType": "Edm.String"
             },
-            {
-                "Key": "QuickLinks",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "WebSite",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "PublicSiteRedirect",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-DataSource",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-MemberOf",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Dotted-line",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Peers",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Responsibility",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-SipAddress",
-                "Value": "Akinwale@lotusbetaanalytics.com",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-MySiteUpgrade",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-DontSuggestList",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ProxyAddresses",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-HireDate",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-DisplayOrder",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ClaimID",
-                "Value": "Akinwale@lotusbetaanalytics.com",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ClaimProviderID",
-                "Value": "membership",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-LastColleagueAdded",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ClaimProviderType",
-                "Value": "Forms",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-OWAUrl",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-SavedAccountName",
-                "Value": "i:0#.f|membership|akinwale@lotusbetaanalytics.com",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ResourceSID",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-SavedSID",
-                "Value": "System.Byte[]",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ResourceAccountName",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ObjectExists",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-MasterAccountName",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-UserPrincipalName",
-                "Value": "Akinwale@lotusbetaanalytics.com",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PersonalSiteCapabilities",
-                "Value": "36",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-O15FirstRunExperience",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PersonalSiteInstantiationState",
-                "Value": "2",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PersonalSiteFirstCreationTime",
-                "Value": "5/5/2021 1:33:02 PM",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PersonalSiteLastCreationTime",
-                "Value": "5/5/2021 1:33:02 PM",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PersonalSiteNumberOfRetries",
-                "Value": "1",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PersonalSiteFirstCreationError",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-DistinguishedName",
-                "Value": "CN=306225cd-94aa-4c5f-9a13-1a2344795973,OU=39dab133-5d7b-4bec-8eca-7f89b173e27f,OU=Tenants,OU=MSOnline,DC=SPODS188307,DC=msft,DC=net",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-SourceObjectDN",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-LastKeywordAdded",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-FeedIdentifier",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "WorkEmail",
-                "Value": "Akinwale@lotusbetaanalytics.com",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "CellPhone",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "Fax",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "HomePhone",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "Office",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Location",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "Assistant",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PastProjects",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Skills",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-School",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Birthday",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-StatusNotes",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Interests",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-HashTags",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-EmailOptin",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PictureTimestamp",
-                "Value": "63783110969",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PrivacyPeople",
-                "Value": "True",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PicturePlaceholderState",
-                "Value": "0",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PrivacyActivity",
-                "Value": "0",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PictureExchangeSyncState",
-                "Value": "1",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-MUILanguages",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ContentLanguages",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-TimeZone",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-RegionalSettings-FollowWeb",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Locale",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-CalendarType",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-AltCalendarType",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-AdjustHijriDays",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-ShowWeeks",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-WorkDays",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-WorkDayStartHour",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-WorkDayEndHour",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-Time24",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-FirstDayOfWeek",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-FirstWeekOfYear",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-RegionalSettings-Initialized",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "OfficeGraphEnabled",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-UserType",
-                "Value": "0",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-HideFromAddressLists",
-                "Value": "False",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-RecipientTypeDetails",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "DelveFlags",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "PulseMRUPeople",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "msOnline-ObjectId",
-                "Value": "306225cd-94aa-4c5f-9a13-1a2344795973",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-PointPublishingUrl",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-TenantInstanceId",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-SharePointHomeExperienceState",
-                "Value": "17301505",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-RefreshToken",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "SPS-MultiGeoFlags",
-                "Value": "",
-                "ValueType": "Edm.String"
-            },
-            {
-                "Key": "PreferredDataLocation",
-                "Value": "",
-                "ValueType": "Edm.String"
-            }
         ],
-        "UserUrl": "https://lotusbetaanalytics-my.sharepoint.com:443/Person.aspx?accountname=i%3A0%23%2Ef%7Cmembership%7Cakinwale%40lotusbetaanalytics%2Ecom"
-    },
-    "isAuthError": false,
-    "authError": null
-}
      */
     const properties = data?.UserProfileProperties
-    const department = properties.filter(p => p?.key == "Department")[0]
-    const departmentValue = department?.value
+    const department = properties.filter(prop => prop?.Key == "Department")[0]
+    const departmentValue = department?.Value
     // "Key": "Manager",
     // "Value": "i:0#.f|membership|onipede@lotusbetaanalytics.com",
-    const manager = properties.filter(p => p?.key == "Manager")[0]
-    const managerValue = manager?.value
+    const manager = properties.filter(p => p?.Key == "Manager")[0]
+    let managerValue = manager?.Value
+    managerValue = `${managerValue}`.split("|membership|")[1]
 
-    setFormData({...formData, Employee: data?.DisplayName, EmployeeEmail: data?.Email, Department: departmentValue, DepartmentManager: managerValue })
+    const phone = properties.filter(prop => {
+      if (prop?.Key == "WorkPhone" && prop.Value !== "") return
+      if (prop?.Key == "CellPhone" && prop.Value !== "") return
+      if (prop?.Key == "HomePhone" && prop.Value !== "") return
+      if (prop?.Key == "WorkPhone") return
+    })[0]
+    const phoneValue = phone?.Value ? Number(phone?.Value) : undefined
+
+    console.log("onSuccess", {departmentValue, managerValue, phoneValue, properties})
+
+    setFormData({
+      ...formData, 
+      Employee: data?.DisplayName, 
+      EmployeeEmail: data?.Email, 
+      EmployeePhone: phoneValue, 
+      Department: departmentValue, 
+      // DepartmentManager: managerValue 
+      ManagerEmail: managerValue 
+    })
   }
 
   const { data: authUser = placeholderUser, isError: isAuthError, error: authError } = useQuery("fetch-auth-user", getUserProfile, {...fetchOptions, onSuccess})
-  console.log({authUser, isAuthError, authError})
+  console.log("auth", {authUser, isAuthError, authError})
 
   const actionFunction = (formData, id = undefined) => {
-    // createAssetRequest(formData)
     if (id) return splist("AssetRequest").updateItem(id, formData)
     return splist("AssetRequest").createItem(formData)
   }
@@ -656,6 +131,17 @@ const AssetRequest = ({status = undefined, section = ""}) => {
     isError: isDepartmentError,
     error: departmentError 
   } = useQuery("fetch-departments", fetchDepartments, {...fetchOptions})
+
+  // get departments from sp list
+  const { 
+    isLoading: isAssetLoading,
+    data: assets = [],
+    isError: isAssetError,
+    error: assetError 
+  } = useQuery("fetch-assets", () => splist("Asset").fetchItems(), {
+    ...fetchOptions,
+    onSuccess: (data) => filteredAssets = data
+  })
 
   // get branches from sp list
   const { 
@@ -682,14 +168,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
   } = useQuery(["fetch-request", id], () => splist("AssetRequest").fetchItem(id), {
     ...fetchOptions,
     onSuccess: (data) => {
-      try {
-        // // TODO: Properly Display (set) Manager Name
-        // const dept = findDataById(data["DepartmentIdId"], departments)
-        // data["ManagerId"] = dept?.Manager
-        console.log("trying")
-      } catch (error) {
-        toast.error(error)
-      }
+      console.log("trying")
       setFormData({...data})
     },
     onError: (error) => console.log("error getting request using id: ", error),
@@ -698,15 +177,15 @@ const AssetRequest = ({status = undefined, section = ""}) => {
 
   const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
     onSuccess: data => {
-      console.log("Asset Created Sucessfully: ", data)
-      toast.success("Manager Deleted Sucessfully")
+      console.log("Request Created Sucessfully: ", data)
+      toast.success("Request Created Sucessfully")
     },
     onError: (error) => {
-      console.log("Error Creating Asset: ", error)
-      toast.error("Error Deleting Manager")
+      console.log("Error Creating Request: ", error)
+      toast.error("Error Creating Request")
     },
     onSettled: () => {
-      queryClient.invalidateQueries('fetch-assets');
+      queryClient.invalidateQueries('fetch-requests');
     },
   })
 
@@ -733,12 +212,17 @@ const AssetRequest = ({status = undefined, section = ""}) => {
   const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
   const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
-    formData["ManagerId"] = undefined  // ? confirm this works
-    formData["DepartmentManager"] = undefined  // ? confirm this works
+    // formData["ManagerId"] = undefined  // ? confirm this works
+    // formData["DepartmentManager"] = undefined  // ? confirm this works
     // refetch()
     mutate(formData, id)
     history.push(`${sectionUrl}request/manage/all`)
   };
+
+  const handleCategoryChange = (name, value) => {
+    handleSelectChange(name, value, categories, formData, setFormData)
+    if (assets.length > 0) {filteredAssets = assets.filter(a => a.Category == value)}
+  }
 
   if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || (isRequestLoading && id)) return (<div>Loading...</div>)
   if (isError || isDepartmentError || isBranchError || isCategoryError) toast.error(`${error || departmentError || branchError || categoryError}`);
@@ -795,22 +279,6 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 validationHandler={validationHandler}
                 error={errors["EmployeePhone"]}
               />
-              {/* <Select
-                name="Department"
-                label="Department"
-                value={formData["Department"]}
-                // onChange={(name, value) => handleSelectChange(name, value, departments)}
-                onChange={(name, value) => handleSelectChange(name, value, departments, formData, setFormData, departmentQuery)}
-                data={departments}
-                filter="Title"
-                // filterValue="ID"
-                filterValue="Title"
-                required={true}
-                className="br-xlg mb-2"
-                labelClassName="ml-2"
-                validationHandler={validationHandler}
-                error={errors["Department"]}
-              /> */}
               <Input
                 name="Department"
                 label="Department"
@@ -827,7 +295,6 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 name="Branch"
                 label="Branch"
                 value={formData["Branch"]}
-                // onChange={(name, value) => handleSelectChange(name, value, branches)}
                 onChange={(name, value) => handleSelectChange(name, value, branches, formData, setFormData)}
                 data={branches}
                 filter="Title"
@@ -843,8 +310,8 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 name="Category"
                 label="Asset Category"
                 value={formData["Category"]}
-                // onChange={(name, value) => handleSelectChange(name, value, categories)}
-                onChange={(name, value) => handleSelectChange(name, value, categories, formData, setFormData)}
+                onChange={handleCategoryChange}
+                // onChange={(name, value) => handleSelectChange(name, value, categories, formData, setFormData)}
                 data={categories}
                 filter="Title"
                 // filterValue="ID"
@@ -855,6 +322,21 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 validationHandler={validationHandler}
                 error={errors["Category"]}
               />
+              {section == "" && <Select
+                name="Asset"
+                label="Asset"
+                value={formData["Asset"]}
+                onChange={(name, value) => handleSelectChange(name, value, assets, formData, setFormData)}
+                data={assets}
+                filter="Title"
+                // filterValue="ID"
+                filterValue="Title"
+                required={true}
+                className="br-xlg mb-2"
+                labelClassName="ml-2"
+                validationHandler={validationHandler}
+                error={errors["Asset"]}
+              />}
               <Textarea
                 name="Description"
                 label="Asset Description"
@@ -880,8 +362,20 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 validationHandler={validationHandler}
                 error={errors["Date"]}
               />
-              <div className="container--side"></div>
+              {section !== "" && <div className="container--side"></div>}
               <Input
+                name="ManagerEmail"
+                label="Department Manager"
+                value={formData["ManagerEmail"]}
+                onChange={handleChange}
+                type="text"
+                placeholder="Department Manager"
+                className="br-xlg mb-2"
+                labelClassName="ml-2"
+                validationHandler={validationHandler}
+                error={errors["ManagerEmail"]}
+              />
+              {/* <Input
                 name="DepartmentManager"
                 label="Department Manager"
                 value={formData["DepartmentManager"]}
@@ -893,7 +387,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 labelClassName="ml-2"
                 validationHandler={validationHandler}
                 error={errors["DepartmentManager"]}
-              />
+              /> */}
               <Button
                 title="Submit"
                 loading={isLoading}
