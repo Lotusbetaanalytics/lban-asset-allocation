@@ -84,8 +84,8 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
         <Route path="/app/category/:id?" exact component={Category} />
         <Route path="/app/category/detail/:id?" exact component={CategoryDetail} />
 
+        <Route path="/app/request/manage" exact component={RequestManage} />
         <Route path="/app/request/:id?" exact component={Request} />
-        <Route path="/app/request/manage/all" exact component={RequestManage} />
         <Route path="/app/request/manage/pending" exact render={() => <RequestManage status="Pending" />} />
         <Route path="/app/request/manage/approved" exact render={() => <RequestManage status="Approved" />} />
         <Route path="/app/request/manage/declined" exact render={() => <RequestManage status="Declined" />} />
@@ -102,8 +102,8 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
         <Route path="/app/employee/landing" exact render={() => <Landing section = "employee" />} />
         <Route path="/app/employee/dashboard" exact render={() => <Dashboard section = "employee" />} />
 
+        <Route path="/app/employee/request/manage" exact render={() => <RequestManage section="employee" />} />
         <Route path="/app/employee/request/:id?" exact component={Request} />
-        <Route path="/app/employee/request/manage/all" exact render={() => <RequestManage section="employee" />} />
         <Route path="/app/employee/request/manage/pending" exact render={() => <RequestManage status="Pending" section="employee" />} />
         <Route path="/app/employee/request/manage/approved" exact render={() => <RequestManage status="Approved" section="employee" />} />
         <Route path="/app/employee/request/manage/declined" exact render={() => <RequestManage status="Declined" section="employee" />} />
@@ -120,8 +120,8 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
         <Route path="/app/hr/landing" exact render={() => <Landing section = "hr" />} />
         <Route path="/app/hr/dashboard" exact render={() => <Dashboard section = "hr" />} />
 
+        <Route path="/app/hr/request/manage" exact render={() => <RequestManage section="hr" />} />
         <Route path="/app/hr/request/:id?" exact component={Request} />
-        <Route path="/app/hr/request/manage/all" exact render={() => <RequestManage section="hr" />} />
         <Route path="/app/hr/request/manage/pending" exact render={() => <RequestManage status="Pending" section="hr" />} />
         <Route path="/app/hr/request/manage/approved" exact render={() => <RequestManage status="Approved" section="hr" />} />
         <Route path="/app/hr/request/manage/declined" exact render={() => <RequestManage status="Declined" section="hr" />} />
@@ -172,16 +172,16 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             {this.state.isOM && <Route path="/app/category/:id?" exact component={Category} />}
             {this.state.isOM && <Route path="/app/category/detail/:id?" exact component={CategoryDetail} />}
 
-            {this.state.isOM && <Route path="/app/om/manage" exact component={OfficeManagerManage} />}
-            {this.state.isOM && <Route path="/app/om/:id?" exact render={(props) => <OfficeManager context={this.props.context} />} />}
-            {this.state.isOM && <Route path="/app/om/detail/:id?" exact component={OfficeManagerDetail} />}
+            {this.state.isOM && <Route path="/app/settings/om/manage" exact component={OfficeManagerManage} />}
+            {this.state.isOM && <Route path="/app/settings/om/:id?" exact render={(props) => <OfficeManager context={this.props.context} />} />}
+            {this.state.isOM && <Route path="/app/settings/om/detail/:id?" exact component={OfficeManagerDetail} />}
 
-            {this.state.isOM && <Route path="/app/hr/manage" exact component={HRManage} />}
-            {this.state.isOM && <Route path="/app/hr/:id?" exact render={(props) => <HR context={this.props.context} />} />}
-            {this.state.isOM && <Route path="/app/hr/detail/:id?" exact component={HRDetail} />}
+            {this.state.isOM && <Route path="/app/settings/hr/manage" exact component={HRManage} />}
+            {this.state.isOM && <Route path="/app/settings/hr/:id?" exact render={(props) => <HR context={this.props.context} />} />}
+            {this.state.isOM && <Route path="/app/settings/hr/detail/:id?" exact component={HRDetail} />}
 
+            {this.state.isOM && <Route path="/app/request/manage" exact component={RequestManage} />}
             {this.state.isOM && <Route path="/app/request/:id?" exact component={Request} />}
-            {this.state.isOM && <Route path="/app/request/manage/all" exact component={RequestManage} />}
             {this.state.isOM && <Route path="/app/request/manage/pending" exact render={() => <RequestManage status="Pending" />} />}
             {this.state.isOM && <Route path="/app/request/manage/approved" exact render={() => <RequestManage status="Approved" />} />}
             {this.state.isOM && <Route path="/app/request/manage/declined" exact render={() => <RequestManage status="Declined" />} />}
@@ -189,11 +189,8 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             {/* </>} */}
 
             {/* {this.state.isEM && <> */}
-            {this.state.isEM && <Route path="/app/employee/landing" exact render={() => <Landing section = "employee" />} />}
-            {this.state.isEM && <Route path="/app/employee/dashboard" exact render={() => <Dashboard section = "employee" />} />}
-
-            {this.state.isEM && <Route path="/app/employee/request/:id?" exact component={Request} />}
-            {this.state.isEM && <Route path="/app/employee/request/manage/all" exact render={() => <RequestManage section="employee" />} />}
+            {this.state.isEM && <Route path="/app/employee/request/manage" exact render={() => <RequestManage section="employee" />} />}
+            {this.state.isEM && <Route path="/app/employee/request/:id?" exact render={() => <Request section="employee" />} />}
             {this.state.isEM && <Route path="/app/employee/request/manage/pending" exact render={() => <RequestManage status="Pending" section="employee" />} />}
             {this.state.isEM && <Route path="/app/employee/request/manage/approved" exact render={() => <RequestManage status="Approved" section="employee" />} />}
             {this.state.isEM && <Route path="/app/employee/request/manage/declined" exact render={() => <RequestManage status="Declined" section="employee" />} />}
@@ -201,8 +198,16 @@ export default class AssetAllocation extends React.Component<IAssetAllocationPro
             {/* </>} */}
 
             {/* {this.state.isHR && <> */}
-            {this.state.isHR && <Route path="/app/hr/request/:id?" exact component={Request} />}
-            {this.state.isHR && <Route path="/app/hr/request/manage/all" exact render={() => <RequestManage section="hr" />} />}
+            {this.state.isHR && <Route path="/app/hr/settings/om/manage" exact render={() => <OfficeManagerManage section="hr" />} />}
+            {this.state.isHR && <Route path="/app/hr/settings/om/:id?" exact render={(props) => <OfficeManager context={this.props.context} section="hr" />} />}
+            {this.state.isHR && <Route path="/app/hr/settings/om/detail/:id?" exact render={() => <OfficeManagerDetail section="hr" />} />}
+
+            {this.state.isHR && <Route path="/app/hr/settings/hr/manage" exact render={() => <HRManage section="hr" />} />}
+            {this.state.isHR && <Route path="/app/hr/settings/hr/:id?" exact render={(props) => <HR context={this.props.context} section="hr" />} />}
+            {this.state.isHR && <Route path="/app/hr/settings/hr/detail/:id?" exact render={() => <HRDetail section="hr" />} />}
+
+            {this.state.isHR && <Route path="/app/hr/request/manage" exact render={() => <RequestManage section="hr" />} />}
+            {this.state.isHR && <Route path="/app/hr/request/:id?" exact render={() => <Request section="hr" />} />}
             {this.state.isHR && <Route path="/app/hr/request/manage/pending" exact render={() => <RequestManage status="Pending" section="hr" />} />}
             {this.state.isHR && <Route path="/app/hr/request/manage/approved" exact render={() => <RequestManage status="Approved" section="hr" />} />}
             {this.state.isHR && <Route path="/app/hr/request/manage/declined" exact render={() => <RequestManage status="Declined" section="hr" />} />}

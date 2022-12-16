@@ -1,5 +1,5 @@
 import * as React from "react";
-import { HeaderBar, NavBar } from "../../containers";
+import { HeaderBar, LoadingSpinner, NavBar } from "../../containers";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import toast, { Toaster } from "react-hot-toast";
@@ -92,7 +92,7 @@ const Manage = ({status = undefined, section = ""}) => {
   //   })
   // }
 
-  if (isLoading || delIsLoading) return (<div>Loading...</div>)
+  if (isLoading || delIsLoading) return (<LoadingSpinner />)
   if (isError || delIsError) toast.error(`${error || delError}`);
 
   return (

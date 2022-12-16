@@ -20,9 +20,9 @@ const HeaderBar = ({title = "Welcome", hasBackButton = false}) => {
           <h1>{title}</h1>
         </div>
         <div className="header__info">
-          <div className="">
-            <img className='header__info__img br-auto' src={require("../../assets/img/pic2.png")} alt="user" />
-            {/* <img className='header__info__img br-auto' src={authUser.PictureUrl || require("../../assets/img/pic2.png")} alt="user" /> */}
+          <div className="header__info__img--container">
+            {/* <img className='header__info__img br-auto' src={require("../../assets/img/pic2.png")} alt="user" /> */}
+            <img className='header__info__img br-auto' src={authUser.PictureUrl || require("../../assets/img/pic2.png")} alt="user" />
           </div>
           <div className="header__info__text">
             <h4>{authUser.DisplayName}</h4>

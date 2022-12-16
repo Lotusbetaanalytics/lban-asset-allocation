@@ -9,7 +9,7 @@ import {
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar } from '../../containers';
+import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
 import splist from '../../hooks/splistHook';
 import { defaultPropValidation } from '../../../utils/componentUtils';
 import { fetchOptions } from '../../hooks/queryOptions';
@@ -67,7 +67,7 @@ const Category = ({section = ""}) => {
 
   // console.log({formData})
 
-  if (isLoading || isCategoryLoading) return (<div>Loading...</div>)
+  if (isLoading || isCategoryLoading) return (<LoadingSpinner />)
   if (isError) toast.error(`${error}`);
   if (id && isCategoryError) toast.error(`${categoryError}`)
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { HeaderBar, NavBar, Table } from "../../containers";
+import { HeaderBar, LoadingSpinner, NavBar, Table } from "../../containers";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   Button,
@@ -25,8 +25,8 @@ const Manage = ({section = ""}) => {
     { title: "Email", field: "Email", type: "string" as const },
   ];
 
-  const viewHandler = (id) => history.push(`${sectionUrl}hr/detail/${id}`)
-  const updateHandler = (id) => history.push(`${sectionUrl}hr/${id}`)
+  const viewHandler = (id) => history.push(`${sectionUrl}settings/hr/detail/${id}`)
+  const updateHandler = (id) => history.push(`${sectionUrl}settings/hr/${id}`)
   const removeHandler = (id) => mutate(id)
 
   // get hrManagers
@@ -51,7 +51,7 @@ const Manage = ({section = ""}) => {
 
   const data = hrManagers
 
-  if (isLoading || delIsLoading) return (<div>Loading...</div>)
+  if (isLoading || delIsLoading) return (<LoadingSpinner />)
   if (isError || delIsError) toast.error(`${error || delError}`);
 
   return (
@@ -65,7 +65,7 @@ const Manage = ({section = ""}) => {
           <Button
             title="Add HR Manager"
             type="button"
-            onClick={() => history.push(`${sectionUrl}hr`)}
+            onClick={() => history.push(`${sectionUrl}settings/hr`)}
             size="small"
             className="btn--purple br-xlg w-18"
           />

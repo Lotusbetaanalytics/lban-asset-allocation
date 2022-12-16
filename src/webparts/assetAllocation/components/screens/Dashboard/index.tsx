@@ -1,6 +1,6 @@
 import * as React from "react";
 import { defaultPropValidation } from "../../../utils/componentUtils";
-import { HeaderBar, NavBar } from "../../containers";
+import { HeaderBar, LoadingSpinner, NavBar } from "../../containers";
 import {
   FaClipboard,
   FaEllipsisH,
@@ -48,7 +48,7 @@ const Dashboard = ({section = ""}) => {
   const { isLoading: isAssetLoading, isFetching: isAssetFetching, data: assets = [], isError: isAssetError, error: assetError } = useQuery("fetch-assets", () => splist("Asset").fetchItems(), {...fetchOptions})
   // console.log(assets, isAssetLoading, isAssetFetching, isAssetError)
 
-  if (isLoading || isAssetLoading) return (<div>Loading...</div>)
+  if (isLoading || isAssetLoading) return (<LoadingSpinner />)
   if (isError || isAssetError || isAuthError) toast.error(`${error || assetError || authError}`);
 
   return (

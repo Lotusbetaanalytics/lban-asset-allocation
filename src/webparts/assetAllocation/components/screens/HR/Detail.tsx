@@ -2,7 +2,7 @@ import * as React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar, DetailItem } from "../../containers";
+import { HeaderBar, NavBar, DetailItem, LoadingSpinner } from "../../containers";
 import splist from "../../hooks/splistHook";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 import { fetchOptions } from "../../hooks/queryOptions";
@@ -12,7 +12,7 @@ const Detail = ({section = ""}) => {
 
   const { isLoading, isFetching, data: hrManager = {}, isError, error } = useQuery(["fetch-hr-manager", id], () => splist("HRManager").fetchItem(id), {...fetchOptions})
 
-  if (isLoading || isFetching) return (<div>Loading...</div>)
+  if (isLoading || isFetching) return (<LoadingSpinner />)
   if (isError) toast.error(`${error}`);
 
   return (

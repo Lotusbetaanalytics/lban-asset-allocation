@@ -13,7 +13,7 @@ import {
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar, DetailItem } from "../../containers";
+import { HeaderBar, NavBar, DetailItem, LoadingSpinner } from "../../containers";
 import splist from "../../hooks/splistHook";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 import { fetchOptions } from "../../hooks/queryOptions";
@@ -63,13 +63,15 @@ const Detail = ({status = undefined, section = ""}) => {
       console.log("Asset Updated Sucessfully: ", data)
       refetch()
       toast.success("Manager Deleted Sucessfully")
+      history.push(`${sectionUrl}request/detail/${id}`)
     },
     onError: (error) => {
       console.log("Error Updating Asset: ", error)
       toast.error("Error Deleting Manager")
     },
     onSettled: () => {
-      queryClient.invalidateQueries('fetch-assets');
+      queryClient.invalidateQueries(["fetch-request", id]);
+      // queryClient.invalidateQueries('fetch-assets');
     },
   })
 
@@ -240,7 +242,7 @@ const Detail = ({status = undefined, section = ""}) => {
   // console.log({section, HRApproved: request["IsHrApproved"], OMApproved: request["IsOfficeManagerApproved"], request})
   console.log({formData})
 
-  if (isLoading || isFetching) return (<div>Loading...</div>)
+  if (isLoading || isFetching) return (<LoadingSpinner />)
   if (isError) toast.error(`${error}`);
 
 
@@ -271,7 +273,8 @@ const Detail = ({status = undefined, section = ""}) => {
             <DetailItem heading={"Request Date"} body={request["Date"] || "Unavailable"} />
             <DetailItem heading={"Branch"} body={request["Branch"] || "Unavailable"} />
             <DetailItem heading={"Asset Category"} body={request["Category"] || "Unavailable"} />
-            <DetailItem heading={"Department Manager"} body={request["DepartmentManager"] || "Unavailable"} />
+            <DetailItem heading={"Department Manager Email"} body={request["Manager Email"] || "Unavailable"} />
+            {/* <DetailItem heading={"Department Manager"} body={request["DepartmentManager"] || "Unavailable"} /> */}
 {/* 
             {section !== "hr" && <DetailItem heading={"HR's Comment"} body={request["HrComment"] || "Unavailable"} />}
             {section !== "" && <DetailItem heading={"Office Manager's Comment"} body={request["OfficeManagerComment"] || "Unavailable"} />}

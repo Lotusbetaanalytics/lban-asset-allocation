@@ -11,7 +11,7 @@ import {
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar } from '../../containers';
+import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
 import { fetchDepartments } from '../../hooks/departmentHooks';
 import { goBack, handleSelectChange } from '../../../utils/formUtils';
 import splist from '../../hooks/splistHook';
@@ -95,7 +95,7 @@ const Asset = ({section = ""}) => {
 
   // console.log({formData})
 
-  if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || isAssetLoading) return (<div>Loading...</div>)
+  if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || isAssetLoading) return (<LoadingSpinner />)
   if (isError || isDepartmentError || isBranchError || isCategoryError) toast.error(`${error || departmentError || branchError || categoryError}`);
   if (id && isAssetError) toast.error(`${assetError}`)
 

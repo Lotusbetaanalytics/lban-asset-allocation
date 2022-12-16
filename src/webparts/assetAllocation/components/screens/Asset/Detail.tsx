@@ -12,7 +12,7 @@ import {
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar, DetailItem } from "../../containers";
+import { HeaderBar, NavBar, DetailItem, LoadingSpinner } from "../../containers";
 import splist from "../../hooks/splistHook";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 import { fetchOptions } from "../../hooks/queryOptions";
@@ -40,7 +40,7 @@ const Detail = ({status = undefined, section = ""}) => {
 
   const { isLoading, isFetching, data: asset = {}, isError, error } = useQuery(["fetch-asset", id], () => splist("Asset").fetchItem(id), {...fetchOptions})
 
-  if (isLoading || isFetching) return (<div>Loading...</div>)
+  if (isLoading || isFetching) return (<LoadingSpinner />)
   if (isError) toast.error(`${error}`);
 
 

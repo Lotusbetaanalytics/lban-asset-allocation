@@ -19,9 +19,11 @@ const NavBar = ({active = "home", section = ""}) => {
     <div className="nav text-center">
       <nav className="nav__list">
           <Link to={`${sectionUrl}dashboard`} className="">
-            {/* <img className='header__info__img br-auto' src={authUser.PictureUrl} alt="user" /> :  */}
-            <img className='nav__item--img br-auto' src={require("../../assets/img/pic2.png")} alt="user" />
-            {/* <img className='header__info__img br-auto' src={authUser.PictureUrl || require("../../assets/img/pic2.png")} alt="user" /> */}
+            <div className='nav__item__img--container br-auto'>
+              {/* <img className='header__info__img br-auto' src={authUser.PictureUrl} alt="user" /> :  */}
+              {/* <img className='nav__item__img br-auto' src={require("../../assets/img/pic2.png")} alt="user" /> */}
+              <img className='nav__item__img br-auto' src={authUser.PictureUrl || require("../../assets/img/pic2.png")} alt="user" />
+            </div>
           </Link>
           {links.map((instance, i) => {
             const styleClasses = `${instance.class == "logout" ? "nav__item--logout" : "nav__item--icon"} ${instance.class == active ? "nav__item--active" : ""}`

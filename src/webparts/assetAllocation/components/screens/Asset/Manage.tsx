@@ -1,5 +1,5 @@
 import * as React from "react";
-import { HeaderBar, NavBar, Table } from "../../containers";
+import { HeaderBar, LoadingSpinner, NavBar, Table } from "../../containers";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   Button,
@@ -60,7 +60,7 @@ const Manage = ({section = ""}) => {
 
   const data = assets
 
-  if (isLoading || delIsLoading) return (<div>Loading...</div>)
+  if (isLoading || delIsLoading) return (<LoadingSpinner />)
   if (isError || delIsError) toast.error(`${error || delError}`);
 
   return (

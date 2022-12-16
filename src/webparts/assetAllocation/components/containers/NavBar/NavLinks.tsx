@@ -38,7 +38,7 @@ export const NavLinks: any = section => {
   const settingLink = {
     name: "Settings",
     Icon: FaCog,
-    url: "/app/settings",
+    url: `/app/${section ? section + "/" : ""}settings`,
     class: "settings",
   }
   const logoutLink = {
@@ -60,7 +60,7 @@ export const NavLinks: any = section => {
     {
       name: "All Requests",
       Icon: FaClipboard,
-      url: `/app/${section ? section + "/" : ""}request/manage/all`,
+      url: `/app/${section ? section + "/" : ""}request/manage`,
       class: "all",
     },
     {

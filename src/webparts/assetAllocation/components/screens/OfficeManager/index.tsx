@@ -7,7 +7,7 @@ import {
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar } from '../../containers';
+import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
 import splist from '../../hooks/splistHook';
 import { defaultPropValidation } from '../../../utils/componentUtils';
 import { fetchOptions } from '../../hooks/queryOptions';
@@ -73,12 +73,12 @@ const OfficeManager = ({context, section = ""}) => {
   // const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
     mutate(formData, id)
-    history.push(`${sectionUrl}om/manage`)
+    history.push(`${sectionUrl}/settings/om/manage`)
   };
 
   // console.log({formData})
 
-  if (isLoading || isOMLoading) return (<div>Loading...</div>)
+  if (isLoading || isOMLoading) return (<LoadingSpinner />)
   if (isError) toast.error(`${error}`);
   if (id && isOMError) toast.error(`${OMError}`)
 

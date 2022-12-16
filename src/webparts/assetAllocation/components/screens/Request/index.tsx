@@ -12,7 +12,7 @@ import {
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar } from '../../containers';
+import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
 // import { createAssetRequest } from '../../hooks/requestHooks';
 import { fetchDepartments } from '../../hooks/departmentHooks';
 import { getDataIdAndTitle, getStaffById, getUserProfile } from '../../../utils/listUtils';
@@ -29,7 +29,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
   let filteredAssets = []
 
   const sectionUrl = `/app/${section ? section + "/" : ""}`
-  const titleText = id ? "Update Asset Request" : "Add Asset Request"
+  let titleText = id ? "Update Asset Request" : "Add Asset Request"
   // const departmentQuery = {"ManagerId": "ManagerId"}
 
   const [errors, setErrors] = React.useState({} as any);
@@ -216,7 +216,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
     // formData["DepartmentManager"] = undefined  // ? confirm this works
     // refetch()
     mutate(formData, id)
-    history.push(`${sectionUrl}request/manage/all`)
+    history.push(`${sectionUrl}request/manage`)
   };
 
   const handleCategoryChange = (name, value) => {
@@ -224,7 +224,9 @@ const AssetRequest = ({status = undefined, section = ""}) => {
     if (assets.length > 0) {filteredAssets = assets.filter(a => a.Category == value)}
   }
 
-  if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || (isRequestLoading && id)) return (<div>Loading...</div>)
+  if (id && section == "" && request["Status"] == "Approved") titleText = "Assign Asset"
+
+  if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || (isRequestLoading && id)) return (<LoadingSpinner />)
   if (isError || isDepartmentError || isBranchError || isCategoryError) toast.error(`${error || departmentError || branchError || categoryError}`);
   if (id && isRequestError) toast.error(`${requestError}`)
 
@@ -233,7 +235,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
       <NavBar active={status?.toLowerCase() || "all"} section={section} />
 
       <div className='container--info'>
-        <HeaderBar title='Asset ' hasBackButton={true} />
+        <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
         <div className='container--form py-6'>
@@ -252,6 +254,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 placeholder="Employee Name"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["Employee"]}
               />
@@ -264,6 +267,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 placeholder="Employee Email"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["EmployeeEmail"]}
               />
@@ -276,6 +280,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 placeholder="Employee Phone"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["EmployeePhone"]}
               />
@@ -288,6 +293,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 placeholder="Department"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["Department"]}
               />
@@ -303,6 +309,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 required={true}
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["Branch"]}
               />
@@ -319,6 +326,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 required={true}
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["Category"]}
               />
@@ -339,13 +347,14 @@ const AssetRequest = ({status = undefined, section = ""}) => {
               />}
               <Textarea
                 name="Description"
-                label="Asset Description"
+                label="Request Description"
                 value={formData["Description"]}
                 onChange={handleChange}
                 size="medium"
-                placeholder="Asset Description"
+                placeholder="Request Description"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["Description"]}
               />
@@ -359,6 +368,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 placeholder="Request Date"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["Date"]}
               />
@@ -372,6 +382,7 @@ const AssetRequest = ({status = undefined, section = ""}) => {
                 placeholder="Department Manager"
                 className="br-xlg mb-2"
                 labelClassName="ml-2"
+                disabled={section !== "employee"}
                 validationHandler={validationHandler}
                 error={errors["ManagerEmail"]}
               />

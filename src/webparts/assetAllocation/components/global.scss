@@ -166,12 +166,21 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
             padding: 1rem 0 .5rem 0;
         }
 
-        &--img {
+        &__img {
+            
+            &--container {
+                width: 58px;
+                height: 58px;
+                // padding: .5rem;
+                border: 1px solid $lban-purple;
+            }
+
             width: 56px;
             height: 56px;
             padding: .5rem;
-            border: 1px solid $lban-purple;
+            // border: 1px solid $lban-purple;
         }
+
 
         &--logout {
             @extend .nav__item--icon;
@@ -204,9 +213,16 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
         display: flex;
 
         &__img {
+
+            &--container {
+                width: 40px;
+                margin-right: 1rem;
+            }
+
             width: 40px;
-            margin-right: 1rem;
+            // margin-right: 1rem;
         }
+        
         &__text {
             align-self: center;
             // color: orange;
@@ -373,6 +389,13 @@ $large-shadow: 0 6px 8px 0 rgba(255, 255, 255, 0.3), 0 8px 20px 0 rgba(255, 255,
             color: black;
         }
     }
+}
+
+.loading {
+    display: grid;
+    height: 100vh;
+    align-items: center;
+    justify-items: center;
 }
 
 .react-calendar__tile--active {
