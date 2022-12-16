@@ -4,7 +4,6 @@ import MaterialTable from "material-table";
 // import { useHistory } from "react-router-dom";
 import { displayIcon } from "../../hooks/icon";
 
-
 const RequestTable = ({
   title = "",
   columns = [],
@@ -13,12 +12,11 @@ const RequestTable = ({
   viewHandler = undefined,
   updateHandler = undefined,
   removeHandler = undefined,
-  modal = undefined,  // function that returns the modal
+  modal = undefined, // function that returns the modal
   filter = {},
   hasActions = true,
-  actionsType = "view",  // type of actions allowed. Can be: "view", "modify", "all"
+  actionsType = "view", // type of actions allowed. Can be: "view", "modify", "all"
 }) => {
-
   if (!data || data.length < 1) data = placeholderData;
 
   const editDeleteAction = [
@@ -50,7 +48,7 @@ const RequestTable = ({
       onClick: (event, rowData) => viewHandler(rowData.ID),
     },
   ];
-  const viewEditDeleteAction = [...viewAction, ...editDeleteAction]
+  const viewEditDeleteAction = [...viewAction, ...editDeleteAction];
 
   let relevantAction = undefined;
   if (hasActions && actionsType == "view") relevantAction = viewAction;
@@ -79,9 +77,10 @@ const RequestTable = ({
             backgroundColor: "#EEE",
             fontSize: "16px",
           },
-          rowStyle: rowData => ({
-            backgroundColor: (((rowData.tableData.id + 1) % 2) == 0) ? '#FAF8F8' : '#FFF'
-          })
+          rowStyle: (rowData) => ({
+            backgroundColor:
+              (rowData.tableData.id + 1) % 2 == 0 ? "#FAF8F8" : "#FFF",
+          }),
         }}
         style={{
           boxShadow: "none",
@@ -92,9 +91,9 @@ const RequestTable = ({
         // icons={{Add: () => 'Add Row'}}
         actions={relevantAction}
         components={{
-          Action: props => (
+          Action: (props) => (
             <button
-              onClick={event => props.action.onClick(event, props.data)}
+              onClick={(event) => props.action.onClick(event, props.data)}
               className={`btn--form-action--yellow mx-2 mr-1 ${props.action.color}`}
             >
               {displayIcon(props.action.tooltip)}

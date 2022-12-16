@@ -1,90 +1,90 @@
-import * as React from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useHistory, useParams } from 'react-router-dom'
-import {
-  Input,
-  Button,
-  FormGroup,
-  Textarea,
-} from "mtforms";
+import * as React from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useHistory, useParams } from "react-router-dom";
+import { Input, Button, FormGroup, Textarea } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
-import splist from '../../hooks/splistHook';
-import { defaultPropValidation } from '../../../utils/componentUtils';
-import { fetchOptions } from '../../hooks/queryOptions';
+import { HeaderBar, LoadingSpinner, NavBar } from "../../containers";
+import splist from "../../hooks/splistHook";
+import { defaultPropValidation } from "../../../utils/componentUtils";
+import { fetchOptions } from "../../hooks/queryOptions";
 
-const Category = ({section = ""}) => {
-  const history = useHistory()
-  const { id } = useParams()
+const Category = ({ section = "" }) => {
+  const history = useHistory();
+  const { id } = useParams();
   const queryClient = useQueryClient();
 
-  const sectionUrl = `/app/${section ? section + "/" : ""}`
-  const titleText = id ? "Update Category" : "Add Category"
+  const sectionUrl = `/app/${section ? section + "/" : ""}`;
+  const titleText = id ? "Update Category" : "Add Category";
 
   const [errors, setErrors] = React.useState({} as any);
-  const [formData, setFormData] = React.useState({})
+  const [formData, setFormData] = React.useState({});
 
   const actionFunction = (formData, id = undefined) => {
-    if (id) return splist("Category").updateItem(id, formData)
-    return splist("Category").createItem(formData)
-  }
+    if (id) return splist("Category").updateItem(id, formData);
+    return splist("Category").createItem(formData);
+  };
 
   // get category from sp list using id
   const {
     isLoading: isCategoryLoading,
     data: category = {},
     isError: isCategoryError,
-    error: categoryError ,
+    error: categoryError,
   } = useQuery(["fetch-category", id], () => splist("Category").fetchItem(id), {
     ...fetchOptions,
-    onSuccess: (data) => setFormData({...data}),
+    onSuccess: (data) => setFormData({ ...data }),
     // onError: (error) => console.log("error getting category using id: ", error),
-  })
+  });
   // console.log({isCategoryLoading, category})
 
   // update or create category
-  const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
-    onSuccess: data => {
-      console.log("Category Created Sucessfully: ", data)
-      toast.success("Category Created Sucessfully")
-    },
-    onError: (error) => {
-      console.log("Error Creating Category: ", error)
-      toast.error("Error Creating Category")
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('fetch-categories');
-    },
-  })
+  const { data, isLoading, isError, error, mutate } = useMutation(
+    actionFunction,
+    {
+      onSuccess: (data) => {
+        console.log("Category Created Sucessfully: ", data);
+        toast.success("Category Created Sucessfully");
+      },
+      onError: (error) => {
+        console.log("Error Creating Category: ", error);
+        toast.error("Error Creating Category");
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries("fetch-categories");
+      },
+    }
+  );
 
-  const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
-  const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
+  const handleChange = (name, value) =>
+    setFormData({ ...formData, [name]: value });
+  const validationHandler = (name, error) =>
+    setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
-    mutate(formData, id)
-    history.push(`${sectionUrl}category/manage`)
+    mutate(formData, id);
+    history.push(`${sectionUrl}category/manage`);
   };
 
   // console.log({formData})
 
-  if (isLoading || isCategoryLoading) return (<LoadingSpinner />)
+  if (isLoading || isCategoryLoading) return <LoadingSpinner />;
   if (isError) toast.error(`${error}`);
-  if (id && isCategoryError) toast.error(`${categoryError}`)
+  if (id && isCategoryError) toast.error(`${categoryError}`);
 
   return (
-    <div className='background container'>
-      <NavBar active='settings' section={section} />
+    <div className="background container">
+      <NavBar active="settings" section={section} />
 
-      <div className='container--info'>
+      <div className="container--info">
         <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
-        <div className='container--form py-6'>
+        <div className="container--form py-6">
           <FormGroup
             onSubmit={submitHandler}
             validation={formData}
             errors={""}
-            setErrors={""} 
+            setErrors={""}
           >
             <Input
               name="Title"
@@ -130,9 +130,9 @@ const Category = ({section = ""}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-Category.propTypes = defaultPropValidation
+Category.propTypes = defaultPropValidation;
 
-export default Category
+export default Category;

@@ -1,22 +1,20 @@
 import * as React from "react";
 import { HeaderBar, LoadingSpinner, NavBar, Table } from "../../containers";
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {
-  Button,
-} from "mtforms";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { Button } from "mtforms";
 import "mtforms/dist/index.css";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import splist from "../../hooks/splistHook";
 import { fetchOptions } from "../../hooks/queryOptions";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 
-const Manage = ({section = ""}) => {
-  const history = useHistory()
+const Manage = ({ section = "" }) => {
+  const history = useHistory();
   const queryClient = useQueryClient();
-  
-  const titleText = `Office Managers`
-  const sectionUrl = `/app/${section ? section + "/" : ""}`
+
+  const titleText = `Office Managers`;
+  const sectionUrl = `/app/${section ? section + "/" : ""}`;
 
   // type IType = "string" | "boolean" | "numeric" | "date" | "datetime" | "time" | "currency";
   // const string: IType = "string";
@@ -25,40 +23,55 @@ const Manage = ({section = ""}) => {
     { title: "Email", field: "Email", type: "string" as const },
   ];
 
-  const viewHandler = (id) => history.push(`${sectionUrl}settings/om/detail/${id}`)
-  const updateHandler = (id) => history.push(`${sectionUrl}settings/om/${id}`)
-  const removeHandler = (id) => mutate(id)
+  const viewHandler = (id) =>
+    history.push(`${sectionUrl}settings/om/detail/${id}`);
+  const updateHandler = (id) => history.push(`${sectionUrl}settings/om/${id}`);
+  const removeHandler = (id) => mutate(id);
 
   // get officeManagers
-  const { isLoading, isFetching, data: officeManagers = [], isError, error } = useQuery("fetch-office-managers", splist("OfficeManager").fetchItems, {...fetchOptions})
+  const {
+    isLoading,
+    isFetching,
+    data: officeManagers = [],
+    isError,
+    error,
+  } = useQuery("fetch-office-managers", splist("OfficeManager").fetchItems, {
+    ...fetchOptions,
+  });
   // console.log("get request", officeManagers, isLoading, isFetching, isError)
 
   // delete officeManager
-  const { data: delData, isLoading: delIsLoading, isError: delIsError, error: delError, mutate } = useMutation(splist("OfficeManager").deleteItem, {
-    onSuccess: data => {
-      console.log("Office Manager Deleted Sucessfully: ", data)
-      toast.success("Office Manager Deleted Sucessfully")
+  const {
+    data: delData,
+    isLoading: delIsLoading,
+    isError: delIsError,
+    error: delError,
+    mutate,
+  } = useMutation(splist("OfficeManager").deleteItem, {
+    onSuccess: (data) => {
+      console.log("Office Manager Deleted Sucessfully: ", data);
+      toast.success("Office Manager Deleted Sucessfully");
     },
     onError: (error) => {
-      console.log("Error Deleting Office Manager: ", error)
-      toast.error("Error Deleting Office Manager")
+      console.log("Error Deleting Office Manager: ", error);
+      toast.error("Error Deleting Office Manager");
     },
     onSettled: () => {
-      queryClient.invalidateQueries('fetch-office-managers');
+      queryClient.invalidateQueries("fetch-office-managers");
     },
-  })
+  });
   // console.log("delete request", delData, delIsLoading, delIsError)
 
-  const data = officeManagers
+  const data = officeManagers;
 
-  if (isLoading || delIsLoading) return (<LoadingSpinner />)
+  if (isLoading || delIsLoading) return <LoadingSpinner />;
   if (isError || delIsError) toast.error(`${error || delError}`);
 
   return (
-    <div className='background container'>
-      <NavBar active='settings' section={section} />
+    <div className="background container">
+      <NavBar active="settings" section={section} />
 
-      <div className='container--info'>
+      <div className="container--info">
         <HeaderBar title={titleText} />
         <Toaster position="bottom-center" reverseOrder={false} />
         <div className="container--info">
@@ -70,14 +83,21 @@ const Manage = ({section = ""}) => {
             className="btn--purple br-xlg w-18"
           />
         </div>
-        <div className='container--form'>
-          <Table columns={columns} data={data} viewHandler={viewHandler} updateHandler={updateHandler} removeHandler={removeHandler} actionsType="all" />
+        <div className="container--form">
+          <Table
+            columns={columns}
+            data={data}
+            viewHandler={viewHandler}
+            updateHandler={updateHandler}
+            removeHandler={removeHandler}
+            actionsType="all"
+          />
         </div>
       </div>
     </div>
   );
 };
 
-Manage.propTypes = defaultPropValidation
+Manage.propTypes = defaultPropValidation;
 
 export default Manage;

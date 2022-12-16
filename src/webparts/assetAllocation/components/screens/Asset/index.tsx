@@ -1,124 +1,142 @@
-import * as React from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useHistory, useParams } from 'react-router-dom'
-import {
-  Input,
-  Select,
-  Button,
-  DateInput,
-  FormGroup,
-  Textarea,
-} from "mtforms";
+import * as React from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useHistory, useParams } from "react-router-dom";
+import { Input, Select, Button, DateInput, FormGroup, Textarea } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
-import { fetchDepartments } from '../../hooks/departmentHooks';
-import { goBack, handleSelectChange } from '../../../utils/formUtils';
-import splist from '../../hooks/splistHook';
-import { defaultPropValidation } from '../../../utils/componentUtils';
-import { fetchOptions } from '../../hooks/queryOptions';
+import { HeaderBar, LoadingSpinner, NavBar } from "../../containers";
+import { fetchDepartments } from "../../hooks/departmentHooks";
+import { goBack, handleSelectChange } from "../../../utils/formUtils";
+import splist from "../../hooks/splistHook";
+import { defaultPropValidation } from "../../../utils/componentUtils";
+import { fetchOptions } from "../../hooks/queryOptions";
 
-const Asset = ({section = ""}) => {
-  const history = useHistory()
-  const { id } = useParams()
+const Asset = ({ section = "" }) => {
+  const history = useHistory();
+  const { id } = useParams();
   const queryClient = useQueryClient();
 
-  const sectionUrl = `/app/${section ? section + "/" : ""}`
-  const titleText = id ? "Update Asset" : "Add Asset"
+  const sectionUrl = `/app/${section ? section + "/" : ""}`;
+  const titleText = id ? "Update Asset" : "Add Asset";
 
   const [errors, setErrors] = React.useState({} as any);
-  const [formData, setFormData] = React.useState({})
+  const [formData, setFormData] = React.useState({});
   // const [pageData, setpageData] = React.useState({})
 
   const actionFunction = (formData, id = undefined) => {
-    if (id) return splist("Asset").updateItem(id, formData)
-    return splist("Asset").createItem(formData)
-  }
+    if (id) return splist("Asset").updateItem(id, formData);
+    return splist("Asset").createItem(formData);
+  };
 
   // get departments from sp list
-  const { 
+  const {
     isLoading: isDepartmentLoading,
     data: departments = [],
     isError: isDepartmentError,
-    error: departmentError 
-  } = useQuery("fetch-departments", fetchDepartments, {...fetchOptions})
+    error: departmentError,
+  } = useQuery("fetch-departments", fetchDepartments, { ...fetchOptions });
 
   // get branches from sp list
-  const { 
+  const {
     isLoading: isBranchLoading,
     data: branches = [],
     isError: isBranchError,
-    error: branchError 
-  } = useQuery("fetch-branches", () => splist("Branch").fetchItems(), {...fetchOptions})
+    error: branchError,
+  } = useQuery("fetch-branches", () => splist("Branch").fetchItems(), {
+    ...fetchOptions,
+  });
 
   // get categories from sp list
-  const { 
+  const {
     isLoading: isCategoryLoading,
     data: categories = [],
     isError: isCategoryError,
     error: categoryError,
-  } = useQuery("fetch-categories", () => splist("Category").fetchItems(), {...fetchOptions})
+  } = useQuery("fetch-categories", () => splist("Category").fetchItems(), {
+    ...fetchOptions,
+  });
 
   // get asset from sp list using id
   const {
     isLoading: isAssetLoading,
     data: asset = {},
     isError: isAssetError,
-    error: assetError ,
+    error: assetError,
   } = useQuery(["fetch-asset", id], () => splist("Asset").fetchItem(id), {
     ...fetchOptions,
-    onSuccess: (data) => setFormData({...data}),
+    onSuccess: (data) => setFormData({ ...data }),
     // onError: (error) => console.log("error getting asset using id: ", error),
-  })
-  console.log({isAssetLoading, asset})
+  });
+  console.log({ isAssetLoading, asset });
 
-  const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
-    onSuccess: data => {
-      console.log("Asset Created Sucessfully: ", data)
-      toast.success("Asset Created Sucessfully")
-    },
-    onError: (error) => {
-      console.log("Error Creating Asset: ", error)
-      toast.error("Error Creating Asset")
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('fetch-assets');
-    },
-  })
+  const { data, isLoading, isError, error, mutate } = useMutation(
+    actionFunction,
+    {
+      onSuccess: (data) => {
+        console.log("Asset Created Sucessfully: ", data);
+        toast.success("Asset Created Sucessfully");
+      },
+      onError: (error) => {
+        console.log("Error Creating Asset: ", error);
+        toast.error("Error Creating Asset");
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries("fetch-assets");
+      },
+    }
+  );
 
-  const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
-  const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
+  const handleChange = (name, value) =>
+    setFormData({ ...formData, [name]: value });
+  const validationHandler = (name, error) =>
+    setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
-    mutate(formData, id)
-    history.push(`${sectionUrl}asset/manage`)
+    mutate(formData, id);
+    history.push(`${sectionUrl}asset/manage`);
   };
 
   // console.log({formData})
 
-  if (isLoading || isDepartmentLoading || isBranchLoading || isCategoryLoading || isAssetLoading) return (<LoadingSpinner />)
-  if (isError || isDepartmentError || isBranchError || isCategoryError) toast.error(`${error || departmentError || branchError || categoryError}`);
-  if (id && isAssetError) toast.error(`${assetError}`)
+  if (
+    isLoading ||
+    isDepartmentLoading ||
+    isBranchLoading ||
+    isCategoryLoading ||
+    isAssetLoading
+  )
+    return <LoadingSpinner />;
+  if (isError || isDepartmentError || isBranchError || isCategoryError)
+    toast.error(`${error || departmentError || branchError || categoryError}`);
+  if (id && isAssetError) toast.error(`${assetError}`);
 
   return (
-    <div className='background container'>
-      <NavBar active='asset' section={section} />
+    <div className="background container">
+      <NavBar active="asset" section={section} />
 
-      <div className='container--info'>
+      <div className="container--info">
         <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
-        <div className='container--form py-6'>
+        <div className="container--form py-6">
           <FormGroup
             onSubmit={submitHandler}
             validation={formData}
             errors={""}
-            setErrors={""} 
+            setErrors={""}
           >
             <Select
               name="Category"
               label="Asset Category"
               value={formData["Category"]}
-              onChange={(name, value) => handleSelectChange(name, value, categories, formData, setFormData)}
+              onChange={(name, value) =>
+                handleSelectChange(
+                  name,
+                  value,
+                  categories,
+                  formData,
+                  setFormData
+                )
+              }
               data={categories}
               filter="Title"
               // filterValue="ID"
@@ -169,7 +187,9 @@ const Asset = ({section = ""}) => {
               name="Branch"
               label="Branch"
               value={formData["Branch"]}
-              onChange={(name, value) => handleSelectChange(name, value, branches, formData, setFormData)}
+              onChange={(name, value) =>
+                handleSelectChange(name, value, branches, formData, setFormData)
+              }
               data={branches}
               filter="Title"
               // filterValue="ID"
@@ -212,9 +232,9 @@ const Asset = ({section = ""}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-Asset.propTypes = defaultPropValidation
+Asset.propTypes = defaultPropValidation;
 
-export default Asset
+export default Asset;

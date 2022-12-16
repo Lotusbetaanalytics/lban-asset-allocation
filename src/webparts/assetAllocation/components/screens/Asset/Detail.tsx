@@ -12,12 +12,17 @@ import {
 } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, NavBar, DetailItem, LoadingSpinner } from "../../containers";
+import {
+  HeaderBar,
+  NavBar,
+  DetailItem,
+  LoadingSpinner,
+} from "../../containers";
 import splist from "../../hooks/splistHook";
 import { defaultPropValidation } from "../../../utils/componentUtils";
 import { fetchOptions } from "../../hooks/queryOptions";
 
-const Detail = ({status = undefined, section = ""}) => {
+const Detail = ({ status = undefined, section = "" }) => {
   const { id } = useParams();
   const history = useHistory();
 
@@ -38,21 +43,28 @@ const Detail = ({status = undefined, section = ""}) => {
   // }
   // const goBack = () => history.goBack()
 
-  const { isLoading, isFetching, data: asset = {}, isError, error } = useQuery(["fetch-asset", id], () => splist("Asset").fetchItem(id), {...fetchOptions})
+  const {
+    isLoading,
+    isFetching,
+    data: asset = {},
+    isError,
+    error,
+  } = useQuery(["fetch-asset", id], () => splist("Asset").fetchItem(id), {
+    ...fetchOptions,
+  });
 
-  if (isLoading || isFetching) return (<LoadingSpinner />)
+  if (isLoading || isFetching) return <LoadingSpinner />;
   if (isError) toast.error(`${error}`);
 
-
   return (
-    <div className='background container'>
-      <NavBar active='dashboard' section={section} />
+    <div className="background container">
+      <NavBar active="dashboard" section={section} />
 
-      <div className='container--info'>
-        <HeaderBar title='Asset Detail' hasBackButton={true} />
+      <div className="container--info">
+        <HeaderBar title="Asset Detail" hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
-        <div className='container--form'>
+        <div className="container--form">
           {/* <Button
             title="Back"
             type="button"
@@ -63,12 +75,30 @@ const Detail = ({status = undefined, section = ""}) => {
           /> */}
 
           <div className="container--details">
-            <DetailItem heading={"Asset Category"} body={asset["Category"] || "Unavailable"} />
-            <DetailItem heading={"Asset Name"} body={asset["Name"] || "Unavailable"} />
-            <DetailItem heading={"Serial Number"} body={asset["SerialNumber"] || "Unavailable"} />
-            <DetailItem heading={"Asset Description"} body={asset["Description"] || "Unavailable"} />
-            <DetailItem heading={"Branch"} body={asset["Branch"] || "Unavailable"} />
-            <DetailItem heading={"Request Date"} body={asset["Date"] || "Unavailable"} />
+            <DetailItem
+              heading={"Asset Category"}
+              body={asset["Category"] || "Unavailable"}
+            />
+            <DetailItem
+              heading={"Asset Name"}
+              body={asset["Name"] || "Unavailable"}
+            />
+            <DetailItem
+              heading={"Serial Number"}
+              body={asset["SerialNumber"] || "Unavailable"}
+            />
+            <DetailItem
+              heading={"Asset Description"}
+              body={asset["Description"] || "Unavailable"}
+            />
+            <DetailItem
+              heading={"Branch"}
+              body={asset["Branch"] || "Unavailable"}
+            />
+            <DetailItem
+              heading={"Request Date"}
+              body={asset["Date"] || "Unavailable"}
+            />
           </div>
         </div>
       </div>
@@ -76,6 +106,6 @@ const Detail = ({status = undefined, section = ""}) => {
   );
 };
 
-Detail.propTypes = defaultPropValidation
+Detail.propTypes = defaultPropValidation;
 
 export default Detail;

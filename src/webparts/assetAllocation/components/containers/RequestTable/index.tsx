@@ -14,8 +14,14 @@ const RequestTable = ({
   hasActions = true,
   actionsType = "view",
 }) => {
-  
-  type IType = "string" | "boolean" | "numeric" | "date" | "datetime" | "time" | "currency";
+  type IType =
+    | "string"
+    | "boolean"
+    | "numeric"
+    | "date"
+    | "datetime"
+    | "time"
+    | "currency";
   const string: IType = "string";
   const [columns, setColumns] = React.useState([
     { title: "Name", field: "Employee", type: "string" as const },
@@ -83,7 +89,7 @@ const RequestTable = ({
       {/* RequestTable */}
 
       <MaterialTable
-        title=''
+        title=""
         columns={columns}
         data={data}
         options={{
@@ -100,9 +106,10 @@ const RequestTable = ({
             backgroundColor: "#EEE",
             fontSize: "16px",
           },
-          rowStyle: rowData => ({
-            backgroundColor: (((rowData.tableData.id + 1) % 2) == 0) ? '#FAF8F8' : '#FFF'
-          })
+          rowStyle: (rowData) => ({
+            backgroundColor:
+              (rowData.tableData.id + 1) % 2 == 0 ? "#FAF8F8" : "#FFF",
+          }),
         }}
         style={{
           boxShadow: "none",
@@ -113,9 +120,9 @@ const RequestTable = ({
         // icons={{Add: () => 'Add Row'}}
         actions={relevantAction}
         components={{
-          Action: props => (
+          Action: (props) => (
             <button
-              onClick={event => props.action.onClick(event, props.data)}
+              onClick={(event) => props.action.onClick(event, props.data)}
               className={`btn--form-action--yellow mx-2 mr-1 ${props.action.color}`}
             >
               {displayIcon(props.action.tooltip)}

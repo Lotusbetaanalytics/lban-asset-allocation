@@ -20,34 +20,32 @@ import {
   FaCog,
 } from "react-icons/fa";
 
-
-export const NavLinks: any = section => {
-
+export const NavLinks: any = (section) => {
   const assetLink = {
     name: "Assets",
     Icon: FaLayerGroup,
     url: "/app/asset/manage",
     class: "asset",
-  }
+  };
   const switchLink = {
     name: "Switch",
     Icon: FaUsersCog,
     url: "/app/employee/dashboard",
     class: "employee",
-  }
+  };
   const settingLink = {
     name: "Settings",
     Icon: FaCog,
     url: `/app/${section ? section + "/" : ""}settings`,
     class: "settings",
-  }
+  };
   const logoutLink = {
     name: "Logout",
     // Icon: FaArrowAltCircleRight,
     Icon: FaArrowCircleRight,
     url: "/",
     class: "logout",
-  }
+  };
 
   const links = [
     {
@@ -100,12 +98,12 @@ export const NavLinks: any = section => {
     //   url: "/app/logout",
     //   class: "logout",
     // },
-  ]
+  ];
 
-  if (section == "") links.push(assetLink)
-  if (section != "employee") links.push(switchLink)
-  if (section != "employee") links.push(settingLink)
-  links.push(logoutLink)
+  if (section == "") links.push(assetLink);
+  if (section != "employee") links.push(switchLink);
+  if (section != "employee") links.push(settingLink);
+  links.push(logoutLink);
 
-  return links
+  return links;
 };

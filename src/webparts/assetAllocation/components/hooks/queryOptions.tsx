@@ -4,4 +4,4 @@ export const fetchOptions = {
   // refetchInterval: 500000,
   refetchOnMount: false,
   refetchOnWindowFocus: false,
-}
+};

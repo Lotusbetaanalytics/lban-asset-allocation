@@ -1,89 +1,89 @@
-import * as React from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useHistory, useParams } from 'react-router-dom'
-import {
-  Input,
-  Button,
-  FormGroup,
-  Textarea,
-} from "mtforms";
+import * as React from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useHistory, useParams } from "react-router-dom";
+import { Input, Button, FormGroup, Textarea } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
-import splist from '../../hooks/splistHook';
-import { defaultPropValidation } from '../../../utils/componentUtils';
-import { fetchOptions } from '../../hooks/queryOptions';
+import { HeaderBar, LoadingSpinner, NavBar } from "../../containers";
+import splist from "../../hooks/splistHook";
+import { defaultPropValidation } from "../../../utils/componentUtils";
+import { fetchOptions } from "../../hooks/queryOptions";
 
-const Branch = ({section = ""}) => {
-  const history = useHistory()
-  const { id } = useParams()
+const Branch = ({ section = "" }) => {
+  const history = useHistory();
+  const { id } = useParams();
   const queryClient = useQueryClient();
 
-  const sectionUrl = `/app/${section ? section + "/" : ""}`
-  const titleText = id ? "Update Branch" : "Add Branch"
+  const sectionUrl = `/app/${section ? section + "/" : ""}`;
+  const titleText = id ? "Update Branch" : "Add Branch";
 
   const [errors, setErrors] = React.useState({} as any);
-  const [formData, setFormData] = React.useState({})
+  const [formData, setFormData] = React.useState({});
 
   const actionFunction = (formData, id = undefined) => {
-    if (id) return splist("Branch").updateItem(id, formData)
-    return splist("Branch").createItem(formData)
-  }
+    if (id) return splist("Branch").updateItem(id, formData);
+    return splist("Branch").createItem(formData);
+  };
 
   // get branch from sp list using id
   const {
     isLoading: isBranchLoading,
     data: branch = {},
     isError: isBranchError,
-    error: branchError ,
+    error: branchError,
   } = useQuery(["fetch-branch", id], () => splist("Branch").fetchItem(id), {
     ...fetchOptions,
-    onSuccess: (data) => setFormData({...data}),
+    onSuccess: (data) => setFormData({ ...data }),
     onError: (error) => console.log("error getting branch using id: ", error),
-  })
+  });
   // console.log({isBranchLoading, branch})
 
-  const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
-    onSuccess: data => {
-      console.log("Branch Created Sucessfully: ", data)
-      toast.success("Branch Created Sucessfully")
-    },
-    onError: (error) => {
-      console.log("Error Creating Branch: ", error)
-      toast.error("Error Creating Branch")
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('fetch-branches');
-    },
-  })
+  const { data, isLoading, isError, error, mutate } = useMutation(
+    actionFunction,
+    {
+      onSuccess: (data) => {
+        console.log("Branch Created Sucessfully: ", data);
+        toast.success("Branch Created Sucessfully");
+      },
+      onError: (error) => {
+        console.log("Error Creating Branch: ", error);
+        toast.error("Error Creating Branch");
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries("fetch-branches");
+      },
+    }
+  );
 
-  const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
-  const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
+  const handleChange = (name, value) =>
+    setFormData({ ...formData, [name]: value });
+  const validationHandler = (name, error) =>
+    setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
-    mutate(formData, id)
-    history.push(`${sectionUrl}branch/manage`)
+    mutate(formData, id);
+    history.push(`${sectionUrl}branch/manage`);
   };
 
   // console.log({formData})
 
-  if (isLoading || isBranchLoading) return (<LoadingSpinner />)
+  if (isLoading || isBranchLoading) return <LoadingSpinner />;
   if (isError) toast.error(`${error}`);
-  if (id && isBranchError) toast.error(`${branchError}`)
+  if (id && isBranchError) toast.error(`${branchError}`);
 
   return (
-    <div className='background container'>
-      <NavBar active='settings' section={section} />
+    <div className="background container">
+      <NavBar active="settings" section={section} />
 
-      <div className='container--info'>
+      <div className="container--info">
         <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
-        <div className='container--form py-6'>
+        <div className="container--form py-6">
           <FormGroup
             onSubmit={submitHandler}
             validation={formData}
             errors={""}
-            setErrors={""} 
+            setErrors={""}
           >
             <Input
               name="Title"
@@ -141,9 +141,9 @@ const Branch = ({section = ""}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-Branch.propTypes = defaultPropValidation
+Branch.propTypes = defaultPropValidation;
 
-export default Branch
+export default Branch;

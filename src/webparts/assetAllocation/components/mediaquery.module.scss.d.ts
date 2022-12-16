@@ -5,13 +5,13 @@
 /* eslint-disable */
 
 interface CssExports {
-  'Container': string;
-  'imgContainer': string;
-  'imgContainer2': string;
-  'maincontainer': string;
-  'portal': string;
-  'text': string;
-  'textContainer': string;
+  Container: string;
+  imgContainer: string;
+  imgContainer2: string;
+  maincontainer: string;
+  portal: string;
+  text: string;
+  textContainer: string;
 }
 const cssExports: CssExports;
 export default cssExports;

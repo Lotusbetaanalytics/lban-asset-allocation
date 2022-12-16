@@ -1,63 +1,66 @@
-import * as React from 'react'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { useHistory, useParams } from 'react-router-dom'
-import {
-  Button,
-  FormGroup,
-} from "mtforms";
+import * as React from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useHistory, useParams } from "react-router-dom";
+import { Button, FormGroup } from "mtforms";
 import "mtforms/dist/index.css";
 import toast, { Toaster } from "react-hot-toast";
-import { HeaderBar, LoadingSpinner, NavBar } from '../../containers';
-import splist from '../../hooks/splistHook';
-import { defaultPropValidation } from '../../../utils/componentUtils';
-import { fetchOptions } from '../../hooks/queryOptions';
+import { HeaderBar, LoadingSpinner, NavBar } from "../../containers";
+import splist from "../../hooks/splistHook";
+import { defaultPropValidation } from "../../../utils/componentUtils";
+import { fetchOptions } from "../../hooks/queryOptions";
 import {
   PeoplePicker,
   PrincipalType,
 } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 
-const OfficeManager = ({context, section = ""}) => {
-  const history = useHistory()
-  const { id } = useParams()
+const OfficeManager = ({ context, section = "" }) => {
+  const history = useHistory();
+  const { id } = useParams();
   const queryClient = useQueryClient();
 
-  const sectionUrl = `/app/${section ? section + "/" : ""}`
-  const titleText = id ? "Update Office Manager" : "Add Office Manager"
+  const sectionUrl = `/app/${section ? section + "/" : ""}`;
+  const titleText = id ? "Update Office Manager" : "Add Office Manager";
 
-
-  const [formData, setFormData] = React.useState({})
+  const [formData, setFormData] = React.useState({});
 
   const actionFunction = (formData, id = undefined) => {
-    if (id) return splist("OfficeManager").updateItem(id, formData)
-    return splist("OfficeManager").createItem(formData)
-  }
+    if (id) return splist("OfficeManager").updateItem(id, formData);
+    return splist("OfficeManager").createItem(formData);
+  };
 
   // get officeManager from sp list using id
   const {
     isLoading: isOMLoading,
     data: officeManager = {},
     isError: isOMError,
-    error: OMError ,
-  } = useQuery(["fetch-office-manager", id], () => splist("OfficeManager").fetchItem(id), {
-    ...fetchOptions,
-    onSuccess: (data) => setFormData({...data}),
-    // onError: (error) => console.log("error getting officeManager using id: ", error),
-  })
+    error: OMError,
+  } = useQuery(
+    ["fetch-office-manager", id],
+    () => splist("OfficeManager").fetchItem(id),
+    {
+      ...fetchOptions,
+      onSuccess: (data) => setFormData({ ...data }),
+      // onError: (error) => console.log("error getting officeManager using id: ", error),
+    }
+  );
   // console.log({isOMLoading, officeManager})
 
-  const { data, isLoading, isError, error, mutate } = useMutation(actionFunction, {
-    onSuccess: data => {
-      console.log("Office Manager Created Sucessfully: ", data)
-      toast.success("Office Manager Deleted Sucessfully")
-    },
-    onError: (error) => {
-      console.log("Error Creating OfficeManager: ", error)
-      toast.error("Error Creating Office Manager")
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries('fetch-office-managers');
-    },
-  })
+  const { data, isLoading, isError, error, mutate } = useMutation(
+    actionFunction,
+    {
+      onSuccess: (data) => {
+        console.log("Office Manager Created Sucessfully: ", data);
+        toast.success("Office Manager Deleted Sucessfully");
+      },
+      onError: (error) => {
+        console.log("Error Creating OfficeManager: ", error);
+        toast.error("Error Creating Office Manager");
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries("fetch-office-managers");
+      },
+    }
+  );
 
   function getPeoplePickerItems(items: any[]) {
     // console.log({items})
@@ -72,30 +75,30 @@ const OfficeManager = ({context, section = ""}) => {
   // const handleChange = (name, value) => setFormData({ ...formData, [name]: value });
   // const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
-    mutate(formData, id)
-    history.push(`${sectionUrl}/settings/om/manage`)
+    mutate(formData, id);
+    history.push(`${sectionUrl}/settings/om/manage`);
   };
 
   // console.log({formData})
 
-  if (isLoading || isOMLoading) return (<LoadingSpinner />)
+  if (isLoading || isOMLoading) return <LoadingSpinner />;
   if (isError) toast.error(`${error}`);
-  if (id && isOMError) toast.error(`${OMError}`)
+  if (id && isOMError) toast.error(`${OMError}`);
 
   return (
-    <div className='background container'>
-      <NavBar active='settings' section={section} />
+    <div className="background container">
+      <NavBar active="settings" section={section} />
 
-      <div className='container--info'>
+      <div className="container--info">
         <HeaderBar title={titleText} hasBackButton={true} />
         <Toaster position="bottom-center" reverseOrder={false} />
 
-        <div className='container--form py-6'>
+        <div className="container--form py-6">
           <FormGroup
             onSubmit={submitHandler}
             validation={formData}
             errors={""}
-            setErrors={""} 
+            setErrors={""}
           >
             <PeoplePicker
               context={context}
@@ -110,7 +113,7 @@ const OfficeManager = ({context, section = ""}) => {
               principalTypes={[PrincipalType.User]}
               resolveDelay={1000}
               peoplePickerCntrlclassName="people-picker__input"
-              peoplePickerWPclassName='m-4'
+              peoplePickerWPclassName="m-4"
               // errorMessageClassName='people-picker__input'
             />
             <div className="container--side"></div>
@@ -132,9 +135,9 @@ const OfficeManager = ({context, section = ""}) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-OfficeManager.propTypes = defaultPropValidation
+OfficeManager.propTypes = defaultPropValidation;
 
-export default OfficeManager
+export default OfficeManager;
