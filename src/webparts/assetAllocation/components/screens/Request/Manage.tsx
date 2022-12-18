@@ -133,6 +133,7 @@ const Manage = ({ status = undefined, section = "" }) => {
             viewHandler={viewHandler}
             updateHandler={updateHandler}
             removeHandler={removeHandler}
+            actionsType={section == "employee" ? "all" : "view"}
           />
         </div>
       </div>

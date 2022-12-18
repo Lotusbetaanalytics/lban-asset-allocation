@@ -79,10 +79,13 @@ const RequestTable = ({
       onClick: (event, rowData) => viewHandler(rowData.ID),
     },
   ];
+  const viewEditDeleteAction = [...viewAction, ...editDeleteAction];
+
 
   const relevantAction = undefined;
   if (hasActions && actionsType == "view") relevantAction = viewAction;
   if (hasActions && actionsType == "modify") relevantAction = editDeleteAction;
+  if (hasActions && actionsType == "all") relevantAction = viewEditDeleteAction;
 
   return (
     <div>

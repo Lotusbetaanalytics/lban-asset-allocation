@@ -95,6 +95,14 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
   });
   console.log("auth", { authUser, isAuthError, authError });
 
+  const employeeHasPermission =  () => {
+    // if (section !== "employee") return false
+    const userEmail = authUser && authUser?.Email.toLowerCase()
+    const EmployeeEmail = request && request?.EmployeeEmail.toLowerCase()
+    const hasPermission = section !== "employee" && (userEmail === EmployeeEmail)
+    return hasPermission
+  }
+
   const actionFunction = (formData, id = undefined) => {
     if (id) return splist("AssetRequest").updateItem(id, formData);
     return splist("AssetRequest").createItem(formData);
@@ -108,7 +116,7 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
     error: departmentError,
   } = useQuery("fetch-departments", fetchDepartments, { ...fetchOptions });
 
-  // get departments from sp list
+  // get assets from sp list
   const {
     isLoading: isAssetLoading,
     data: assets = [],
@@ -222,14 +230,17 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
   if (
     isLoading ||
     isDepartmentLoading ||
+    isAssetLoading ||
     isBranchLoading ||
     isCategoryLoading ||
     (isRequestLoading && id)
   )
     return <LoadingSpinner />;
-  if (isError || isDepartmentError || isBranchError || isCategoryError)
-    toast.error(`${error || departmentError || branchError || categoryError}`);
+  if (isError || isDepartmentError || isAssetError || isBranchError || isCategoryError)
+    toast.error(`${error || departmentError || assetError || branchError || categoryError}`);
   if (id && isRequestError) toast.error(`${requestError}`);
+
+  if (employeeHasPermission()) history.goBack()
 
   return (
     <div className="background container">
@@ -246,6 +257,25 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
             // errors={""}
             // setErrors={""}
           >
+            {section == "" && (
+              <Select
+                name="Asset"
+                label="Asset"
+                value={formData["Asset"]}
+                onChange={(name, value) =>
+                  handleSelectChange(name, value, assets, formData, setFormData)
+                }
+                data={assets}
+                filter="Title"
+                // filterValue="ID"
+                filterValue="Title"
+                required={true}
+                className="br-xlg mb-2"
+                labelClassName="ml-2"
+                validationHandler={validationHandler}
+                error={errors["Asset"]}
+              />
+            )}
             <Input
               name="Employee"
               label="Employee Name"
@@ -333,25 +363,6 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
               validationHandler={validationHandler}
               error={errors["Category"]}
             />
-            {section == "" && (
-              <Select
-                name="Asset"
-                label="Asset"
-                value={formData["Asset"]}
-                onChange={(name, value) =>
-                  handleSelectChange(name, value, assets, formData, setFormData)
-                }
-                data={assets}
-                filter="Title"
-                // filterValue="ID"
-                filterValue="Title"
-                required={true}
-                className="br-xlg mb-2"
-                labelClassName="ml-2"
-                validationHandler={validationHandler}
-                error={errors["Asset"]}
-              />
-            )}
             <Textarea
               name="Description"
               label="Request Description"
