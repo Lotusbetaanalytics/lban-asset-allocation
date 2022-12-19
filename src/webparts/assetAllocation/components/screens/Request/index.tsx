@@ -97,9 +97,10 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
 
   const employeeHasPermission =  () => {
     // if (section !== "employee") return false
-    const userEmail = authUser && authUser?.Email.toLowerCase()
-    const EmployeeEmail = request && request?.EmployeeEmail.toLowerCase()
-    const hasPermission = section !== "employee" && (userEmail === EmployeeEmail)
+    const userEmail = authUser["Email"] && authUser["Email"].toLowerCase()
+    const EmployeeEmail = request["EmployeeEmail"] && request["EmployeeEmail"].toLowerCase()
+    const hasPermission = section == "employee" && (userEmail === EmployeeEmail)
+    console.log({hasPermission})
     return hasPermission
   }
 
@@ -240,7 +241,7 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
     toast.error(`${error || departmentError || assetError || branchError || categoryError}`);
   if (id && isRequestError) toast.error(`${requestError}`);
 
-  if (employeeHasPermission()) history.goBack()
+  if (section == "employee" && !(employeeHasPermission())) history.goBack()
 
   return (
     <div className="background container">
