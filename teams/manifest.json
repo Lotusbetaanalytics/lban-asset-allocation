@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.8",
+  "packageName": "AssetAllocation",
+  "id": "b9ac0a2c-e317-41fb-a50b-99b4d24af787",
+  "version": "1.0",
+  "developer": {
+    "name": "LBAN",
+    "websiteUrl": "https://lotusbetaanalytics.com/",
+    "privacyUrl": "https://lotusbetaanalytics.com/privacy",
+    "termsOfUseUrl": "https://lotusbetaanalytics.com/privacy",
+    "mpnId": "3617333"
+  },
+  "name": {
+    "short": "AssetAllocation"
+  },
+  "description": {
+    "short": "LBAN Asset Allocation Portal to assign assets to staff.",
+    "full": "LBAN Asset Allocation Portal to assign assets to staff, manage assets and assigned assets."
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
+  },
+  "accentColor": "#004578",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://{teamSiteDomain}/_layouts/15/TeamsLogon.aspx?SPFX=true&dest=/_layouts/15/teamshostedapp.aspx%3Fteams%26componentId=b9ac0a2c-e317-41fb-a50b-99b4d24af787",
+      "canUpdateConfiguration": false,
+      "scopes": ["team", "groupchat"],
+      "context": [
+        "channelTab",
+        "privateChatTab",
+        "meetingSidePanel",
+        "meetingDetailsTab",
+        "meetingChatTab"
+      ]
+    }
+  ],
+  "validDomains": [
+    "*.login.microsoftonline.com",
+    "*.sharepoint.com",
+    "resourceseng.blob.core.windows.net"
+  ],
+  "webApplicationInfo": {
+    "resource": "https://{teamSiteDomain}",
+    "id": "00000003-0000-0ff1-ce00-000000000000"
+  }
+}

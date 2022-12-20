@@ -7,7 +7,7 @@ const Home = () => {
       <div className="container--home">
         <div className="container--side">
           <div className="container--image">
-            <Link to="/app/hr/landing" className="image--btn">
+            <Link to={`/app/hr/landing`} className="image--btn">
               <img
                 className="image"
                 src={require("../../assets/img/pic1.png")}
@@ -15,7 +15,7 @@ const Home = () => {
               />
               <p className="image__text">HR</p>
             </Link>
-            <Link to="/app/employee/landing" className="image--btn">
+            <Link to={`/app/employee/landing`} className="image--btn">
               <img
                 className="image"
                 src={require("../../assets/img/pic2.png")}
@@ -25,7 +25,7 @@ const Home = () => {
             </Link>
           </div>
           <div className="container--image mt-6">
-            <Link to="/app/landing" className="image--btn">
+            <Link to={`/app/landing`} className="image--btn">
               <img
                 className="image"
                 src={require("../../assets/img/pic3.png")}

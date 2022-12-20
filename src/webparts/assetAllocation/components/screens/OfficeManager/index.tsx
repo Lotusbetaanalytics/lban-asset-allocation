@@ -76,7 +76,7 @@ const OfficeManager = ({ context, section = "" }) => {
   // const validationHandler = (name, error) => setErrors({ ...errors, [name]: error });
   const submitHandler = (e) => {
     mutate(formData, id);
-    history.push(`${sectionUrl}/settings/om/manage`);
+    history.push(`${sectionUrl}settings/om/manage`);
   };
 
   // console.log({formData})

@@ -81,7 +81,6 @@ const RequestTable = ({
   ];
   const viewEditDeleteAction = [...viewAction, ...editDeleteAction];
 
-
   const relevantAction = undefined;
   if (hasActions && actionsType == "view") relevantAction = viewAction;
   if (hasActions && actionsType == "modify") relevantAction = editDeleteAction;

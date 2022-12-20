@@ -47,7 +47,6 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
   };
 
   const onSuccess = (data) => {
-    
     const properties = data?.UserProfileProperties;
     const department = properties.filter(
       (prop) => prop?.Key == "Department"
@@ -95,14 +94,15 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
   });
   console.log("auth", { authUser, isAuthError, authError });
 
-  const employeeHasPermission =  () => {
+  const employeeHasPermission = () => {
     // if (section !== "employee") return false
-    const userEmail = authUser["Email"] && authUser["Email"].toLowerCase()
-    const EmployeeEmail = request["EmployeeEmail"] && request["EmployeeEmail"].toLowerCase()
-    const hasPermission = section == "employee" && (userEmail === EmployeeEmail)
-    console.log({hasPermission})
-    return hasPermission
-  }
+    const userEmail = authUser["Email"] && authUser["Email"].toLowerCase();
+    const EmployeeEmail =
+      request["EmployeeEmail"] && request["EmployeeEmail"].toLowerCase();
+    const hasPermission = section == "employee" && userEmail === EmployeeEmail;
+    console.log({ hasPermission });
+    return hasPermission;
+  };
 
   const actionFunction = (formData, id = undefined) => {
     if (id) return splist("AssetRequest").updateItem(id, formData);
@@ -237,11 +237,21 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
     (isRequestLoading && id)
   )
     return <LoadingSpinner />;
-  if (isError || isDepartmentError || isAssetError || isBranchError || isCategoryError)
-    toast.error(`${error || departmentError || assetError || branchError || categoryError}`);
+  if (
+    isError ||
+    isDepartmentError ||
+    isAssetError ||
+    isBranchError ||
+    isCategoryError
+  )
+    toast.error(
+      `${
+        error || departmentError || assetError || branchError || categoryError
+      }`
+    );
   if (id && isRequestError) toast.error(`${requestError}`);
 
-  if (section == "employee" && !(employeeHasPermission())) history.goBack()
+  if (section == "employee" && !employeeHasPermission()) history.goBack();
 
   return (
     <div className="background container">

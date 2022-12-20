@@ -64,15 +64,9 @@ export default class AssetAllocation extends React.Component<
     // // jQuery(".SPCanvas-canvas").prop("style", "min-height: 900px; max-width: none");
     // // jQuery(".CanvasZone").prop("style", "min-height: 900px; max-width: none");
 
-    jQuery("#workbenchPageContent").prop(
-      "style",
-      "min-height: none; max-width: none"
-    );
-    jQuery(".SPCanvas-canvas").prop(
-      "style",
-      "min-height: none; max-width: none"
-    );
-    jQuery(".CanvasZone").prop("style", "min-height: none; max-width: none");
+    jQuery("#workbenchPageContent").prop("style", "max-width: none");
+    jQuery(".SPCanvas-canvas").prop("style", "max-width: none");
+    jQuery(".CanvasZone").prop("style", "max-width: none");
 
     const queryClient = new QueryClient();
 
@@ -234,6 +228,7 @@ export default class AssetAllocation extends React.Component<
         <HashRouter>
           <Switch>
             <Route path="/" exact component={Home} />
+            {/* <Route path="" exact component={Home} /> */}
 
             {this.state.isOM && (
               <Route path="/app/landing" exact component={Landing} />
