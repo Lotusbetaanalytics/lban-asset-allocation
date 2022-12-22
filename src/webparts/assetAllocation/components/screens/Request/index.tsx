@@ -251,7 +251,7 @@ const AssetRequest = ({ status = undefined, section = "" }) => {
     );
   if (id && isRequestError) toast.error(`${requestError}`);
 
-  if (section == "employee" && !employeeHasPermission()) history.goBack();
+  if (section == "employee" && id && !employeeHasPermission()) history.goBack();
 
   return (
     <div className="background container">

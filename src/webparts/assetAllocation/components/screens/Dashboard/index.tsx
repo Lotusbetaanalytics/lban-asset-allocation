@@ -89,7 +89,7 @@ const Dashboard = ({ section = "" }) => {
             <Button
               title="Add Asset"
               type="button"
-              onClick={() => history.push(`/app/asset`)}
+              onClick={() => history.push(`${sectionUrl}asset`)}
               size="small" // still too large
               className="btn--purple br-xlg w-12"
             />
@@ -99,7 +99,7 @@ const Dashboard = ({ section = "" }) => {
             <Button
               title="Add Asset Category"
               type="button"
-              onClick={() => history.push(`/app/category`)}
+              onClick={() => history.push(`${sectionUrl}category`)}
               size="small"
               className="btn--yellow text-white br-xlg w-18"
             />
